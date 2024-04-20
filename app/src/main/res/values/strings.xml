@@ -1,3 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DocConnect</string>
+    <!-- splash_screen strings -->
+
+    <string name="app_name">Page 1</string>
+    <string name="ek_img_content">ExportKit Image</string>
+    <string name="_12_33_string">12:33</string>
+    <string name="doconnect_string">DOCONNECT</string>
+    <string name="swipe_to_start_string">swipe to start</string>
+    <string name="consult_today__find_top_doctors__start_your_health_journey_with_ease_and_confidence_now__string">Consult today. Find top doctors. Start your health journey with ease and confidence now!</string>
+    <string name="apptitle">DOCONNECT</string>
 </resources>

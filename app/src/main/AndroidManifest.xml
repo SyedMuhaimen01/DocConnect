@@ -13,6 +13,60 @@
         android:theme="@style/Theme.DocConnect"
         tools:targetApi="31">
         <activity
+            android:name=".feedback"
+            android:exported="false" />
+        <activity
+            android:name=".paymentSummary"
+            android:exported="false" />
+        <activity
+            android:name=".paymentMethod"
+            android:exported="false" />
+        <activity
+            android:name=".cancelAppointment"
+            android:exported="false" />
+        <activity
+            android:name=".videoCall"
+            android:exported="false" />
+        <activity
+            android:name=".voiceCall"
+            android:exported="false" />
+        <activity
+            android:name=".setWorkingHours"
+            android:exported="false" />
+        <activity
+            android:name=".signupOptions"
+            android:exported="false" />
+        <activity
+            android:name=".editCenterProfile"
+            android:exported="false" />
+        <activity
+            android:name=".editDoctorProfile"
+            android:exported="false" />
+        <activity
+            android:name=".editPatientProfile"
+            android:exported="false" />
+        <activity
+            android:name=".centerProfile"
+            android:exported="false" />
+        <activity
+            android:name=".doctorProfile"
+            android:exported="false" />
+        <activity
+            android:name=".patientProfile"
+            android:exported="false" />
+        <activity
+            android:name=".signupCenter"
+            android:exported="false" />
+        <activity
+            android:name=".signupDoctor"
+            android:exported="false" />
+        <activity
+            android:name=".signupPatient"
+            android:exported="false" />
+        <activity
+            android:name=".login"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
