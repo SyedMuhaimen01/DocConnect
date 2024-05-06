@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".feedback"
+    android:orientation="vertical"
+    android:background="@color/black">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:background="@color/black">
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/backarrow_foreground"
+        android:layout_marginTop="-10dp"
+        android:layout_marginLeft="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Feedback"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="-70dp"
+        android:textColor="@color/white"
+        android:textAlignment="center"></TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/loginform">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="John Cooper"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="80dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"></TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dermetologist"
+            android:textSize="16dp"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="0dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rate your experience?"
+            android:textSize="18dp"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="30dp"
+            android:textColor="@color/white"></TextView>
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/ratingBar"
+            android:numStars="5"
+            android:stepSize="1"
+            android:rating="0"
+            android:isIndicator="false"
+            android:progressTint="#FFE606"
+            android:progressBackgroundTint="@color/white"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="center"></RatingBar>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Detailed Review/Feedback"
+            android:textSize="18dp"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:textColor="@color/white"></TextView>
+        <EditText
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:inputType="textMultiLine"
+            android:hint="Write Feedback here"
+            android:textColorHint="@color/hintcolor"
+            android:textColor="@color/black"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:gravity="top"
+            android:paddingRight="10dp"
+            android:textSize="15dp"
+            android:background="@drawable/inputbox"/>
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:textAlignment="center"
+            android:text="Submit Feedback"
+            android:textSize="16dp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="55dp"
+            android:background="@drawable/infocards"></Button>
+        <ImageView
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bottombar"></ImageView>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="400px"
+        android:layout_height="400px"
+        android:alpha="1"
+        android:background="@drawable/picholder"
+        android:backgroundTint="#FFFFFF"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="-650dp"
+        ></ImageView>
+
+</LinearLayout>

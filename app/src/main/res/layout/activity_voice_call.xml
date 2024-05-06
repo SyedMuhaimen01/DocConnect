@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".voiceCall"
+    android:orientation="vertical"
+    android:background="@drawable/profilebackground">
+
+    <ImageView
+        android:layout_width="400px"
+        android:layout_height="400px"
+        android:alpha="1"
+        android:background="@drawable/picholder"
+        android:backgroundTint="#FFFDFD"
+        android:layout_marginLeft="350px"
+        android:layout_marginTop="150px"
+        ></ImageView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="John Cooper"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp" />
+    <TextView
+        android:id="@+id/textView88"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="50:08"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:layout_marginTop="5px" />
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:background="@drawable/callbox"
+    android:layout_marginTop="380dp">
+    <View
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="1"
+        android:background="@drawable/iconcircle"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp"
+        ></View>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/videocam_foreground"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="-60dp"/>
+    <View
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="1"
+        android:background="@drawable/callcutcircle"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="-60dp"
+        ></View>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/videocam_foreground"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="-60dp"/>
+    <View
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="1"
+        android:background="@drawable/iconcircle"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="-60dp"
+        ></View>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/videocam_foreground"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="-60dp"/>
+</LinearLayout>
+</LinearLayout>
