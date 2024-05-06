@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".setWorkingHours"
+    android:orientation="vertical"
+    android:background="@drawable/profilebackground">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:orientation="vertical">
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/backarrow_foreground"
+        android:layout_marginTop="-10dp"
+        android:layout_marginLeft="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Working Hours"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="-70dp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="90dp"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="17dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="23dp"></TextView>
+    <EditText
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="Office Hours"
+        android:textColorHint="@color/hintcolor"
+        android:paddingTop="10dp"
+        android:textColor="@color/white"
+        android:paddingLeft="15dp"
+        android:textSize="15dp"
+        android:foregroundTint="@color/white"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="17dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="23dp"></TextView>
+    <EditText
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="Monday-Thursday Office Hours"
+        android:textColorHint="@color/hintcolor"
+        android:paddingTop="10dp"
+        android:textColor="@color/white"
+        android:paddingLeft="15dp"
+        android:textSize="15dp"
+        android:foregroundTint="@color/white"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="17dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="23dp"></TextView>
+    <EditText
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="17 April, 2024"
+        android:textColorHint="@color/hintcolor"
+        android:paddingTop="10dp"
+        android:textColor="@color/white"
+        android:paddingLeft="15dp"
+        android:textSize="15dp"
+        android:foregroundTint="@color/white"
+        />
+</LinearLayout>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="350dp"
+           android:orientation="vertical"
+           android:background="@drawable/blackwhite">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+                android:text="Start Time"
+                android:textSize="12dp"
+                android:textColor="@color/white"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="50dp"></TextView>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="End Time"
+               android:textSize="12dp"
+               android:textColor="@color/white"
+               android:layout_marginTop="-15dp"
+               android:layout_marginLeft="210dp"></TextView>
+    <EditText
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="40dp"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:hint="2:30"
+        android:textColorHint="@color/hintcolor"
+        android:paddingTop="10dp"
+        android:textColor="@color/white"
+        android:paddingLeft="15dp"
+        android:textSize="15dp"
+
+        />
+           <EditText
+               android:layout_marginTop="-40dp"
+               android:layout_marginLeft="110dp"
+               android:layout_marginRight="20dp"
+               android:layout_width="60dp"
+               android:layout_height="40dp"
+               android:hint="PM"
+               android:textColorHint="@color/hintcolor"
+               android:paddingTop="10dp"
+               android:textColor="@color/white"
+               android:paddingLeft="15dp"
+               android:textSize="15dp"
+
+               />
+           <EditText
+               android:layout_marginTop="-40dp"
+               android:layout_marginLeft="200dp"
+               android:layout_width="70dp"
+               android:layout_height="40dp"
+               android:hint="2:30"
+               android:textColorHint="@color/hintcolor"
+               android:paddingTop="10dp"
+               android:textColor="@color/white"
+               android:paddingLeft="15dp"
+               android:textSize="15dp"
+
+               />
+           <EditText
+               android:layout_marginTop="-40dp"
+               android:layout_marginLeft="270dp"
+               android:layout_marginRight="20dp"
+               android:layout_width="60dp"
+               android:layout_height="40dp"
+               android:hint="PM"
+               android:textColorHint="@color/hintcolor"
+               android:paddingTop="10dp"
+               android:textColor="@color/white"
+               android:paddingLeft="15dp"
+               android:textSize="15dp"
+
+               />
+           <Button
+               android:id="@+id/login"
+               android:layout_width="240dp"
+               android:layout_height="40dp"
+               android:textAlignment="center"
+               android:text="Set Working Hours"
+               android:textSize="16dp"
+               android:textColor="@color/white"
+               android:layout_marginTop="40dp"
+               android:layout_marginLeft="55dp"
+               android:background="@drawable/infocards"></Button>
+           <ImageView
+               android:layout_marginLeft="120dp"
+               android:layout_marginTop="45dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/bottombar"></ImageView>
+       </LinearLayout>
+</LinearLayout>
