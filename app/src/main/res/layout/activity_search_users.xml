@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".searchUsers"
+    tools:ignore="Orientation"
+    android:background="@color/black"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="@color/black"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/apptitle"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/searchbar"></LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+           android:layout_marginTop="-34dp"
+            android:hint="Search for a chat..."
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:background="@drawable/searchbar"
+            android:backgroundTint="@color/white"
+
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="25dp"></EditText>
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:src="@drawable/search_icon_foreground"
+            android:scaleType="center"
+            android:layout_marginTop="-28dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/white"></ImageButton>
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:orientation="vertical"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/blackwhite">
+
+
+        <LinearLayout
+            android:layout_marginTop="125dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/buttons"
+            android:backgroundTint="#383838">
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/home_icon_foreground"
+                ></ImageButton>
+
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/chat_icon_foreground"
+                ></ImageButton>
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-5dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/map_icon_foreground"
+                android:background="@drawable/buttonsbar_circle"
+                ></ImageButton>
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/appointment_icon_foreground"
+                ></ImageButton>
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/profile_icon_foreground"
+                ></ImageButton>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="-325dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chats"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="32dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appoint"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="95dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="25dp"></TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="-620dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/userRecyclerView"
+            android:layout_marginTop="00dp"
+            android:layout_width="match_parent"
+
+            android:layout_height="500dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="8dp"
+
+            />
+    </LinearLayout>
+</LinearLayout>

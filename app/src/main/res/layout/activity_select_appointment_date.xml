@@ -5,76 +5,373 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     tools:context=".selectAppointmentDate"
     tools:ignore="Orientation"
+    android:background="@color/black"
     android:orientation="vertical"
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/backarrow_foreground"
-            android:layout_marginTop="-10dp"
-            android:layout_marginLeft="5dp"/>
-        <TextView
-
+        android:layout_height="500dp"
+        android:background="@color/black"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Appointment Date "
-            android:textSize="20dp"
-            android:layout_gravity="center"
-            android:fontFamily="sans-serif"
-            android:layout_marginTop="-5dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"></TextView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="June"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="25dp"></TextView>
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/backarrow_foreground"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="5dp"/>
+            <TextView
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2022"
-            android:textColor="@color/white"
-            android:layout_marginLeft="10px"
-            android:textStyle="bold"
-            android:textSize="25dp"></TextView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Appointment Date "
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="-5dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"></TextView>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white">
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp">
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="June"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="25dp"></TextView>
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2022"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10px"
+                android:textStyle="bold"
+                android:textSize="25dp"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="@color/black">
+            <LinearLayout
+                android:id="@+id/monDateLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@color/black"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/monDayTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Mon"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/monDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:text="12"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/tueDateLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@color/black"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="Tue"
+                    android:id="@+id/tueDayTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:text="13"
+                    android:id="@+id/tueDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/wedDateLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@color/black"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="Wed"
+                    android:id="@+id/wedDayTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:text="14"
+                    android:id="@+id/wedDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/thuDateLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@color/black"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="Thu"
+                    android:id="@+id/thuDayTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:text="15"
+                    android:id="@+id/thuDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/friDateLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@color/black"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="Fri"
+                    android:id="@+id/friDayTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:text="17"
+                    android:id="@+id/friDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/satDateLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@color/black"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="Sat"
+                    android:id="@+id/satDayTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:text="18"
+                    android:id="@+id/satDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sunDateLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@color/black"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:text="Sun"
+                    android:id="@+id/sunDayTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:text="19"
+                    android:id="@+id/sunDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="-300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="16dp">
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:weekDayTextAppearance="@style/DefaultDateTextAppearance"
+                android:dateTextAppearance="@style/DefaultDateTextAppearance"
+                android:focusedMonthDateColor="@color/appred"
+                android:unfocusedMonthDateColor="@color/black"
+                />
+
+
+
+
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:orientation="vertical"
+        android:background="@drawable/blackwhite">
+        <Button
+            android:id="@+id/SelectDate"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:textAlignment="center"
+            android:text="Confirm Date"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="35dp"
+            android:background="@drawable/buttons"></Button>
+
+        <LinearLayout
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/buttons"
+            android:backgroundTint="#383838">
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/home_icon_foreground"
+               ></ImageButton>
+
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/chat_icon_foreground"
+                ></ImageButton>
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-5dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/map_icon_foreground"
+                android:background="@drawable/buttonsbar_circle"
+                ></ImageButton>
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/appointment_icon_foreground"
+                ></ImageButton>
+            <ImageButton
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/profile_icon_foreground"
+                ></ImageButton>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12"
-                ></TextView>
+                android:text="Home"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="-325dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chats"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="32dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appoint"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="95dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="25dp"></TextView>
+
         </LinearLayout>
     </LinearLayout>
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:weekNumberColor="@color/black"
-        android:unfocusedMonthDateColor="@color/black"></CalendarView>
+
 </LinearLayout>
