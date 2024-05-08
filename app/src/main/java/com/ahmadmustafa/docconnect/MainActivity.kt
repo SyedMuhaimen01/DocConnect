@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_users)
+        setContentView(R.layout.appointment_card)
 
         //button for image view
 

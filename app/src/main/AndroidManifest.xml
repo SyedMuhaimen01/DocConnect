@@ -13,6 +13,27 @@
         android:theme="@style/Theme.DocConnect"
         tools:targetApi="31">
         <activity
+            android:name=".manageAppointments"
+            android:exported="false" />
+        <activity
+            android:name=".doctorViewAppointmentsList"
+            android:exported="false" />
+        <activity
+            android:name=".centerNotifications"
+            android:exported="false" />
+        <activity
+            android:name=".bookAppointment"
+            android:exported="false" />
+        <activity
+            android:name=".chatBox"
+            android:exported="false" />
+        <activity
+            android:name=".upcommingAppointment"
+            android:exported="false" />
+        <activity
+            android:name=".Home"
+            android:exported="false" />
+        <activity
             android:name=".searchUsers"
             android:exported="false" />
         <activity
