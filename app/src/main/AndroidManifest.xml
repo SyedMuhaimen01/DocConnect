@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +18,9 @@
         android:theme="@style/Theme.DocConnect"
         tools:targetApi="31">
         <activity
+
+            android:name=".map"
+
             android:name=".viewCenter"
             android:exported="false" />
         <activity
@@ -47,6 +55,7 @@
             android:exported="false" />
         <activity
             android:name=".searchUsers"
+
             android:exported="false" />
         <activity
             android:name=".selectAppointmentDate"
@@ -56,9 +65,6 @@
             android:exported="false" />
         <activity
             android:name=".paymentSummary"
-            android:exported="false" />
-        <activity
-            android:name=".paymentMethod"
             android:exported="false" />
         <activity
             android:name=".cancelAppointment"
@@ -114,6 +120,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCrmREiQ30QCg4mQVmdFdeMFTLeA1k8LA8"/>
     </application>
 
 </manifest>

@@ -12,7 +12,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_center)
 
-        //button for image view
+        startActivity(Intent(this, map::class.java))
+
 
     }
 
