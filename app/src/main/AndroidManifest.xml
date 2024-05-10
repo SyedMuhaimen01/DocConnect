@@ -13,6 +13,18 @@
         android:theme="@style/Theme.DocConnect"
         tools:targetApi="31">
         <activity
+            android:name=".viewCenter"
+            android:exported="false" />
+        <activity
+            android:name=".adminHome"
+            android:exported="false" />
+        <activity
+            android:name=".adminNotifications"
+            android:exported="false" />
+        <activity
+            android:name=".adminLogs"
+            android:exported="false" />
+        <activity
             android:name=".manageAppointments"
             android:exported="false" />
         <activity
