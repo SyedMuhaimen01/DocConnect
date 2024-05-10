@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".bookAppointment"
+    android:background="@color/black"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/book_appointment_bg"
+        tools:ignore="Orientation"
+        android:orientation="vertical">
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/backarrow_foreground"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="5dp"/>
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Book Appointment"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="-5dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"></TextView>
+        </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="-30dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/profile_image_circle"
+                android:padding="3dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingClass" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/circleImageView"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dr. Randy Windgman"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_marginTop="30dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="General Medical Checkup"
+                    android:textColor="@color/white"
+                    android:textSize="14dp"
+                    android:layout_marginTop="5dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="42dp"
+                    android:layout_marginLeft="-80dp"
+
+                    android:orientation="horizontal"
+                    android:layout_marginTop="0dp"
+                    tools:ignore="MissingConstraints"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="-20dp"
+                        android:src="@drawable/location_icon_foreground"></ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-10dp"
+                        android:layout_marginTop="11dp"
+                        android:text="Islamabad, Pakistan"
+                        android:textColor="@color/white"
+                        android:textSize="14dp"></TextView>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="0dp"
+            >
+<LinearLayout
+    android:layout_marginLeft="5dp"
+    android:layout_width="85dp"
+    android:layout_height="100dp"
+
+    android:orientation="vertical">
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/people_icon_foreground"
+        android:background="@drawable/iconcircle"></ImageView>
+    <TextView
+
+        android:layout_marginTop="3dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1500+"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="18dp"></TextView>
+    <TextView
+        android:layout_marginTop="-2dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pateints"
+        android:textColor="@color/white"
+
+        android:textSize="12dp"></TextView>
+</LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="5dp"
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/experience_icon_foreground"
+                    android:background="@drawable/iconcircle"></ImageView>
+                <TextView
+
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5+"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="18dp"></TextView>
+                <TextView
+                    android:layout_marginTop="-2dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Experience"
+                    android:textColor="@color/white"
+
+                    android:textSize="12dp"></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="5dp"
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/white"
+                    android:src="@drawable/rating_icon_foreground"
+                    android:background="@drawable/iconcircle"
+                    tools:ignore="UseAppTint"></ImageView>
+                <TextView
+
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.9"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="18dp"></TextView>
+                <TextView
+                    android:layout_marginTop="-2dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rating"
+                    android:textColor="@color/white"
+
+                    android:textSize="12dp"></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="5dp"
+                android:layout_width="85dp"
+                android:layout_height="100dp"
+
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/review_icon_foreground"
+                    android:background="@drawable/iconcircle"></ImageView>
+                <TextView
+
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1000+"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="18dp"></TextView>
+                <TextView
+                    android:layout_marginTop="-2dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reviews"
+                    android:textColor="@color/white"
+
+                    android:textSize="12dp"></TextView>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Book Appointment"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="14dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Day"
+android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"></TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+
+            >
+            <LinearLayout
+                android:id="@+id/layout1"
+                android:layout_marginTop="5dp"
+                android:layout_width="110dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_height="60dp"
+                android:background="@drawable/iconcircle">
+                <TextView
+                    android:id="@+id/dayTextView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="35dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/dateTextView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="25dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/monthTextView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="May"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="-28dp"
+                    android:layout_marginLeft="50dp"
+                    ></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout2"
+                android:backgroundTint="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_width="110dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="60dp"
+                android:background="@drawable/iconcircle"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/dayTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tue"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="35dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/dateTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="25dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/monthTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="May"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="-28dp"
+                    android:layout_marginLeft="50dp"
+                    ></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout3"
+                android:backgroundTint="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_width="110dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="60dp"
+                android:background="@drawable/iconcircle"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/dayTextView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wed"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="35dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/dateTextView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="25dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/monthTextView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="May"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="-28dp"
+                    android:layout_marginLeft="50dp"
+                    ></TextView>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"></TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+
+            >
+            <LinearLayout
+
+                android:layout_marginTop="5dp"
+                android:layout_width="110dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/iconcircle">
+                <TextView
+                    android:id="@+id/time1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="08:00"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="18dp"
+                    ></TextView>
+
+            </LinearLayout>
+            <LinearLayout
+
+                android:backgroundTint="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_width="110dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="60dp"
+                android:background="@drawable/iconcircle"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="09:00"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="18dp"
+                    ></TextView>
+
+            </LinearLayout>
+            <LinearLayout
+
+                android:backgroundTint="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_width="110dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="60dp"
+                android:background="@drawable/iconcircle"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/time3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10:00"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/appred"
+                    android:layout_marginTop="18dp"
+                    ></TextView>
+
+            </LinearLayout>
+        </LinearLayout>
+        <Button
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/searchbar"
+            android:layout_marginLeft="30dp"
+            android:text="Request Custom Schedule"
+            android:textColor="@color/appred"
+            android:textSize="14dp"
+            android:layout_marginRight="30dp"></Button>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/buttons"
+            android:layout_marginLeft="30dp"
+            android:text="Book Appointment"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"></Button>
+        <ImageView
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bottombar"></ImageView>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
+

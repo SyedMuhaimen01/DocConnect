@@ -9,4 +9,6 @@
     <string name="swipe_to_start_string">swipe to start</string>
     <string name="consult_today__find_top_doctors__start_your_health_journey_with_ease_and_confidence_now__string">Consult today. Find top doctors. Start your health journey with ease and confidence now!</string>
     <string name="apptitle">DOCONNECT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
