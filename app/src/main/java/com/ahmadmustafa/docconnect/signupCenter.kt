@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.io.Serializable
 
 data class Center(
     var id: String = "",
@@ -28,7 +29,10 @@ data class Center(
     var password: String = "",
     var centerStatus: Boolean = false,
     val picture: String? = ""
-)
+): Serializable {
+    // Default constructor
+    constructor() : this("", "", "", "", "", "", "", false, null)
+}
 
 class signupCenter : AppCompatActivity() {
     private val NOTIFICATION_CHANNEL_ID = "RegistrationNotification"
@@ -87,7 +91,9 @@ class signupCenter : AppCompatActivity() {
                                     saveCenterToFirebase(center)
                                     saveCenterToSharedPreferences(center)
                                     showRegistrationSuccessNotification()
-                                    val intent = Intent(this, adminHome::class.java)
+                                    val intent = Intent(this, adminHome::class.java).apply {
+                                        putExtra("center", center as Serializable)
+                                    }
                                     startActivity(intent)
                                 } else {
                                     // Registration failed

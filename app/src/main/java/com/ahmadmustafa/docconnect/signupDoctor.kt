@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.io.Serializable
 
 data class Professional(
     var id: String = "",
@@ -25,7 +26,7 @@ data class Professional(
     var affiliationStatus: Boolean = false,
     var password: String = "",
     val picture: String? = ""
-)
+):Serializable
 
 class signupDoctor : AppCompatActivity() {
     private val NOTIFICATION_CHANNEL_ID = "RegistrationNotification"
@@ -100,7 +101,9 @@ class signupDoctor : AppCompatActivity() {
                                     saveProfessionalToSharedPreferences(professional)
                                     showRegistrationSuccessNotification()
                                     // Start Home activity
-                                    val intent = Intent(this, manageAppointments::class.java)
+                                    val intent = Intent(this, manageAppointments::class.java).apply {
+                                        putExtra("professional", professional as Serializable)
+                                    }
                                     startActivity(intent)
                                 } else {
                                     if (task.exception?.message?.contains("email address is already in use") == true) {
