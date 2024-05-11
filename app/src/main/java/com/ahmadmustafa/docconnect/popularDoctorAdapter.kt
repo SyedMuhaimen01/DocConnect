@@ -32,7 +32,13 @@ class popularDoctorAdapter(private val professionals: List<Professional>) : Recy
         fun bind(professional: Professional) {
             nameTextView.text = professional.name
             messageTextView.text = professional.specialization
-            locationTextView.text = "Islamabad, Pakistan"
+            val affiliationParts = professional.affiliation.split("|")
+            if (affiliationParts.size == 2) {
+                val location = affiliationParts[1].trim()
+                locationTextView.text = location
+            } else {
+                locationTextView.text = "Location not available"
+            }
 
             // Load the doctor's picture using Glide
             Glide.with(itemView.context)

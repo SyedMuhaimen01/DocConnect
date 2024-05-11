@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/blackwhite"
+    android:background="@drawable/popular_doctor_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,10 +12,10 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageView"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="4dp"
-            android:background="@drawable/imagecircles"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/profile_image_circle"
             android:padding="3dp"
             android:src="@drawable/ic_launcher_foreground"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:text="Doctor"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -39,7 +39,7 @@
             android:id="@+id/messageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:text="Medicine Specialist"
             android:textColor="@color/white"
             android:textSize="12sp"
@@ -64,7 +64,7 @@
                 android:id="@+id/picture"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="70dp"
                 android:layout_marginTop="-20dp"
                 android:src="@drawable/location_icon_foreground"></ImageView>
 

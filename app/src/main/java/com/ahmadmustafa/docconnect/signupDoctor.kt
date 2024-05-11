@@ -139,20 +139,22 @@ class signupDoctor : AppCompatActivity() {
     }
 
     private fun populateAffiliationSpinner() {
-        val centerNames: MutableList<String> = mutableListOf()
+        val centerNamesWithAddress: MutableList<String> = mutableListOf()
         val centerRef = FirebaseDatabase.getInstance().getReference("centers")
         centerRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (snapshot in dataSnapshot.children) {
                     val centerName = snapshot.child("name").getValue(String::class.java)
-                    centerName?.let {
-                        centerNames.add(it)
+                    val centerAddress = snapshot.child("address").getValue(String::class.java)
+                    if (centerName != null && centerAddress != null) {
+                        val centerInfo = "$centerName | $centerAddress"
+                        centerNamesWithAddress.add(centerInfo)
                     }
                 }
                 // Add "Not right now" option
-                centerNames.add("Not right now")
+                centerNamesWithAddress.add("Not right now")
                 // Create an ArrayAdapter and set it to the spinner
-                val adapter = ArrayAdapter(this@signupDoctor, android.R.layout.simple_spinner_item, centerNames)
+                val adapter = ArrayAdapter(this@signupDoctor, android.R.layout.simple_spinner_item, centerNamesWithAddress)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 affiliationSpinner.adapter = adapter
             }
@@ -162,6 +164,7 @@ class signupDoctor : AppCompatActivity() {
             }
         })
     }
+
 
     private fun checkCNICExistsInProfessionals(cnic: String, callback: (Boolean) -> Unit) {
         val query: Query = database.orderByChild("cnic").equalTo(cnic)

@@ -182,6 +182,7 @@
             android:background="@drawable/inputbox"/>
 
         <ImageView
+            android:id="@+id/uploadfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/uploadfile_foreground"
