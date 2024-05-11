@@ -133,32 +133,6 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(intent)
             }
         }
-        else if(user=="center")
-        {
-            val homeButton=findViewById<ImageButton>(R.id.home)
-            homeButton.setOnClickListener {
-                val intent = Intent(this, adminHome::class.java)
-                startActivity(intent)
-            }
-
-            val chatButton=findViewById<ImageButton>(R.id.chats)
-            chatButton.setOnClickListener {
-                val intent = Intent(this, chatBox::class.java)
-                startActivity(intent)
-            }
-
-            val appointButton=findViewById<ImageButton>(R.id.appoint)
-            appointButton.setOnClickListener {
-                val intent = Intent(this, manageAppointments::class.java)
-                startActivity(intent)
-            }
-
-            val profileButton=findViewById<ImageButton>(R.id.profile)
-            profileButton.setOnClickListener {
-                val intent = Intent(this, centerProfile::class.java)
-                startActivity(intent)
-            }
-        }
 
 
 
