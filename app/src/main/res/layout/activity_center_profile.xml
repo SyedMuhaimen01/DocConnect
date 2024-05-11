@@ -31,7 +31,25 @@
             android:layout_marginTop="-70dp"
             android:textColor="@color/white"
             android:layout_marginLeft="100dp"></TextView>
-        <ImageView
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/logout"
+                android:layout_marginTop="-30dp"
+                android:layout_marginLeft="300dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log out"
+                android:textSize="13dp"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="192dp"></TextView>
+
+            <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/picholder"
