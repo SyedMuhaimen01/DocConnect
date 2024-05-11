@@ -29,6 +29,7 @@ class map : AppCompatActivity(), OnMapReadyCallback {
     private var longitude: Double = 0.0
     private var centername: String = ""
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -45,7 +46,8 @@ class map : AppCompatActivity(), OnMapReadyCallback {
         // Receive latitude and longitude values from intent
         latitude = intent.getDoubleExtra("latitude", 0.0)
         longitude = intent.getDoubleExtra("longitude", 0.0)
-        centername = intent.getStringExtra("center").toString()
+        centername = intent.getStringExtra("centername").toString()
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -68,7 +70,10 @@ class map : AppCompatActivity(), OnMapReadyCallback {
         val location = LatLng(latitude, longitude)
         nGoogleMap.addMarker(MarkerOptions().position(location).title(centername))
         nGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f))
-        val intent=Intent(this,adminHome::class.java)
+
+        val intent = Intent(this, adminHome::class.java).apply {
+            putExtra("centername", centername )
+        }
         startActivity(intent)
 
     }
