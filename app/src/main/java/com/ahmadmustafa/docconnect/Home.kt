@@ -1,6 +1,8 @@
 package com.ahmadmustafa.docconnect
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,6 +24,25 @@ class Home : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        val homeButton: ImageButton = findViewById(R.id.home)
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, Home::class.java))
+        }
+
+        val chatButton: ImageButton = findViewById(R.id.chats)
+        chatButton.setOnClickListener {
+            startActivity(Intent(this, chatBox::class.java))
+        }
+
+        val mapButton: ImageButton = findViewById(R.id.map)
+        mapButton.setOnClickListener {
+            startActivity(Intent(this, map::class.java))
+        }
+
+        val profileButton: ImageButton = findViewById(R.id.profile)
+        profileButton.setOnClickListener {
+            startActivity(Intent(this, patientProfile::class.java))
         }
 
         popularDoctorRecyclerView = findViewById(R.id.popularDoctorRecyclerView)

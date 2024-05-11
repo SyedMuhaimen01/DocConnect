@@ -55,7 +55,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/usernameEditText"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -79,7 +79,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/emailEditText"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -103,7 +103,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
-            android:id="@+id/contact"
+            android:id="@+id/contactEditText"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -127,7 +127,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/passwordEditText"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"

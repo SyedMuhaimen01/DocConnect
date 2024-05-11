@@ -104,6 +104,12 @@
                 android:text="Try Now"
                 android:textColor="#388523"
                 android:textSize="12dp"></Button>
+            <ImageView
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:background="@mipmap/doctor_foreground"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="-20dp"></ImageView>
 
 
         </LinearLayout>

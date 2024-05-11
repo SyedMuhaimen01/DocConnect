@@ -48,7 +48,7 @@
         android:layout_marginLeft="100dp"
         android:layout_marginTop="30dp"/>
     <ImageView
-        android:id="@+id/profilepic"
+        android:id="@+id/profileImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/picholder"
@@ -65,6 +65,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="23dp"></TextView>
     <TextView
+        android:id="@+id/usernameTextView"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -87,6 +88,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="23dp"></TextView>
     <TextView
+        android:id="@+id/emailTextView"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -109,6 +111,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="23dp"></TextView>
     <TextView
+        android:id="@+id/contactTextView"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -130,6 +133,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="23dp"></TextView>
     <TextView
+        android:id="@+id/cnicTextView"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
