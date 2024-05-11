@@ -159,8 +159,8 @@
            android:textColor="@color/white"
            android:layout_marginTop="10dp"
            android:layout_marginLeft="23dp"></TextView>
-       <EditText
-           android:id="@+id/affiliation"
+       <Spinner
+           android:id="@+id/affiliationSpinner"
            android:layout_marginTop="2dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"
