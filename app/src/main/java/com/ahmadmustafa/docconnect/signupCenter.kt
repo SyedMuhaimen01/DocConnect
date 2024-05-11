@@ -1,22 +1,20 @@
 package com.ahmadmustafa.docconnect
+
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+
 import java.io.Serializable
 
 data class Center(
@@ -28,10 +26,10 @@ data class Center(
     var category: String = "",
     var password: String = "",
     var centerStatus: Boolean = false,
+    var certificate: String? = null,
     val picture: String? = ""
-): Serializable {
-    // Default constructor
-    constructor() : this("", "", "", "", "", "", "", false, null)
+) : Serializable {
+    constructor() : this("", "", "", "", "", "", "", false, null, null)
 }
 
 class signupCenter : AppCompatActivity() {
@@ -42,15 +40,20 @@ class signupCenter : AppCompatActivity() {
     private lateinit var addressEditText: EditText
     private lateinit var typeEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var uploadFileImageView: ImageView
     private lateinit var signupButton: Button
     private lateinit var logTextView: TextView
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private var selectedPdfUri: Uri? = null
+    private val PICK_PDF_FILE = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_center)
 
         auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().getReference("centers")
 
         centernameEditText = findViewById(R.id.centername)
         emailEditText = findViewById(R.id.email)
@@ -58,8 +61,16 @@ class signupCenter : AppCompatActivity() {
         addressEditText = findViewById(R.id.address)
         typeEditText = findViewById(R.id.type)
         passwordEditText = findViewById(R.id.password)
+        uploadFileImageView = findViewById(R.id.uploadfile)
         signupButton = findViewById(R.id.signup)
         logTextView = findViewById(R.id.log)
+
+        uploadFileImageView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "application/pdf"
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            startActivityForResult(intent, PICK_PDF_FILE)
+        }
 
         signupButton.setOnClickListener {
             val centername = centernameEditText.text.toString().trim()
@@ -72,11 +83,9 @@ class signupCenter : AppCompatActivity() {
             if (validateInput(centername, email, contact, address, type, password)) {
                 checkCenterExists(centername, address) { centerExists ->
                     if (!centerExists) {
-                        // Register center with Firebase Authentication
                         auth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
-                                    // Registration successful, save center details to Firebase database
                                     val user = auth.currentUser
                                     val center = Center(
                                         user?.uid ?: "",
@@ -88,15 +97,12 @@ class signupCenter : AppCompatActivity() {
                                         password,
                                         centerStatus = false
                                     )
-                                    saveCenterToFirebase(center)
-                                    saveCenterToSharedPreferences(center)
-                                    showRegistrationSuccessNotification()
-                                    val intent = Intent(this, adminHome::class.java).apply {
-                                        putExtra("center", center as Serializable)
-                                    }
-                                    startActivity(intent)
+                                    // Upload certificate and save center details after user creation
+                                    selectedPdfUri?.let {
+                                        uploadCertificate(user?.uid ?: "", center, it)
+                                    } ?: showToast("Please select a PDF file")
+
                                 } else {
-                                    // Registration failed
                                     showToast("Registration Failed. Failed to register center. Please try again later.")
                                 }
                             }
@@ -112,6 +118,37 @@ class signupCenter : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    private fun uploadCertificate(uid: String, center: Center?, uri: Uri) {
+        val storageReference = FirebaseStorage.getInstance().getReference("certificates/$uid/${uri.lastPathSegment}")
+        storageReference.putFile(uri)
+            .addOnSuccessListener { taskSnapshot ->
+                storageReference.downloadUrl.addOnSuccessListener { downloadUri ->
+                    val certificateUrl = downloadUri.toString()
+                    center?.certificate = certificateUrl // Set certificate URL
+                    center?.let {
+                        database.child(it.id).setValue(it) // Update center details including certificate URL
+                            .addOnSuccessListener {
+                                showToast("Certificate uploaded successfully")
+                                saveCenterToSharedPreferences(center)
+                                showRegistrationSuccessNotification()
+                                val intent = Intent(this, adminHome::class.java).apply {
+                                    putExtra("center", center as Serializable)
+                                }
+                                startActivity(intent)
+                            }
+                            .addOnFailureListener { e ->
+                                showToast("Failed to update center details: ${e.message}")
+                            }
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                showToast("Certificate upload failed: ${e.message}")
+            }
+    }
+
+
     private fun validateInput(centername: String, email: String, contact: String, address: String,
                               type: String, password: String): Boolean {
         if (centername.isEmpty()) {
@@ -156,6 +193,14 @@ class signupCenter : AppCompatActivity() {
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_PDF_FILE && resultCode == RESULT_OK) {
+            // Store the URI of the selected PDF file in the selectedPdfUri variable
+            selectedPdfUri = data?.data
+        }
+    }
+
     private fun checkCenterExists(name: String, address: String, callback: (Boolean) -> Unit) {
         val database = FirebaseDatabase.getInstance()
         val reference = database.getReference("centers")
@@ -166,42 +211,21 @@ class signupCenter : AppCompatActivity() {
                     for (snapshot in dataSnapshot.children) {
                         val center = snapshot.getValue(Center::class.java)
                         if (center != null && center.address == address) {
-                            // Center with same name and address found
                             callback.invoke(true)
                             return
                         }
                     }
-                    // No center found with the same name and address
                     callback.invoke(false)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    // Error occurred while fetching data
                     showToast("Error. Failed to check center existence: ${databaseError.message}")
                     callback.invoke(false)
                 }
             })
     }
 
-
-    private fun saveCenterToFirebase(center: Center) {
-        val database = FirebaseDatabase.getInstance()
-        val reference = database.getReference("centers")
-
-        reference.child(center.id).setValue(center)
-            .addOnSuccessListener {
-                // Call saveCenter to save details to SharedPreferences after Firebase save is successful
-            }
-            .addOnFailureListener { e ->
-                showToast("Error. Failed to save center: ${e.message}")
-            }
-    }
-
     private fun saveCenterToSharedPreferences(center: Center) {
-        // Save center details to Firebase
-        saveCenterToFirebase(center)
-
-        // Save center details to SharedPreferences
         val sharedPreferences = getSharedPreferences("CenterPreferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("centerId", center.id)
@@ -213,10 +237,9 @@ class signupCenter : AppCompatActivity() {
         editor.putString("centerPassword", center.password)
         editor.putBoolean("centerStatus", center.centerStatus)
         editor.putString("centerPicture", center.picture)
+        editor.putString("centerCertificate", center.certificate) // Store certificate URL
         editor.apply()
     }
-
-
 
     private fun showRegistrationSuccessNotification() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -236,7 +259,7 @@ class signupCenter : AppCompatActivity() {
 
         val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.notifications_icon_foreground)
-            .setContentTitle("Account Registeration Status")
+            .setContentTitle("Account Registration Status")
             .setContentText("Your account has been successfully registered.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
