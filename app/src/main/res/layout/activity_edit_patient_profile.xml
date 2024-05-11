@@ -31,19 +31,14 @@
             android:layout_marginTop="-70dp"
             android:textColor="@color/white"
             android:layout_marginLeft="90dp"></TextView>
+
         <ImageView
+            android:id="@+id/profileImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/picholder"
             android:layout_marginLeft="100dp"
-            android:layout_marginTop="30dp"/>
-        <ImageView
-            android:id="@+id/profilepic"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/picholder"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="-150dp"/>
+            android:layout_marginTop="0dp"/>
 
         <TextView
 

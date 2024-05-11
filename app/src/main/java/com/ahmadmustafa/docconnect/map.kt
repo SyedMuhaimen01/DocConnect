@@ -125,6 +125,7 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(intent)
             }
         }
+
         else if(user=="center")
         {
             val homeButton=findViewById<ImageButton>(R.id.home)
@@ -160,6 +161,7 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(intent)
             }
         }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
