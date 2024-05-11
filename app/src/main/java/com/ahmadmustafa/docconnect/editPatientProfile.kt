@@ -8,4 +8,5 @@ class editPatientProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_patient_profile)
     }
+
 }

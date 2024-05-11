@@ -18,8 +18,6 @@ class patientProfile : AppCompatActivity() {
         setContentView(R.layout.activity_patient_profile)
 
 
-
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE)
 
         val homeButton = findViewById<ImageButton>(R.id.home)

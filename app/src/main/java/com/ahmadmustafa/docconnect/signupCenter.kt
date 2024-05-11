@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.io.Serializable
+import java.util.Locale
 
 data class Center(
     var id: String = "",
@@ -91,6 +93,24 @@ class signupCenter : AppCompatActivity() {
                                     saveCenterToFirebase(center)
                                     saveCenterToSharedPreferences(center)
                                     showRegistrationSuccessNotification()
+                                    val geocoder = Geocoder(this, Locale.getDefault())
+                                    val addresses = geocoder.getFromLocationName(address, 1)
+                                    if (addresses != null) {
+                                        if (addresses.isNotEmpty()) {
+                                            val latitude = addresses?.get(0)?.latitude
+                                            val longitude = addresses?.get(0)?.longitude
+
+                                            // Create an intent to pass the coordinates to the map activity
+                                            val intent = Intent(this, map::class.java).apply {
+                                                putExtra("latitude", latitude)
+                                                putExtra("longitude", longitude)
+                                                putExtra("center", centername)
+                                            }
+                                            startActivity(intent)
+                                        } else {
+                                            showToast("Failed to geocode address.")
+                                        }
+                                    }
                                     val intent = Intent(this, adminHome::class.java).apply {
                                         putExtra("center", center as Serializable)
                                     }
