@@ -43,7 +43,7 @@
             android:layout_marginLeft="15dp"></TextView>
 
         <TextView
-            android:id="@+id/centername"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Healthcare Center name"
@@ -52,6 +52,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/centername"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -65,7 +66,7 @@
             android:background="@drawable/inputbox"/>
 
         <TextView
-            android:id="@+id/email"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
@@ -74,6 +75,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/email"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -87,7 +89,7 @@
             android:background="@drawable/inputbox"/>
 
         <TextView
-            android:id="@+id/contact"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact Info"
@@ -96,13 +98,14 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/contact"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textColorHint="@color/hintcolor"
-            android:hint="+9200000000"
+            android:hint="+921234567890"
             android:inputType="number"
             android:textColor="@color/black"
             android:paddingLeft="15dp"
@@ -110,7 +113,6 @@
             android:background="@drawable/inputbox"/>
 
         <TextView
-            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Address"
@@ -119,6 +121,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/address"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -132,7 +135,6 @@
             android:background="@drawable/inputbox"/>
 
         <TextView
-            android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Category"
@@ -141,6 +143,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/type"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -155,7 +158,7 @@
 
 
         <TextView
-            android:id="@+id/password"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Password"
@@ -164,6 +167,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/password"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"

@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,10 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DocConnect"
         tools:targetApi="31">
+
         <activity
-
+            android:name=".adminMain"
+            android:exported="false" />
+        <activity
             android:name=".map"
-
+            android:exported="false" />
+        <activity
             android:name=".viewCenter"
             android:exported="false" />
         <activity
@@ -55,7 +59,6 @@
             android:exported="false" />
         <activity
             android:name=".searchUsers"
-
             android:exported="false" />
         <activity
             android:name=".selectAppointmentDate"
@@ -120,8 +123,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCrmREiQ30QCg4mQVmdFdeMFTLeA1k8LA8"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCrmREiQ30QCg4mQVmdFdeMFTLeA1k8LA8" />
     </application>
 
 </manifest>

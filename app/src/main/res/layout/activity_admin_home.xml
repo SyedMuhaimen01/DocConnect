@@ -66,14 +66,14 @@
 
             >
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userRecyclerView"
+                android:id="@+id/userRecyclerView1"
                 android:layout_marginTop="00dp"
                 android:layout_width="match_parent"
 
                 android:layout_height="match_parent"
                 android:paddingVertical="5dp"
                 android:paddingHorizontal="8dp"
-                />
+                tools:ignore="DuplicateIds" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -96,14 +96,14 @@
             android:layout_height="250dp"
             >
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userRecyclerView"
+                android:id="@+id/userRecyclerView2"
                 android:layout_marginTop="00dp"
                 android:layout_width="match_parent"
 
                 android:layout_height="match_parent"
                 android:paddingVertical="5dp"
                 android:paddingHorizontal="8dp"
-                />
+                tools:ignore="DuplicateIds" />
         </LinearLayout>
 
         <LinearLayout

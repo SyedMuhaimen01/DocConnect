@@ -39,7 +39,6 @@
            android:layout_marginLeft="15dp"></TextView>
 
        <TextView
-           android:id="@+id/username"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Username"
@@ -48,6 +47,7 @@
            android:layout_marginTop="10dp"
            android:layout_marginLeft="23dp"></TextView>
        <EditText
+           android:id="@+id/username"
            android:layout_marginTop="2dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"
@@ -61,7 +61,6 @@
            android:background="@drawable/inputbox"/>
 
        <TextView
-           android:id="@+id/email"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Email"
@@ -70,6 +69,7 @@
            android:layout_marginTop="10dp"
            android:layout_marginLeft="23dp"></TextView>
        <EditText
+           android:id="@+id/email"
            android:layout_marginTop="2dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"
@@ -83,7 +83,6 @@
            android:background="@drawable/inputbox"/>
 
        <TextView
-           android:id="@+id/contact"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Contact Info"
@@ -92,12 +91,13 @@
            android:layout_marginTop="10dp"
            android:layout_marginLeft="23dp"></TextView>
        <EditText
+           android:id="@+id/contact"
            android:layout_marginTop="2dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"
            android:layout_width="match_parent"
            android:layout_height="40dp"
-           android:hint="+9200000000"
+           android:hint="+921234567890"
            android:inputType="number"
            android:textColor="@color/black"
            android:paddingLeft="15dp"
@@ -106,7 +106,6 @@
            android:background="@drawable/inputbox"/>
 
        <TextView
-           android:id="@+id/cnic"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="CNIC"
@@ -115,13 +114,14 @@
            android:layout_marginTop="10dp"
            android:layout_marginLeft="23dp"></TextView>
        <EditText
+           android:id="@+id/cnic"
            android:layout_marginTop="2dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"
            android:layout_width="match_parent"
            android:layout_height="40dp"
            android:textColorHint="@color/hintcolor"
-           android:hint="1101111111"
+           android:hint="6110198721345"
            android:inputType="number"
            android:textColor="@color/black"
            android:paddingLeft="15dp"
@@ -129,7 +129,6 @@
            android:background="@drawable/inputbox"/>
 
        <TextView
-           android:id="@+id/specialization"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Specialization"
@@ -138,6 +137,7 @@
            android:layout_marginTop="10dp"
            android:layout_marginLeft="23dp"></TextView>
        <EditText
+           android:id="@+id/specialization"
            android:layout_marginTop="2dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"
@@ -151,7 +151,7 @@
            android:background="@drawable/inputbox"/>
 
        <TextView
-           android:id="@+id/affiliation"
+
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Affiliation"
@@ -160,6 +160,7 @@
            android:layout_marginTop="10dp"
            android:layout_marginLeft="23dp"></TextView>
        <EditText
+           android:id="@+id/affiliation"
            android:layout_marginTop="2dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"
@@ -173,7 +174,7 @@
            android:background="@drawable/inputbox"/>
 
        <TextView
-           android:id="@+id/password"
+
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Password"
@@ -182,6 +183,7 @@
            android:layout_marginTop="10dp"
            android:layout_marginLeft="23dp"></TextView>
        <EditText
+           android:id="@+id/password"
            android:layout_marginTop="2dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"

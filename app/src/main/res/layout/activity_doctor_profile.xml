@@ -21,6 +21,7 @@
             android:src="@drawable/backarrow_foreground"
             android:layout_marginTop="-10dp"
             android:layout_marginLeft="5dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +32,25 @@
             android:layout_marginTop="-70dp"
             android:textColor="@color/white"
             android:layout_marginLeft="100dp"></TextView>
-        <ImageView
+
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/backarrow_foreground"
+                android:layout_marginTop="-65dp"
+                android:layout_marginLeft="300dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log out"
+                android:textSize="13dp"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="-45dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="205dp"></TextView>
+            <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/picholder"
@@ -46,7 +65,7 @@
             android:layout_marginTop="-120dp"/>
 
         <TextView
-            android:id="@+id/username"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username"
@@ -55,6 +74,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/username"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -68,7 +88,7 @@
             android:background="@drawable/secondarybuttons"/>
 
         <TextView
-            android:id="@+id/email"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
@@ -77,6 +97,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/email"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -90,7 +111,7 @@
             android:background="@drawable/secondarybuttons"/>
 
         <TextView
-            android:id="@+id/contact"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact Info"
@@ -99,6 +120,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/contact"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -111,7 +133,7 @@
             android:textSize="15dp"
             android:background="@drawable/secondarybuttons"/>
         <TextView
-            android:id="@+id/cnic"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CNIC"
@@ -120,6 +142,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/cnic"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -133,7 +156,7 @@
             android:background="@drawable/secondarybuttons"/>
 
         <TextView
-            android:id="@+id/specialization"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Specialization"
@@ -142,6 +165,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/specialization"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -155,7 +179,7 @@
             android:background="@drawable/secondarybuttons"/>
 
         <TextView
-            android:id="@+id/affiliation"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Affiliation"
@@ -164,6 +188,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/affiliation"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -188,4 +213,84 @@
             android:background="@drawable/buttons"></Button>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_gravity="bottom"
+
+        >
+        <ImageButton
+            android:id="@+id/home2"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/home_icon_foreground"
+            ></ImageButton>
+
+        <ImageButton
+            android:id="@+id/chats2"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/chat_icon_foreground"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/openmap2"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/map_icon_foreground"
+            android:background="@drawable/buttonsbar_circle"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/appoint2"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/appointment_icon_foreground"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/profile2"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/profile_icon_foreground"
+            ></ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="-325dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appoint"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="100dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"></TextView>
+
+    </LinearLayout>
 </LinearLayout>
