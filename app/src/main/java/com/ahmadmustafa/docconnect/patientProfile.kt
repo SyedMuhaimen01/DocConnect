@@ -17,6 +17,8 @@ class patientProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
 
+
+
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE)
 
