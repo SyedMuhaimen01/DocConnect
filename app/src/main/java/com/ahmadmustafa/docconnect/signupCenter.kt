@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 
 import java.io.Serializable
+import java.util.Locale
 
 data class Center(
     var id: String = "",
@@ -97,9 +99,12 @@ class signupCenter : AppCompatActivity() {
                                         password,
                                         centerStatus = false
                                     )
+
+
+
                                     // Upload certificate and save center details after user creation
                                     selectedPdfUri?.let {
-                                        uploadCertificate(user?.uid ?: "", center, it)
+                                        uploadCertificate(user?.uid ?: "", center,it,address,centername)
                                     } ?: showToast("Please select a PDF file")
 
                                 } else {
@@ -119,7 +124,13 @@ class signupCenter : AppCompatActivity() {
         }
     }
 
-    private fun uploadCertificate(uid: String, center: Center?, uri: Uri) {
+    private fun uploadCertificate(
+        uid: String,
+        center: Center?,
+        uri: Uri,
+        address: String,
+        centername: String
+    ) {
         val storageReference = FirebaseStorage.getInstance().getReference("certificates/$uid/${uri.lastPathSegment}")
         storageReference.putFile(uri)
             .addOnSuccessListener { taskSnapshot ->
@@ -132,10 +143,8 @@ class signupCenter : AppCompatActivity() {
                                 showToast("Certificate uploaded successfully")
                                 saveCenterToSharedPreferences(center)
                                 showRegistrationSuccessNotification()
-                                val intent = Intent(this, adminHome::class.java).apply {
-                                    putExtra("center", center as Serializable)
-                                }
-                                startActivity(intent)
+                                //adding address on map
+                                getCenterLocation(address,centername,center)
                             }
                             .addOnFailureListener { e ->
                                 showToast("Failed to update center details: ${e.message}")
@@ -148,6 +157,28 @@ class signupCenter : AppCompatActivity() {
             }
     }
 
+    private fun getCenterLocation(address: String, centername: String, center: Center,) {
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses = geocoder.getFromLocationName(address, 1)
+        if (addresses != null) {
+            if (addresses.isNotEmpty()) {
+                val latitude = addresses[0].latitude
+                val longitude = addresses[0].longitude
+
+                // Create an intent to pass the coordinates to the map activity
+                val intent = Intent(this, map::class.java).apply {
+                    putExtra("latitude", latitude)
+                    putExtra("longitude", longitude)
+                    putExtra("centername", centername)
+                    putExtra("userType", "center")
+                    putExtra("signupCenter", "signupCenter")
+                }
+                startActivity(intent)
+            } else {
+                showToast("Failed to geocode address.")
+            }
+        }
+    }
 
     private fun validateInput(centername: String, email: String, contact: String, address: String,
                               type: String, password: String): Boolean {
