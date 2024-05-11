@@ -170,6 +170,8 @@ class signupCenter : AppCompatActivity() {
                     putExtra("latitude", latitude)
                     putExtra("longitude", longitude)
                     putExtra("centername", centername)
+                    putExtra("userType", "center")
+                    putExtra("signupCenter", "signupCenter")
                 }
                 startActivity(intent)
             } else {

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,6 +29,8 @@ class map : AppCompatActivity(), OnMapReadyCallback {
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     private var centername: String = ""
+    private var user:String = ""
+    private var signupCenter:String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +50,117 @@ class map : AppCompatActivity(), OnMapReadyCallback {
         latitude = intent.getDoubleExtra("latitude", 0.0)
         longitude = intent.getDoubleExtra("longitude", 0.0)
         centername = intent.getStringExtra("centername").toString()
+        user = intent.getStringExtra("userType").toString()
+        signupCenter = intent.getStringExtra("signupCenter").toString()
+
+        //varying directions based on type of user
+
+        if(user=="patient")
+        {
+            val homeButton=findViewById<ImageButton>(R.id.home)
+            homeButton.setOnClickListener {
+                val intent = Intent(this, Home::class.java)
+                startActivity(intent)
+            }
+
+            val chatButton=findViewById<ImageButton>(R.id.chats)
+            chatButton.setOnClickListener {
+                val intent = Intent(this, chatBox::class.java)
+                startActivity(intent)
+            }
+
+            val appointButton=findViewById<ImageButton>(R.id.appoint)
+            appointButton.setOnClickListener {
+                val intent = Intent(this, manageAppointments::class.java)
+                startActivity(intent)
+            }
+
+            val profileButton=findViewById<ImageButton>(R.id.profile)
+            profileButton.setOnClickListener {
+                val intent = Intent(this, patientProfile::class.java)
+                startActivity(intent)
+            }
+        }
+        else if(user=="professional")
+        {
+            val homeButton=findViewById<ImageButton>(R.id.home)
+            homeButton.setOnClickListener {
+                val intent = Intent(this, Home::class.java)
+                startActivity(intent)
+            }
+
+            val chatButton=findViewById<ImageButton>(R.id.chats)
+            chatButton.setOnClickListener {
+                val intent = Intent(this, chatBox::class.java)
+                startActivity(intent)
+            }
+
+            val appointButton=findViewById<ImageButton>(R.id.appoint)
+            appointButton.setOnClickListener {
+                val intent = Intent(this, manageAppointments::class.java)
+                startActivity(intent)
+            }
+
+            val profileButton=findViewById<ImageButton>(R.id.profile)
+            profileButton.setOnClickListener {
+                val intent = Intent(this, doctorProfile::class.java)
+                startActivity(intent)
+            }
+        }
+        else if(user=="center")
+        {
+            val homeButton=findViewById<ImageButton>(R.id.home)
+            homeButton.setOnClickListener {
+                val intent = Intent(this, doctorViewAppointmentsList::class.java)
+                startActivity(intent)
+            }
+
+            val chatButton=findViewById<ImageButton>(R.id.chats)
+            chatButton.setOnClickListener {
+                val intent = Intent(this, chatBox::class.java)
+                startActivity(intent)
+            }
+
+            val appointButton=findViewById<ImageButton>(R.id.appoint)
+            appointButton.setOnClickListener {
+                val intent = Intent(this, manageAppointments::class.java)
+                startActivity(intent)
+            }
+
+            val profileButton=findViewById<ImageButton>(R.id.profile)
+            profileButton.setOnClickListener {
+                val intent = Intent(this, doctorProfile::class.java)
+                startActivity(intent)
+            }
+        }
+        else if(user=="center")
+        {
+            val homeButton=findViewById<ImageButton>(R.id.home)
+            homeButton.setOnClickListener {
+                val intent = Intent(this, adminHome::class.java)
+                startActivity(intent)
+            }
+
+            val chatButton=findViewById<ImageButton>(R.id.chats)
+            chatButton.setOnClickListener {
+                val intent = Intent(this, chatBox::class.java)
+                startActivity(intent)
+            }
+
+            val appointButton=findViewById<ImageButton>(R.id.appoint)
+            appointButton.setOnClickListener {
+                val intent = Intent(this, manageAppointments::class.java)
+                startActivity(intent)
+            }
+
+            val profileButton=findViewById<ImageButton>(R.id.profile)
+            profileButton.setOnClickListener {
+                val intent = Intent(this, centerProfile::class.java)
+                startActivity(intent)
+            }
+        }
+
+
 
     }
 
@@ -66,15 +180,16 @@ class map : AppCompatActivity(), OnMapReadyCallback {
             )
         }
 
-        // Place marker at specified latitude and longitude
-        val location = LatLng(latitude, longitude)
-        nGoogleMap.addMarker(MarkerOptions().position(location).title(centername))
-        nGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f))
-
-        val intent = Intent(this, adminHome::class.java).apply {
-            putExtra("centername", centername )
+        if(user=="center" && signupCenter=="signupCenter"){
+            // Place marker at specified latitude and longitude
+            val location = LatLng(latitude, longitude)
+            nGoogleMap.addMarker(MarkerOptions().position(location).title(centername))
+            nGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f))
+            val intent = Intent(this, adminHome::class.java).apply {
+                putExtra("centername", centername)
+            }
+            startActivity(intent)
         }
-        startActivity(intent)
 
     }
 

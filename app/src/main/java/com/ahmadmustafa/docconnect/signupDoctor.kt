@@ -133,7 +133,9 @@ class signupDoctor : AppCompatActivity() {
 
         logTextView.setOnClickListener {
 
-            val intent = Intent(this, login::class.java)
+            val intent = Intent(this, login::class.java).apply {
+                putExtra("userType", "professional")
+            }
             startActivity(intent)
         }
     }

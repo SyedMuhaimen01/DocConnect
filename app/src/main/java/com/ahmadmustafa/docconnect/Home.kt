@@ -60,7 +60,25 @@ class Home : AppCompatActivity() {
 
         val homeButton = findViewById<ImageButton>(R.id.home)
         homeButton.setOnClickListener {
-            val intent = Intent(this, manageAppointments::class.java)
+            val intent = Intent(this, Home::class.java)
+            startActivity(intent)
+        }
+
+        val mapButton=findViewById<ImageButton>(R.id.map)
+        mapButton.setOnClickListener {
+            val intent = Intent(this, map::class.java)
+            startActivity(intent)
+        }
+
+        val appointButton=findViewById<ImageButton>(R.id.appoint)
+        appointButton.setOnClickListener {
+            val intent = Intent(this, upcommingAppointment::class.java)
+            startActivity(intent)
+        }
+
+        val chatButton=findViewById<ImageButton>(R.id.chats)
+        chatButton.setOnClickListener {
+            val intent = Intent(this, chatBox::class.java)
             startActivity(intent)
         }
 
