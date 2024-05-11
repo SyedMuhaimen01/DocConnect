@@ -122,13 +122,19 @@
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/services_rectangle"
                 android:orientation="vertical">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@mipmap/doctor"></ImageView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Doctor"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:layout_marginTop="45dp"></TextView>
+                    android:layout_marginTop="0dp"></TextView>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="70dp"
@@ -137,13 +143,19 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/services_rectangle"
                 android:orientation="vertical">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@mipmap/hospital_image"></ImageView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hospital"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:layout_marginTop="45dp"></TextView>
+                    android:layout_marginTop="0dp"></TextView>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="70dp"
@@ -152,13 +164,19 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/services_rectangle"
                 android:orientation="vertical">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@mipmap/covid19_foreground"></ImageView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Covid 19"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:layout_marginTop="45dp"></TextView>
+                    android:layout_marginTop="0dp"></TextView>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="70dp"
@@ -167,13 +185,19 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/services_rectangle"
                 android:orientation="vertical">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@mipmap/tablets_foreground"></ImageView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tablets"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:layout_marginTop="45dp"></TextView>
+                    android:layout_marginTop="0dp"></TextView>
             </LinearLayout>
 
         </LinearLayout>

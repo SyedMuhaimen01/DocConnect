@@ -25,8 +25,9 @@ data class Professional(
     var affiliation: String = "",
     var affiliationStatus: Boolean = false,
     var password: String = "",
+    var rating: Double = 0.0, // Updated attribute for rating
     val picture: String? = ""
-):Serializable
+) : Serializable
 
 class signupDoctor : AppCompatActivity() {
     private val NOTIFICATION_CHANNEL_ID = "RegistrationNotification"
@@ -78,7 +79,7 @@ class signupDoctor : AppCompatActivity() {
                 // Check if CNIC already exists
                 checkCNICExistsInProfessionals(cnic) { cnicExists ->
                     if (!cnicExists) {
-                        // Create user with email and password
+
                         auth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
@@ -94,8 +95,9 @@ class signupDoctor : AppCompatActivity() {
                                         cnic = cnic,
                                         specialization = specialization,
                                         affiliation = affiliation,
-                                        affiliationStatus = false, // Default affiliation status
-                                        password = password
+                                        affiliationStatus = false,
+                                        password = password,
+                                        rating = 0.0
                                     )
                                     saveProfessionalToFirebase(professional)
                                     saveProfessionalToSharedPreferences(professional)
@@ -130,7 +132,7 @@ class signupDoctor : AppCompatActivity() {
         }
 
         logTextView.setOnClickListener {
-            // Handle click on "Already have an account? Sign In" text
+
             val intent = Intent(this, login::class.java)
             startActivity(intent)
         }
@@ -187,8 +189,9 @@ class signupDoctor : AppCompatActivity() {
         editor.putString("cnic", professional.cnic)
         editor.putString("specialization", professional.specialization)
         editor.putString("affiliation", professional.affiliation)
-        editor.putBoolean("affiliationStatus", professional.affiliationStatus) // Saving affiliation status
+        editor.putBoolean("affiliationStatus", professional.affiliationStatus)
         editor.putString("password", professional.password)
+        editor.putFloat("rating", professional.rating.toFloat())
         editor.putString("picture", professional.picture)
         editor.apply()
     }
@@ -221,8 +224,6 @@ class signupDoctor : AppCompatActivity() {
             specializationEditText.error = "Specialization is required"
             return false
         }
-
-
 
         if (password.length < 8) {
             passwordEditText.error = "Password must be at least 8 characters long"
