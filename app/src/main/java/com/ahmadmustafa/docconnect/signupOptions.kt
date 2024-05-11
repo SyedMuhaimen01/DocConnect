@@ -20,7 +20,7 @@ class signupOptions : AppCompatActivity() {
         }
 
         doctorSignup.setOnClickListener {
-            val intent = Intent(this, signupDoctor::class.java)
+            val intent = Intent(this, signupDoctor ::class.java)
             startActivity(intent)
         }
 
