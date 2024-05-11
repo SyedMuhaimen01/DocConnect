@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.io.Serializable
 
 data class Patient(
     var id: String = "",
@@ -25,7 +26,7 @@ data class Patient(
     var cnic: String = "",
     var password: String = "",
     val picture: String? = ""
-)
+): Serializable
 
 class signupPatient : AppCompatActivity() {
     private val NOTIFICATION_CHANNEL_ID = "RegistrationNotification"
@@ -87,7 +88,9 @@ class signupPatient : AppCompatActivity() {
                                     savePatientToSharedPreferences(patient)
                                     showRegistrationSuccessNotification()
                                     // Start Home activity
-                                    val intent = Intent(this, Home::class.java)
+                                    val intent = Intent(this, Home::class.java).apply {
+                                        putExtra("patient", patient as Serializable)
+                                    }
                                     startActivity(intent)
                                 } else {
                                     if (task.exception?.message?.contains("email address is already in use") == true) {
