@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/profilebackground">
+            >
         <ImageView
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_marginTop="-150dp"/>
 
         <TextView
-            android:id="@+id/username"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username"
@@ -55,6 +55,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/username"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -69,7 +70,7 @@
             android:background="@drawable/inputbox"/>
 
         <TextView
-            android:id="@+id/email"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
@@ -78,6 +79,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/email"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -92,7 +94,7 @@
             android:background="@drawable/inputbox"/>
 
         <TextView
-            android:id="@+id/contact"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact Info"
@@ -101,6 +103,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/contact"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -115,7 +118,7 @@
             android:textSize="15dp"
             android:background="@drawable/inputbox"/>
         <TextView
-            android:id="@+id/password"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Password"
@@ -124,6 +127,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <EditText
+            android:id="@+id/password"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -150,5 +154,82 @@
             android:background="@drawable/secondarybuttons"></Button>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:layout_marginTop="-15dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom">
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/home_icon_foreground"
+            ></ImageButton>
 
+        <ImageButton
+            android:id="@+id/chats"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/chat_icon_foreground"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/map"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/map_icon_foreground"
+            android:background="@drawable/buttonsbar_circle"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/appoint"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/appointment_icon_foreground"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/profile"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/profile_icon_foreground"
+            ></ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="-325dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appoint"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="100dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"></TextView>
+
+    </LinearLayout>
 </LinearLayout>

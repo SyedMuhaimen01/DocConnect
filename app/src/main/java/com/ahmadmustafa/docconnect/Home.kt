@@ -1,8 +1,6 @@
 package com.ahmadmustafa.docconnect
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -49,7 +47,7 @@ class Home : AppCompatActivity() {
                         topProfessionals.add(it)
                     }
                 }
-                topProfessionals.sortByDescending { it.rating }
+                topProfessionals.sortByDescending { it.rating } // Sort professionals by rating in descending order
                 professionalAdapter.notifyDataSetChanged()
             }
 
@@ -57,26 +55,5 @@ class Home : AppCompatActivity() {
                 // Handle database error
             }
         })
-        val homeButton = findViewById<ImageButton>(R.id.home)
-        homeButton.setOnClickListener {
-            startActivity(Intent(this, Home::class.java))
-        }
-
-        val chatButton = findViewById<ImageButton>(R.id.chats)
-        chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java))
-        }
-
-        val mapButton = findViewById<ImageButton>(R.id.map)
-        mapButton.setOnClickListener {
-            startActivity(Intent(this, map::class.java))
-        }
-
-        val profileButton = findViewById<ImageButton>(R.id.profile)
-        profileButton.setOnClickListener {
-            startActivity(Intent(this, patientProfile::class.java))
-        }
-
     }
-
 }

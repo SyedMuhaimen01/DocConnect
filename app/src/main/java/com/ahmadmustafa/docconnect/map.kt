@@ -1,6 +1,7 @@
 package com.ahmadmustafa.docconnect
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,9 @@ class map : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var nGoogleMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var placesClient: PlacesClient
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
+    private var centername: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,11 @@ class map : AppCompatActivity(), OnMapReadyCallback {
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.gmaps) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        // Receive latitude and longitude values from intent
+        latitude = intent.getDoubleExtra("latitude", 0.0)
+        longitude = intent.getDoubleExtra("longitude", 0.0)
+        centername = intent.getStringExtra("center").toString()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -54,6 +63,14 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 LOCATION_PERMISSION_REQUEST_CODE
             )
         }
+
+        // Place marker at specified latitude and longitude
+        val location = LatLng(latitude, longitude)
+        nGoogleMap.addMarker(MarkerOptions().position(location).title(centername))
+        nGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f))
+        val intent=Intent(this,adminHome::class.java)
+        startActivity(intent)
+
     }
 
     private fun enableMyLocation() {
@@ -66,81 +83,18 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         nGoogleMap.isMyLocationEnabled = true
 
-        // Request location updates
+        // Move camera to user's current location
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
-                // Got last known location
                 location?.let {
-                    // Move camera to user's current location
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     nGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
-
-                    // Search for medical centers nearby
-                    searchMedicalCentersNearby(currentLatLng)
                 }
             }
-    }
-
-    private fun searchMedicalCentersNearby(location: LatLng) {
-        // Specify the types of places to search for
-        val placeTypes = listOf(
-            Place.Field.NAME,
-            Place.Field.LAT_LNG,
-            Place.Field.TYPES
-        )
-
-        // Create a FindCurrentPlaceRequest to query nearby places
-        val request = FindCurrentPlaceRequest.newInstance(placeTypes)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        placesClient.findCurrentPlace(request).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val response = task.result
-                response?.placeLikelihoods?.forEach { placeLikelihood ->
-                    val place = placeLikelihood.place
-                    Log.d("NearbyPlaces", "Place: ${place.name}, Likelihood: ${placeLikelihood.likelihood}")
-                    val placeLatLng = place.latLng
-                    placeLatLng?.let {
-                        // Add marker for each nearby medical center
-                        nGoogleMap.addMarker(
-                            MarkerOptions()
-                                .position(placeLatLng)
-                                .title(place.name)
-                        )
-                    }
-                }
-            } else {
-                val exception = task.exception
-                Log.e("NearbyPlaces", "Exception: $exception")
-                // Handle failure
-            }
-        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
