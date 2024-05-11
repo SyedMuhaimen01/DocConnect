@@ -3,7 +3,12 @@
     <style name="Base.Theme.DocConnect" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
     </style>
 
-    <style name="Theme.DocConnect" parent="Base.Theme.DocConnect" />
+    <style name="Theme.DocConnect" parent="Base.Theme.DocConnect" >
+        <item name="colorAccent">#FF0000</item>
+        <item name="colorSurface">#FFFDFD</item>
+
+    </style>
 </resources>
