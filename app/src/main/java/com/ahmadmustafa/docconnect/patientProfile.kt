@@ -9,9 +9,12 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.bumptech.glide.Glide
@@ -25,6 +28,7 @@ import com.google.firebase.ktx.Firebase
 class patientProfile : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences2: SharedPreferences
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
 
@@ -33,7 +37,8 @@ class patientProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
 
-        sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("patients", Context.MODE_PRIVATE)
+        sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
         auth = Firebase.auth
         databaseReference = FirebaseDatabase.getInstance().getReference("patients").child(auth.currentUser?.uid ?: "")
 
@@ -44,12 +49,12 @@ class patientProfile : AppCompatActivity() {
 
         val chatButton = findViewById<ImageButton>(R.id.chats)
         chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java))
+            startActivity(Intent(this, chatBox::class.java).apply { putExtra("userType", "patient")})
         }
 
         val mapButton = findViewById<ImageButton>(R.id.map)
         mapButton.setOnClickListener {
-            startActivity(Intent(this, map::class.java))
+            startActivity(Intent(this, map::class.java).apply { putExtra("userType", "patient")})
         }
 
         val profileButton = findViewById<ImageButton>(R.id.profile)
@@ -63,28 +68,47 @@ class patientProfile : AppCompatActivity() {
             logoutUser()
         }
 
+        val editProfile= findViewById<Button>(R.id.editProfile)
+        editProfile.setOnClickListener {
+            startActivity(Intent(this, editPatientProfile::class.java))
+        }
+
         if (isConnected()) {
+
             fetchUserDetailsFromFirebase()
         } else {
             fetchUserDetailsFromSharedPreferences()
-        }
+       }
     }
 
     private fun fetchUserDetailsFromFirebase() {
-        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    val patient = dataSnapshot.getValue(Patient::class.java)
-                    patient?.let { setUserDetails(it) }
-                } else {
-                    // Handle the case where no data is found for the current user
-                }
-            }
+        val currentUserID = FirebaseAuth.getInstance().currentUser?.uid
+        Log.e("Firebase", "Current user ID: $currentUserID")
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle database error
-            }
-        })
+        currentUserID?.let { uid ->
+            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    Log.e("Firebase", "DataSnapshot: $dataSnapshot")
+                    if (dataSnapshot.exists()) {
+                        // Data for the current patient exists, parse it into a Patient object
+                        val patient = dataSnapshot.getValue(Patient::class.java)
+                        patient?.let {
+                            // Set user details or handle the data as needed
+                            setUserDetails(it)
+                        }
+                    } else {
+                        Log.d("Firebase", "No data found for current user")
+                        // Handle the case where no data is found for the current user
+                        // For example, show a message to the user or redirect to another screen
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle database error
+                    Log.e("Firebase", "Error fetching data: ${databaseError.message}")
+                }
+            })
+        }
     }
 
     private fun fetchUserDetailsFromSharedPreferences() {
@@ -92,8 +116,8 @@ class patientProfile : AppCompatActivity() {
         val email = sharedPreferences.getString("email", "")
         val contact = sharedPreferences.getString("contactNumber", "")
         val cnic = sharedPreferences.getString("cnic", "")
-        val profileImageUrl = sharedPreferences.getString("profileImageUrl", "")
-
+        val profileImageUrl = sharedPreferences.getString("picture", "")
+        Toast.makeText(this, "Data Fetched shareddddd", Toast.LENGTH_SHORT).show()
         val usernameTextView = findViewById<TextView>(R.id.usernameTextView)
         val emailTextView = findViewById<TextView>(R.id.emailTextView)
         val contactTextView = findViewById<TextView>(R.id.contactTextView)
@@ -126,6 +150,7 @@ class patientProfile : AppCompatActivity() {
     }
 
     private fun setUserDetails(patient: Patient) {
+        Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show()
         val usernameTextView = findViewById<TextView>(R.id.usernameTextView)
         val emailTextView = findViewById<TextView>(R.id.emailTextView)
         val contactTextView = findViewById<TextView>(R.id.contactTextView)
@@ -136,7 +161,7 @@ class patientProfile : AppCompatActivity() {
         emailTextView.text = patient.email
         contactTextView.text = patient.contactNumber
         cnicTextView.text = patient.cnic
-
+        Toast.makeText(this, "Data Fetched", Toast.LENGTH_SHORT).show()
         // Save fetched user details to SharedPreferences
         saveUserDetailsToSharedPreferences(patient)
     }
@@ -147,13 +172,13 @@ class patientProfile : AppCompatActivity() {
         editor.putString("email", patient.email)
         editor.putString("contactNumber", patient.contactNumber)
         editor.putString("cnic", patient.cnic)
-        editor.putString("profileImageUrl", patient.picture)
+        editor.putString("picture", patient.picture)
         editor.apply()
     }
 
     private fun logoutUser() {
         // Update SharedPreferences to mark the user as logged out
-        val editor = sharedPreferences.edit()
+        val editor = sharedPreferences2.edit()
         editor.putBoolean("isLoggedIn", false)
         editor.apply()
 

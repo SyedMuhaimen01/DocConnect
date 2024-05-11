@@ -39,6 +39,7 @@ class signupPatient : AppCompatActivity() {
     private lateinit var logTextView: TextView
     private lateinit var database: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences2: SharedPreferences
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +49,7 @@ class signupPatient : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference.child("patients")
         sharedPreferences = getSharedPreferences("patients", Context.MODE_PRIVATE)
+        sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
 
         usernameEditText = findViewById(R.id.username)
         emailEditText = findViewById(R.id.email)
@@ -91,6 +93,7 @@ class signupPatient : AppCompatActivity() {
                                     val intent = Intent(this, Home::class.java).apply {
                                         putExtra("patient", patient as Serializable)
                                     }
+                                    saveLoginStatus(true, "patient")
                                     startActivity(intent)
                                 } else {
                                     if (task.exception?.message?.contains("email address is already in use") == true) {
@@ -210,4 +213,11 @@ class signupPatient : AppCompatActivity() {
 
         notificationManager.notify(1, builder.build())
     }
+    private fun saveLoginStatus(isLoggedIn: Boolean, userType: String) {
+        val editor = sharedPreferences2.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.putString("userType", userType)
+        editor.apply()
+    }
+
 }

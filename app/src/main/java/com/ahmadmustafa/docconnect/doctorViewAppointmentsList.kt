@@ -1,9 +1,14 @@
 package com.ahmadmustafa.docconnect
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.CalendarView
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -42,17 +47,18 @@ class doctorViewAppointmentsList : AppCompatActivity() {
         R.id.satDateTextView,
         R.id.sunDateTextView
     )
-
+    private lateinit var sharedPreferences2: SharedPreferences
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_select_appointment_date)
+        setContentView(R.layout.activity_doctor_view_appointments_list)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
 
         val monthTextView = findViewById<TextView>(R.id.month)
@@ -65,7 +71,34 @@ class doctorViewAppointmentsList : AppCompatActivity() {
         yearTextView.text = currentYear
         setCurrentWeekDayAndDate()
 
-        // Set current week day and date
+        val homeButton = findViewById<ImageButton>(R.id.home)
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, doctorViewAppointmentsList::class.java))
+        }
+
+        val chatButton = findViewById<ImageButton>(R.id.chat)
+        chatButton.setOnClickListener {
+            startActivity(Intent(this, chatBox::class.java).apply {
+                putExtra("userType", "professional")
+            })
+        }
+
+        val mapButton = findViewById<ImageButton>(R.id.map)
+        mapButton.setOnClickListener {
+            startActivity(Intent(this, map::class.java).apply {
+                putExtra("userType", "professional")
+            })
+        }
+        val appointButton=findViewById<ImageButton>(R.id.appoint)
+        appointButton.setOnClickListener {
+            startActivity(Intent(this, doctorViewAppointmentsList::class.java))
+        }
+
+        val profileButton = findViewById<ImageButton>(R.id.profile)
+        profileButton.setOnClickListener {
+            startActivity(Intent(this, doctorProfile::class.java))
+        }
+        saveLoginStatus(true, "professional")
 
     }
 
@@ -112,5 +145,11 @@ class doctorViewAppointmentsList : AppCompatActivity() {
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
 
+    }
+    private fun saveLoginStatus(isLoggedIn: Boolean, userType: String) {
+        val editor = sharedPreferences2.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.putString("userType", userType)
+        editor.apply()
     }
 }

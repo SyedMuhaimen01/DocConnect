@@ -1,8 +1,10 @@
 package com.ahmadmustafa.docconnect
+
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -20,8 +22,14 @@ class MainActivity : AppCompatActivity() {
         swipeButton.setOnClickListener {
             // Check if the user is already logged in
             if (isLoggedIn()) {
-                val intent = Intent(this, Home::class.java)
-                startActivity(intent)
+                // Redirect user based on userType
+                val userType = sharedPreferences.getString("userType", "")
+                when (userType) {
+                    "patient" -> startActivity(Intent(this, Home::class.java))
+                    "professional" -> startActivity(Intent(this, doctorViewAppointmentsList::class.java))
+                    "center" -> startActivity(Intent(this, adminHome::class.java))
+                    else -> showLoginDialog()
+                }
             } else {
                 showLoginDialog()
             }

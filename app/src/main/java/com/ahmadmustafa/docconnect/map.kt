@@ -65,7 +65,9 @@ class map : AppCompatActivity(), OnMapReadyCallback {
 
             val chatButton=findViewById<ImageButton>(R.id.chats)
             chatButton.setOnClickListener {
-                val intent = Intent(this, chatBox::class.java)
+                val intent = Intent(this, chatBox::class.java).apply {
+                    putExtra("userType", "patient")
+                }
                 startActivity(intent)
             }
 
@@ -80,6 +82,13 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 val intent = Intent(this, patientProfile::class.java)
                 startActivity(intent)
             }
+            val mapButton=findViewById<ImageButton>(R.id.map)
+            mapButton.setOnClickListener {
+                val intent = Intent(this, map::class.java).apply {
+                    putExtra("userType", "patient")
+                }
+                startActivity(intent)
+            }
         }
         else if(user=="professional")
         {
@@ -91,7 +100,9 @@ class map : AppCompatActivity(), OnMapReadyCallback {
 
             val chatButton=findViewById<ImageButton>(R.id.chats)
             chatButton.setOnClickListener {
-                val intent = Intent(this, chatBox::class.java)
+                val intent = Intent(this, chatBox::class.java).apply {
+                    putExtra("userType", "professional")
+                }
                 startActivity(intent)
             }
 
@@ -106,30 +117,11 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 val intent = Intent(this, doctorProfile::class.java)
                 startActivity(intent)
             }
-        }
-        else if(user=="center")
-        {
-            val homeButton=findViewById<ImageButton>(R.id.home)
-            homeButton.setOnClickListener {
-                val intent = Intent(this, doctorViewAppointmentsList::class.java)
-                startActivity(intent)
-            }
-
-            val chatButton=findViewById<ImageButton>(R.id.chats)
-            chatButton.setOnClickListener {
-                val intent = Intent(this, chatBox::class.java)
-                startActivity(intent)
-            }
-
-            val appointButton=findViewById<ImageButton>(R.id.appoint)
-            appointButton.setOnClickListener {
-                val intent = Intent(this, manageAppointments::class.java)
-                startActivity(intent)
-            }
-
-            val profileButton=findViewById<ImageButton>(R.id.profile)
-            profileButton.setOnClickListener {
-                val intent = Intent(this, doctorProfile::class.java)
+            val mapButton=findViewById<ImageButton>(R.id.map)
+            mapButton.setOnClickListener {
+                val intent = Intent(this, map::class.java).apply {
+                    putExtra("userType", "professional")
+                }
                 startActivity(intent)
             }
         }
@@ -143,7 +135,9 @@ class map : AppCompatActivity(), OnMapReadyCallback {
 
             val chatButton=findViewById<ImageButton>(R.id.chats)
             chatButton.setOnClickListener {
-                val intent = Intent(this, chatBox::class.java)
+                val intent = Intent(this, chatBox::class.java).apply {
+                    putExtra("userType", "center")
+                }
                 startActivity(intent)
             }
 
@@ -158,10 +152,14 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 val intent = Intent(this, centerProfile::class.java)
                 startActivity(intent)
             }
+            val mapButton=findViewById<ImageButton>(R.id.map)
+            mapButton.setOnClickListener {
+                val intent = Intent(this, map::class.java).apply {
+                    putExtra("userType", "center")
+                }
+                startActivity(intent)
+            }
         }
-
-
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
