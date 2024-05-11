@@ -111,7 +111,7 @@ class login : AppCompatActivity() {
 
     private fun startAdminHomeActivity(center: Center) {
         val intent = Intent(this, adminHome::class.java).apply {
-            putExtra("center", center as Serializable)
+            putExtra("userType", "center")
         }
         startActivity(intent)
         finish()
@@ -119,7 +119,7 @@ class login : AppCompatActivity() {
 
     private fun startManageAppointmentsActivity(professional: Professional) {
         val intent = Intent(this, manageAppointments::class.java).apply {
-            putExtra("professional", professional as java.io.Serializable)
+            putExtra("userType", "professional")
         }
         startActivity(intent)
         finish()
@@ -127,7 +127,7 @@ class login : AppCompatActivity() {
 
     private fun startHomeActivity(patient: Patient) {
         val intent = Intent(this, Home::class.java).apply {
-            putExtra("patient", patient as java.io.Serializable)
+            putExtra("userType", "patient")
         }
         startActivity(intent)
         finish()
