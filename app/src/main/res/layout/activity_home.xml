@@ -215,7 +215,8 @@
             android:layout_height="295dp"
             android:background="@color/black">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userRecyclerView"
+                android:orientation="vertical"
+                android:id="@+id/popularDoctorRecyclerView"
                 android:layout_marginTop="00dp"
                 android:layout_width="match_parent"
 

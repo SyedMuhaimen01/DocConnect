@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/black"
+    android:background="@drawable/blackwhite"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,7 +53,7 @@
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="42dp"
-            android:background="@color/black"
+
             android:orientation="horizontal"
             tools:ignore="MissingConstraints"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +61,7 @@
             app:layout_constraintStart_toStartOf="parent">>
 
             <ImageView
-
+                android:id="@+id/picture"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="50dp"
@@ -69,6 +69,7 @@
                 android:src="@drawable/location_icon_foreground"></ImageView>
 
             <TextView
+                android:id="@+id/locationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-10dp"
