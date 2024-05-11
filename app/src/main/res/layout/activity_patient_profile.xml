@@ -25,6 +25,23 @@
         android:textColor="@color/white"
         android:layout_marginLeft="100dp"></TextView>
     <ImageView
+        android:id="@+id/logout"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/logout"
+        android:layout_marginTop="-30dp"
+        android:layout_marginLeft="300dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:textSize="13dp"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="192dp"></TextView>
+    <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/picholder"
@@ -136,4 +153,83 @@
         android:layout_marginTop="40dp"
         android:layout_marginLeft="80dp"
         android:background="@drawable/buttons"></Button>
+
+    <LinearLayout
+        android:layout_marginTop="52dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom">
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/home_icon_foreground"
+            ></ImageButton>
+
+        <ImageButton
+            android:id="@+id/chats"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/chat_icon_foreground"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/map"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/map_icon_foreground"
+            android:background="@drawable/buttonsbar_circle"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/appoint"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/appointment_icon_foreground"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/profile"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/profile_icon_foreground"
+            ></ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="-325dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appoint"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="100dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"></TextView>
+
+    </LinearLayout>
 </LinearLayout>

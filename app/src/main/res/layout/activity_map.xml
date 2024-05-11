@@ -15,9 +15,87 @@
             android:id="@+id/gmaps"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="610dp"
             android:layout_marginTop="50dp"/>
 
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom">
+            <ImageButton
+                android:id="@+id/home"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/home_icon_foreground"
+                ></ImageButton>
+
+            <ImageButton
+                android:id="@+id/chats"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/chat_icon_foreground"
+                ></ImageButton>
+            <ImageButton
+                android:id="@+id/map"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-5dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/map_icon_foreground"
+                android:background="@drawable/buttonsbar_circle"
+                ></ImageButton>
+            <ImageButton
+                android:id="@+id/appoint"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/appointment_icon_foreground"
+                ></ImageButton>
+            <ImageButton
+                android:id="@+id/profile"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/profile_icon_foreground"
+                ></ImageButton>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="-325dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chats"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="40dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appoint"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="100dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="30dp"></TextView>
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
