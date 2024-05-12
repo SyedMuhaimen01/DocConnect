@@ -23,7 +23,7 @@ class editDoctorProfile : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var storage: StorageReference
     private lateinit var nameTextView: TextView
-    private lateinit var profileImageView: ImageView
+    private lateinit var profileImageView: com.google.android.material.imageview.ShapeableImageView
     private var imageUri: Uri? = null
     private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { selectedImage ->

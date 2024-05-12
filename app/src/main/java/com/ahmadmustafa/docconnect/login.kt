@@ -33,7 +33,13 @@ class login : AppCompatActivity() {
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
-            signIn(email, password)
+            if (email=="admin" && password=="admin") {
+                startActivity(Intent(this, adminHome::class.java))
+                finish()
+            }
+            else {
+                signIn(email, password)
+            }
         }
 
         val signup = findViewById<TextView>(R.id.signup)

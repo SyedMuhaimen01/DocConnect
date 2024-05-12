@@ -37,8 +37,8 @@
                 android:src="@drawable/picholder"
                 android:layout_marginLeft="100dp"
                 android:layout_marginTop="30dp"/>
-            <ImageView
-                android:id="@+id/profilepic"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImage"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/picholder"
@@ -46,7 +46,7 @@
                 android:layout_marginTop="-150dp"/>
 
             <TextView
-                android:id="@+id/centername"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Center name"
@@ -55,6 +55,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/username"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -68,7 +69,7 @@
                 android:background="@drawable/inputbox"/>
 
             <TextView
-                android:id="@+id/email"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email"
@@ -77,6 +78,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/email"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -90,7 +92,7 @@
                 android:background="@drawable/inputbox"/>
 
             <TextView
-                android:id="@+id/contact"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contact Info"
@@ -99,6 +101,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/contact"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -112,7 +115,7 @@
                 android:textSize="15dp"
                 android:background="@drawable/inputbox"/>
             <TextView
-                android:id="@+id/address"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Address"
@@ -121,6 +124,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/address"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -133,7 +137,7 @@
                 android:textSize="15dp"
                 android:background="@drawable/inputbox"/>
             <TextView
-                android:id="@+id/category"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
@@ -143,6 +147,7 @@
                 android:layout_marginLeft="23dp"
                 tools:ignore="DuplicateIds"></TextView>
             <EditText
+                android:id="@+id/category"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -156,7 +161,7 @@
                 android:background="@drawable/inputbox"/>
 
             <TextView
-                android:id="@+id/password"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Password"
@@ -166,6 +171,7 @@
                 android:layout_marginLeft="23dp"
                 tools:ignore="DuplicateIds"></TextView>
             <EditText
+                android:id="@+id/password"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -177,7 +183,7 @@
                 android:textSize="15dp"
                 android:background="@drawable/inputbox"/>
             <Button
-                android:id="@+id/editprof"
+                android:id="@+id/editprofile"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
                 android:textAlignment="center"
