@@ -23,7 +23,7 @@
         android:paddingRight="20dp">
 
         <TextView
-            android:id="@+id/righttextView"
+            android:id="@+id/sentMessageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 

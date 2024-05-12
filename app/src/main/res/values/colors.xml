@@ -19,4 +19,5 @@
 	<color name="rectangle_4967_color">#FFFFFF</color>
 	<color name="rectangle_4968_color">#ffffff</color>
 	<color name="swipe_to_start_color">#FFFEFE</color>
+	<color name="suggestionTextColor">#FFFFFF</color>
 </resources>
