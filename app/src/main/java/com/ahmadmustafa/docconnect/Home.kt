@@ -46,7 +46,7 @@ class Home : AppCompatActivity() {
 
             val chatButton: ImageButton = findViewById(R.id.chats)
             chatButton.setOnClickListener {
-                startActivity(Intent(this, chatBox::class.java).apply {
+                startActivity(Intent(this, searchUsers::class.java).apply {
                     putExtra("userType", "patient")
                 })
             }

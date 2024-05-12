@@ -25,27 +25,34 @@
             android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/searchbar"></LinearLayout>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-           android:layout_marginTop="-34dp"
-            android:hint="Search for a chat..."
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            android:background="@drawable/searchbar"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/searchbar">
 
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="25dp"></EditText>
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:src="@drawable/search_icon_foreground"
-            android:scaleType="center"
-            android:layout_marginTop="-28dp"
-            android:layout_marginLeft="20dp"
-            android:background="@color/white"></ImageButton>
+            <!-- AutoCompleteTextView for search -->
+            <AutoCompleteTextView
+                android:id="@+id/searchAutoCompleteTextView"
+                android:layout_width="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Search for a chat..."
+                android:textColorHint="@color/hintcolor"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:background="@drawable/searchbar"
+                android:padding="8dp"/>
+
+            <!-- Search icon button -->
+            <ImageButton
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search_icon_foreground"
+
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="-10dp"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -69,6 +76,7 @@
             android:background="@drawable/buttons"
             android:backgroundTint="#383838">
             <ImageButton
+                android:id="@+id/home"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-10dp"
@@ -77,6 +85,7 @@
                 ></ImageButton>
 
             <ImageButton
+                android:id="@+id/chat"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-10dp"
@@ -84,14 +93,16 @@
                 android:background="@drawable/chat_icon_foreground"
                 ></ImageButton>
             <ImageButton
+                android:id="@+id/map"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-5dp"
                 android:layout_marginLeft="8dp"
                 android:src="@drawable/map_icon_foreground"
                 android:background="@drawable/buttonsbar_circle"
-                ></ImageButton>
+                tools:ignore="InvalidId"></ImageButton>
             <ImageButton
+                android:id="@+id/appoint"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-10dp"
@@ -99,6 +110,7 @@
                 android:background="@drawable/appointment_icon_foreground"
                 ></ImageButton>
             <ImageButton
+                android:id="@+id/profile"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-10dp"
@@ -119,21 +131,21 @@
                 android:text="Chats"
                 android:textColor="#9F9B9B"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="32dp"></TextView>
+                android:layout_marginLeft="40dp"></TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Appoint"
                 android:textColor="#9F9B9B"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="95dp"></TextView>
+                android:layout_marginLeft="100dp"></TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
                 android:textColor="#9F9B9B"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="25dp"></TextView>
+                android:layout_marginLeft="30dp"></TextView>
 
         </LinearLayout>
     </LinearLayout>
