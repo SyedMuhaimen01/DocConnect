@@ -83,11 +83,11 @@ class doctorProfile : AppCompatActivity() {
             onBackPressed()
         }
 
-        if (isConnected()) {
-            fetchUserDetailsFromFirebase()
-        } else {
+        //if (isConnected()) {
+         //   fetchUserDetailsFromFirebase()
+        //} else {
             fetchUserDetailsFromSharedPreferences()
-        }
+        //}
     }
 
     private fun fetchUserDetailsFromFirebase() {

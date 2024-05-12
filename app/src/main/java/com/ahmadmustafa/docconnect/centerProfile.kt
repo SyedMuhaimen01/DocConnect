@@ -76,11 +76,11 @@ class centerProfile : AppCompatActivity() {
             logoutUser()
         }
 
-        if (isConnected()) {
-            fetchUserDetailsFromFirebase()
-        } else {
+        //if (isConnected()) {
+         //   fetchUserDetailsFromFirebase()
+       // } else {
             fetchUserDetailsFromSharedPreferences()
-        }
+       // }
     }
 
     private fun fetchUserDetailsFromFirebase() {

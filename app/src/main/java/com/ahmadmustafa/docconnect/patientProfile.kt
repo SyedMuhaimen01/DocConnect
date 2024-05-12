@@ -72,11 +72,11 @@ class patientProfile : AppCompatActivity() {
             startActivity(Intent(this, editPatientProfile::class.java))
         }
 
-        if (isConnected()) {
-            fetchUserDetailsFromFirebase()
-        } else {
+        //if (isConnected()) {
+          //  fetchUserDetailsFromFirebase()
+        //} else {
             fetchUserDetailsFromSharedPreferences()
-        }
+        //}
     }
 
     private fun fetchUserDetailsFromFirebase() {
@@ -91,7 +91,7 @@ class patientProfile : AppCompatActivity() {
                             setUserDetails(it)
                         }
                     } else {
-                        Log.d("Firebase", "No data found for current user")
+                        Log.e("Firebase", "No data found for current user")
                     }
                 }
 
@@ -127,6 +127,7 @@ class patientProfile : AppCompatActivity() {
     }
 
     private fun setUserDetails(patient: Patient) {
+        Toast.makeText(this, "dataset", Toast.LENGTH_SHORT).show()
         findViewById<TextView>(R.id.usernameTextView).text = patient.name
         findViewById<TextView>(R.id.emailTextView).text = patient.email
         findViewById<TextView>(R.id.contactTextView).text = patient.contactNumber
