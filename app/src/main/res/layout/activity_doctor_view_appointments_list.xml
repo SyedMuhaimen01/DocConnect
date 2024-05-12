@@ -305,12 +305,12 @@
                 android:background="@drawable/chat_icon_foreground"
                 ></ImageButton>
             <ImageButton
-                android:id="@+id/map"
+                android:id="@+id/workingHours"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-5dp"
                 android:layout_marginLeft="8dp"
-                android:src="@drawable/map_icon_foreground"
+                android:src="@drawable/workinghours_foreground"
                 android:background="@drawable/buttonsbar_circle"
                 ></ImageButton>
             <ImageButton
