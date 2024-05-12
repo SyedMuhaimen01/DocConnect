@@ -1,8 +1,11 @@
 package com.ahmadmustafa.docconnect
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -11,13 +14,19 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 
 class Home : AppCompatActivity() {
     private lateinit var popularDoctorRecyclerView: RecyclerView
     private lateinit var professionalAdapter: popularDoctorAdapter
     private val topProfessionals: MutableList<Professional> = mutableListOf()
     private var userType:String=""
+    private lateinit var auth: FirebaseAuth
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +37,10 @@ class Home : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        auth = Firebase.auth
+        databaseReference = FirebaseDatabase.getInstance().getReference("patients")
+        sharedPreferences = getSharedPreferences("patients", Context.MODE_PRIVATE)
+        fetchLoggedInpatientData()
         userType = intent.getStringExtra("userType").toString()
         if(userType=="patient") {
 
@@ -127,6 +139,34 @@ class Home : AppCompatActivity() {
         })
     }
 
+    private fun fetchLoggedInpatientData() {
+        val currentUser = auth.currentUser
+        currentUser?.let { user ->
+            val userId = user.uid
+            val userRef = databaseReference.child(userId)
+
+            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val center = snapshot.getValue(Patient::class.java)
+                        center?.let {
+                            savePatientToSharedPreferences(it)
+                        }
+                    } else {
+                        Log.d("FetchPatientData", "No data found for user with UID: $userId")
+                        // Handle the case where no user data is found
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("FetchPatientData", "Database error: ${error.message}")
+                    // Handle database error
+                }
+            })
+        } ?: Log.e("FetchPatientData", "Current user is null")
+    }
+
+
     private fun showLoginDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Login Required")
@@ -140,5 +180,41 @@ class Home : AppCompatActivity() {
             }
             .setCancelable(false)
             .show()
+    }
+
+    private fun savePatientToSharedPreferences(patient: Patient) {
+        val editor = sharedPreferences.edit()
+        editor.putString("id", patient.id)
+        editor.putString("name", patient.name)
+        editor.putString("email", patient.email)
+        editor.putString("contactNumber", patient.contactNumber)
+        editor.putString("cnic", patient.cnic)
+        editor.putString("password", patient.password)
+        editor.putString("picture", patient.picture)
+        editor.apply()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Attach an authentication state listener
+        auth.addAuthStateListener(authListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Detach the authentication state listener
+        auth.removeAuthStateListener(authListener)
+    }
+
+    private val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            // User is signed in, fetch user details again
+            fetchLoggedInpatientData()
+        } else {
+            // No user is signed in, redirect to login screen
+            //startActivity(Intent(this, login::class.java))
+            //finish()
+        }
     }
 }

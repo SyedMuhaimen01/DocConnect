@@ -14,6 +14,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -47,7 +55,11 @@ class doctorViewAppointmentsList : AppCompatActivity() {
         R.id.satDateTextView,
         R.id.sunDateTextView
     )
-    private lateinit var sharedPreferences2: SharedPreferences
+    private lateinit var auth: FirebaseAuth
+
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var databaseReference: DatabaseReference
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +70,12 @@ class doctorViewAppointmentsList : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
+        auth = Firebase.auth
+        databaseReference = FirebaseDatabase.getInstance().getReference("professionals")
+        sharedPreferences = getSharedPreferences("professionals", Context.MODE_PRIVATE)
+
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
+        fetchLoggedInprofessionalData()
 
         val monthTextView = findViewById<TextView>(R.id.month)
         val yearTextView = findViewById<TextView>(R.id.year)
@@ -98,10 +114,36 @@ class doctorViewAppointmentsList : AppCompatActivity() {
         profileButton.setOnClickListener {
             startActivity(Intent(this, doctorProfile::class.java))
         }
-        saveLoginStatus(true, "professional")
+
 
     }
 
+    private fun fetchLoggedInprofessionalData() {
+        val currentUser = auth.currentUser
+        currentUser?.let { user ->
+            val userId = user.uid
+            val userRef = databaseReference.child(userId)
+
+            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val center = snapshot.getValue(Professional::class.java)
+                        center?.let {
+                            saveProfessionalToSharedPreferences(it)
+                        }
+                    } else {
+                        Log.d("FetchProfessionalData", "No data found for user with UID: $userId")
+                        // Handle the case where no user data is found
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("FetchProfessionalData", "Database error: ${error.message}")
+                    // Handle database error
+                }
+            })
+        } ?: Log.e("FetchProfessionalData", "Current user is null")
+    }
 
     private fun setCurrentWeekDayAndDate() {
 
@@ -146,10 +188,45 @@ class doctorViewAppointmentsList : AppCompatActivity() {
         }
 
     }
-    private fun saveLoginStatus(isLoggedIn: Boolean, userType: String) {
-        val editor = sharedPreferences2.edit()
-        editor.putBoolean("isLoggedIn", isLoggedIn)
-        editor.putString("userType", userType)
+
+
+    private fun saveProfessionalToSharedPreferences(professional: Professional) {
+        val editor = sharedPreferences.edit()
+        editor.putString("id", professional.id)
+        editor.putString("name", professional.name)
+        editor.putString("email", professional.email)
+        editor.putString("contactNumber", professional.contactNumber)
+        editor.putString("cnic", professional.cnic)
+        editor.putString("specialization", professional.specialization)
+        editor.putString("affiliation", professional.affiliation)
+        editor.putBoolean("affiliationStatus", professional.affiliationStatus)
+        editor.putString("password", professional.password)
+        editor.putFloat("rating", professional.rating.toFloat())
+        editor.putString("picture", professional.picture)
         editor.apply()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Attach an authentication state listener
+        auth.addAuthStateListener(authListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Detach the authentication state listener
+        auth.removeAuthStateListener(authListener)
+    }
+
+    private val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            // User is signed in, fetch user details again
+            fetchLoggedInprofessionalData()
+        } else {
+            // No user is signed in, redirect to login screen
+            startActivity(Intent(this, login::class.java))
+            finish()
+        }
     }
 }

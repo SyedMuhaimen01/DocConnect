@@ -14,16 +14,17 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 class doctorProfile : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences2: SharedPreferences
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
-    private lateinit var sharedPreferences2: SharedPreferences
 
     @SuppressLint("MissingInflatedId", "WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,33 +85,10 @@ class doctorProfile : AppCompatActivity() {
         }
 
         //if (isConnected()) {
-         //   fetchUserDetailsFromFirebase()
+        //   fetchUserDetailsFromFirebase()
         //} else {
-            fetchUserDetailsFromSharedPreferences()
+        fetchUserDetailsFromSharedPreferences()
         //}
-    }
-
-    private fun fetchUserDetailsFromFirebase() {
-        val currentUserID = FirebaseAuth.getInstance().currentUser?.uid
-
-        currentUserID?.let { uid ->
-            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        val professional = dataSnapshot.getValue(Professional::class.java)
-                        professional?.let {
-                            setUserDetails(it)
-                        }
-                    } else {
-                        Log.d("Firebase", "No data found for current user")
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.e("Firebase", "Error fetching data: ${databaseError.message}")
-                }
-            })
-        }
     }
 
     private fun fetchUserDetailsFromSharedPreferences() {
@@ -141,41 +119,9 @@ class doctorProfile : AppCompatActivity() {
             .into(findViewById<ImageView>(R.id.profileImage))
     }
 
-    private fun setUserDetails(professional: Professional) {
-        findViewById<TextView>(R.id.usernameTextView).text = professional.name
-        findViewById<TextView>(R.id.emailTextView).text = professional.email
-        findViewById<TextView>(R.id.contactTextView).text = professional.contactNumber
-        findViewById<TextView>(R.id.cnicTextView).text = professional.cnic
-        findViewById<TextView>(R.id.specializationTextView).text = professional.specialization
-        findViewById<TextView>(R.id.affiliationTextView).text = professional.affiliation
-
-        professional.picture?.let {
-            loadProfileImage(it)
-        }
-
-        saveUserDetailsToSharedPreferences(professional)
-    }
-
-    private fun saveUserDetailsToSharedPreferences(professional: Professional) {
-        val editor = sharedPreferences.edit()
-        editor.putString("name", professional.name)
-        editor.putString("email", professional.email)
-        editor.putString("contactNumber", professional.contactNumber)
-        editor.putString("cnic", professional.cnic)
-        editor.putString("specialization", professional.specialization)
-        editor.putString("affiliation", professional.affiliation)
-        editor.putString("picture", professional.picture)
-        editor.apply()
-    }
-
-    private fun isConnected(): Boolean {
-        val connectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
-    }
     private fun logoutUser() {
         // Update SharedPreferences to mark the user as logged out
+        sharedPreferences.edit().clear().apply()
         val editor = sharedPreferences2.edit()
         editor.putBoolean("isLoggedIn", false)
         editor.apply()
@@ -184,6 +130,17 @@ class doctorProfile : AppCompatActivity() {
         startActivity(Intent(this, login::class.java))
 
         finish()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            // No user is signed in, redirect to login screen
+            startActivity(Intent(this, login::class.java))
+            finish()
+        }
     }
 
 }

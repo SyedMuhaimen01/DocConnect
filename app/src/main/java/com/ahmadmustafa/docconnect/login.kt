@@ -1,26 +1,19 @@
 package com.ahmadmustafa.docconnect
 
-import android.annotation.SuppressLint
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
-import com.google.firebase.Firebase
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import java.io.Serializable
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
 
 class login : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -30,7 +23,7 @@ class login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        auth = Firebase.auth
+        auth = FirebaseAuth.getInstance()
         sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
 
         val emailEditText = findViewById<EditText>(R.id.email)
@@ -51,89 +44,102 @@ class login : AppCompatActivity() {
     }
 
     private fun signIn(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    val user = auth.currentUser
+                    user?.let {
+                        // Retrieve user details from the database based on user ID
+                        val userId = user.uid
+                        getUserType(userId) { userType ->
+                            if (userType.isNotEmpty()) {
+                                saveLoginStatus(true, userType)
+                                startNextActivity(userType)
+                            } else {
+                                Toast.makeText(
+                                    baseContext, "User type not found.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+    }
+
+    private fun getUserType(userId: String, callback: (String) -> Unit) {
         val centerRef = FirebaseDatabase.getInstance().getReference("centers")
         val professionalRef = FirebaseDatabase.getInstance().getReference("professionals")
         val patientRef = FirebaseDatabase.getInstance().getReference("patients")
 
-        centerRef.orderByChild("email").equalTo(email)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+        var userType = ""
 
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        saveLoginStatus(true, "center")
-                        // User found in centers table, consider as center admin
-                        dataSnapshot.children.first().getValue(Center::class.java)
-                            ?.let { startAdminHomeActivity(it) }
-                    } else {
-                        // User not found in centers table, check professionals table
-                        professionalRef.orderByChild("email").equalTo(email)
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                    if (dataSnapshot.exists()) {
-                                        saveLoginStatus(true, "professional")
-                                        // User found in professionals table, consider as professional
-                                        dataSnapshot.children.first().getValue(Professional::class.java)
-                                            ?.let { startManageAppointmentsActivity(it) }
-                                    } else {
-                                        // User not found in professionals table, consider as patient
-                                        patientRef.orderByChild("email").equalTo(email)
-                                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                                    if (dataSnapshot.exists()) {
-                                                        saveLoginStatus(true, "patient")
-                                                        // User found in patients table, consider as patient
-                                                        dataSnapshot.children.first().getValue(Patient::class.java)
-                                                            ?.let { startHomeActivity(it) }
-                                                    } else {
-                                                        // User not found in any table
-                                                        Toast.makeText(
-                                                            baseContext, "User not found.",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                    }
-                                                }
-
-                                                override fun onCancelled(databaseError: DatabaseError) {
-                                                    // Handle database error
-                                                }
-                                            })
-                                    }
-                                }
-
-                                override fun onCancelled(databaseError: DatabaseError) {
-                                    // Handle database error
-                                }
-                            })
-                    }
+        // Check if the user exists in any of the tables
+        centerRef.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    userType = "center"
+                    callback(userType)
                 }
+            }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    // Handle database error
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle database error
+            }
+        })
+
+        professionalRef.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    userType = "professional"
+                    callback(userType)
                 }
-            })
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle database error
+            }
+        })
+
+        patientRef.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    userType = "patient"
+                    callback(userType)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle database error
+            }
+        })
     }
 
-    private fun startAdminHomeActivity(center: Center) {
-        val intent = Intent(this, adminHome::class.java).apply {
-            putExtra("userType", "center")
+    private fun startNextActivity(userType: String) {
+        when (userType) {
+            "center" -> {
+                startActivity(Intent(this, centreHome::class.java))
+            }
+            "professional" -> {
+                startActivity(Intent(this, doctorViewAppointmentsList::class.java))
+            }
+            "patient" -> {
+                startActivity(Intent(this, Home::class.java).apply {
+                    putExtra("userType", "patient")
+                })
+            }
+            else -> {
+                startActivity(Intent(this, Home::class.java))
+                // Handle unexpected user type
+            }
         }
-        startActivity(intent)
-        finish()
-    }
-
-    private fun startManageAppointmentsActivity(professional: Professional) {
-        val intent = Intent(this, doctorViewAppointmentsList::class.java).apply {
-            putExtra("userType", "professional")
-        }
-        startActivity(intent)
-        finish()
-    }
-
-    private fun startHomeActivity(patient: Patient) {
-        val intent = Intent(this, Home::class.java).apply {
-            putExtra("userType", "patient")
-        }
-        startActivity(intent)
         finish()
     }
 
