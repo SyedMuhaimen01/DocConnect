@@ -92,6 +92,7 @@ class signupPatient : AppCompatActivity() {
                                     // Start Home activity
                                     val intent = Intent(this, Home::class.java).apply {
                                         putExtra("patient", patient as Serializable)
+                                        putExtra("userType", "patient")
                                     }
                                     saveLoginStatus(true, "patient")
                                     startActivity(intent)

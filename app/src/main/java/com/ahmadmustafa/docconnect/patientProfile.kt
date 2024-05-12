@@ -4,107 +4,98 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class patientProfile : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var sharedPreferences2: SharedPreferences
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
+    private lateinit var storageReference: StorageReference
+    private lateinit var sharedPreferences2: SharedPreferences
 
-    @SuppressLint("MissingInflatedId", "WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
-
-        sharedPreferences = getSharedPreferences("patients", Context.MODE_PRIVATE)
         sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
-        auth = Firebase.auth
+        sharedPreferences = getSharedPreferences("patients", Context.MODE_PRIVATE)
+        auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().getReference("patients").child(auth.currentUser?.uid ?: "")
+        storageReference = FirebaseStorage.getInstance().reference.child("profile_images")
 
         val homeButton = findViewById<ImageButton>(R.id.home)
         homeButton.setOnClickListener {
-            startActivity(Intent(this, Home::class.java))
+            startActivity(Intent(this, Home::class.java).apply {
+                putExtra("userType", "patient")
+            })
         }
 
         val chatButton = findViewById<ImageButton>(R.id.chats)
         chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java).apply { putExtra("userType", "patient")})
+            startActivity(Intent(this, chatBox::class.java).apply { putExtra("userType", "patient") })
         }
 
         val mapButton = findViewById<ImageButton>(R.id.map)
         mapButton.setOnClickListener {
-            startActivity(Intent(this, map::class.java).apply { putExtra("userType", "patient")})
+            startActivity(Intent(this, map::class.java).apply { putExtra("userType", "patient") })
         }
 
         val profileButton = findViewById<ImageButton>(R.id.profile)
         profileButton.setOnClickListener {
-            startActivity(Intent(this, patientProfile::class.java))
+            // Already on the profile page
         }
 
-        // Initialize logout button
-        val logoutButton = findViewById<ImageView>(R.id.logout)
+        var logoutButton = findViewById<ImageView>(R.id.logout)
         logoutButton.setOnClickListener {
             logoutUser()
+
+        }
+        val appointButton = findViewById<ImageButton>(R.id.appoint)
+        appointButton.setOnClickListener {
+            startActivity(
+                Intent(this, manageAppointments::class.java).apply {
+                    putExtra("userType", "patient")
+                })
         }
 
-        val editProfile= findViewById<Button>(R.id.editProfile)
+        val editProfile = findViewById<Button>(R.id.editProfile)
         editProfile.setOnClickListener {
             startActivity(Intent(this, editPatientProfile::class.java))
         }
 
         if (isConnected()) {
-
             fetchUserDetailsFromFirebase()
         } else {
             fetchUserDetailsFromSharedPreferences()
-       }
+        }
     }
 
     private fun fetchUserDetailsFromFirebase() {
         val currentUserID = FirebaseAuth.getInstance().currentUser?.uid
-        Log.e("Firebase", "Current user ID: $currentUserID")
 
         currentUserID?.let { uid ->
             databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    Log.e("Firebase", "DataSnapshot: $dataSnapshot")
                     if (dataSnapshot.exists()) {
-                        // Data for the current patient exists, parse it into a Patient object
                         val patient = dataSnapshot.getValue(Patient::class.java)
                         patient?.let {
-                            // Set user details or handle the data as needed
                             setUserDetails(it)
                         }
                     } else {
                         Log.d("Firebase", "No data found for current user")
-                        // Handle the case where no data is found for the current user
-                        // For example, show a message to the user or redirect to another screen
                     }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    // Handle database error
                     Log.e("Firebase", "Error fetching data: ${databaseError.message}")
                 }
             })
@@ -117,52 +108,34 @@ class patientProfile : AppCompatActivity() {
         val contact = sharedPreferences.getString("contactNumber", "")
         val cnic = sharedPreferences.getString("cnic", "")
         val profileImageUrl = sharedPreferences.getString("picture", "")
-        Toast.makeText(this, "Data Fetched shareddddd", Toast.LENGTH_SHORT).show()
-        val usernameTextView = findViewById<TextView>(R.id.usernameTextView)
-        val emailTextView = findViewById<TextView>(R.id.emailTextView)
-        val contactTextView = findViewById<TextView>(R.id.contactTextView)
-        val cnicTextView = findViewById<TextView>(R.id.cnicTextView)
-        val profileImageView = findViewById<ImageView>(R.id.profileImage)
 
-        usernameTextView.text = username
-        emailTextView.text = email
-        contactTextView.text = contact
-        cnicTextView.text = cnic
+        findViewById<TextView>(R.id.usernameTextView).text = username
+        findViewById<TextView>(R.id.emailTextView).text = email
+        findViewById<TextView>(R.id.contactTextView).text = contact
+        findViewById<TextView>(R.id.cnicTextView).text = cnic
 
-        // Load profile image from URL
+        profileImageUrl?.let {
+            loadProfileImage(it)
+        }
+    }
+
+    private fun loadProfileImage(imageUrl: String) {
         Glide.with(this)
-            .asBitmap()
-            .load(profileImageUrl)
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    // Set rounded image
-                    val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, resource)
-                    roundedDrawable.cornerRadius = 50f // Adjust as per your requirement
-                    profileImageView.setImageDrawable(roundedDrawable)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    // Not implemented
-                }
-
-
-            })
+            .load(imageUrl)
+            .circleCrop()
+            .into(findViewById<ImageView>(R.id.profileImage))
     }
 
     private fun setUserDetails(patient: Patient) {
-        Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show()
-        val usernameTextView = findViewById<TextView>(R.id.usernameTextView)
-        val emailTextView = findViewById<TextView>(R.id.emailTextView)
-        val contactTextView = findViewById<TextView>(R.id.contactTextView)
-        val cnicTextView = findViewById<TextView>(R.id.cnicTextView)
-        val profileImageView = findViewById<ImageView>(R.id.profileImage)
+        findViewById<TextView>(R.id.usernameTextView).text = patient.name
+        findViewById<TextView>(R.id.emailTextView).text = patient.email
+        findViewById<TextView>(R.id.contactTextView).text = patient.contactNumber
+        findViewById<TextView>(R.id.cnicTextView).text = patient.cnic
 
-        usernameTextView.text = patient.name
-        emailTextView.text = patient.email
-        contactTextView.text = patient.contactNumber
-        cnicTextView.text = patient.cnic
-        Toast.makeText(this, "Data Fetched", Toast.LENGTH_SHORT).show()
-        // Save fetched user details to SharedPreferences
+        patient.picture?.let {
+            loadProfileImage(it)
+        }
+
         saveUserDetailsToSharedPreferences(patient)
     }
 
@@ -176,22 +149,21 @@ class patientProfile : AppCompatActivity() {
         editor.apply()
     }
 
+    private fun isConnected(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
     private fun logoutUser() {
         // Update SharedPreferences to mark the user as logged out
         val editor = sharedPreferences2.edit()
         editor.putBoolean("isLoggedIn", false)
         editor.apply()
-
+        auth.signOut()
         // Redirect the user to the login screen
         startActivity(Intent(this, login::class.java))
 
         finish()
     }
-
-    private fun isConnected(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
-    }
-
 }

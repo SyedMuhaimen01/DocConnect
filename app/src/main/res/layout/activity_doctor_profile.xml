@@ -16,6 +16,7 @@
             android:orientation="vertical"
             android:background="@drawable/profilebackground">
         <ImageView
+            android:id="@+id/back"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:src="@drawable/backarrow_foreground"
@@ -53,10 +54,10 @@
             <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/picholder"
+
             android:layout_marginLeft="120dp"
             android:layout_marginTop="20dp"/>
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImage"
             android:layout_width="120dp"
             android:layout_height="120dp"

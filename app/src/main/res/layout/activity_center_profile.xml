@@ -56,7 +56,7 @@
             android:layout_marginLeft="100dp"
             android:layout_marginTop="30dp"/>
         <ImageView
-            android:id="@+id/profilepic"
+            android:id="@+id/profileImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/picholder"
@@ -64,7 +64,7 @@
             android:layout_marginTop="-150dp"/>
 
         <TextView
-            android:id="@+id/centername"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Center name"
@@ -73,6 +73,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/usernameTextView"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -86,7 +87,7 @@
             android:background="@drawable/secondarybuttons"/>
 
         <TextView
-            android:id="@+id/email"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
@@ -95,6 +96,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/emailTextView"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -108,7 +110,7 @@
             android:background="@drawable/secondarybuttons"/>
 
         <TextView
-            android:id="@+id/contact"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact Info"
@@ -117,6 +119,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/contactTextView"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -129,7 +132,7 @@
             android:textSize="15dp"
             android:background="@drawable/secondarybuttons"/>
         <TextView
-            android:id="@+id/address"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Address"
@@ -138,6 +141,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="23dp"></TextView>
         <TextView
+            android:id="@+id/addressTextView"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -150,7 +154,7 @@
             android:textSize="15dp"
             android:background="@drawable/secondarybuttons"/>
         <TextView
-            android:id="@+id/category"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Category"
@@ -160,6 +164,7 @@
             android:layout_marginLeft="23dp"
             tools:ignore="DuplicateIds"></TextView>
         <TextView
+            android:id="@+id/categoryTextView"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -173,7 +178,7 @@
             android:background="@drawable/secondarybuttons"/>
 
         <Button
-            android:id="@+id/editprof"
+            android:id="@+id/editProfile"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:textAlignment="center"
@@ -185,6 +190,85 @@
             android:background="@drawable/buttons"></Button>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_gravity="bottom"
 
+        >
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/home_icon_foreground"
+            ></ImageButton>
+
+        <ImageButton
+            android:id="@+id/chat"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/chat_icon_foreground"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/map"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/map_icon_foreground"
+            android:background="@drawable/buttonsbar_circle"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/appoint"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/appointment_icon_foreground"
+            ></ImageButton>
+        <ImageButton
+            android:id="@+id/profile"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/profile_icon_foreground"
+            ></ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="-325dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appoint"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="100dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="#9F9B9B"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"></TextView>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -25,7 +25,9 @@ class MainActivity : AppCompatActivity() {
                 // Redirect user based on userType
                 val userType = sharedPreferences.getString("userType", "")
                 when (userType) {
-                    "patient" -> startActivity(Intent(this, Home::class.java))
+                    "patient" -> startActivity(Intent(this, Home::class.java).apply {
+                        putExtra("userType", "patient")
+                    })
                     "professional" -> startActivity(Intent(this, doctorViewAppointmentsList::class.java))
                     "center" -> startActivity(Intent(this, adminHome::class.java))
                     else -> showLoginDialog()

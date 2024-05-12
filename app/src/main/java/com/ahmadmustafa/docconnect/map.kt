@@ -1,8 +1,10 @@
 package com.ahmadmustafa.docconnect
 
 import android.Manifest
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
@@ -21,6 +23,19 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 class map : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var nGoogleMap: GoogleMap
@@ -31,6 +46,8 @@ class map : AppCompatActivity(), OnMapReadyCallback {
     private var centername: String = ""
     private var user:String = ""
     private var signupCenter:String = ""
+    private lateinit var auth: FirebaseAuth
+    private lateinit var databaseReference: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -186,8 +203,46 @@ class map : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(this, adminHome::class.java).apply {
                 putExtra("centername", centername)
             }
-            startActivity(intent)
+           // startActivity(intent)
         }
+        auth = Firebase.auth
+        databaseReference = FirebaseDatabase.getInstance().getReference("centers")
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val center = snapshot.getValue(Center::class.java)
+
+                    // Using a coroutine to perform Geocoding asynchronously
+                    GlobalScope.launch(Dispatchers.IO) {
+                        val geocoder = Geocoder(applicationContext)
+                        try {
+                            val addressList =
+                                center?.let { geocoder.getFromLocationName(it.address, 1) }
+                            if (addressList != null && addressList.isNotEmpty()) {
+                                val latitude = addressList[0].latitude
+                                val longitude = addressList[0].longitude
+
+                                // Switch to the main thread before adding marker
+                                runOnUiThread {
+                                    val location = LatLng(latitude, longitude)
+                                    nGoogleMap.addMarker(MarkerOptions().position(location).title(center?.name))
+                                }
+                            } else {
+                                Log.e(TAG, "No location found for address: ${center?.address}")
+                            }
+                        } catch (e: IOException) {
+                            Log.e(TAG, "Geocoding error: ${e.message}")
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.w(TAG, "onCancelled", databaseError.toException())
+            }
+        })
+
+
 
     }
 

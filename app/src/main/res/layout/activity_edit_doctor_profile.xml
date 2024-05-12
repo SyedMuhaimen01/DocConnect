@@ -37,8 +37,8 @@
                 android:src="@drawable/picholder"
                 android:layout_marginLeft="120dp"
                 android:layout_marginTop="20dp"/>
-            <ImageView
-                android:id="@+id/profilepic"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImage"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:src="@drawable/picholder"
@@ -46,7 +46,7 @@
                 android:layout_marginTop="-120dp"/>
 
             <TextView
-                android:id="@+id/username"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Username"
@@ -55,6 +55,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/username"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -68,7 +69,7 @@
                 android:background="@drawable/inputbox"/>
 
             <TextView
-                android:id="@+id/email"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email"
@@ -77,6 +78,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/email"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -90,7 +92,7 @@
                 android:background="@drawable/inputbox"/>
 
             <TextView
-                android:id="@+id/contact"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contact Info"
@@ -99,6 +101,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/contact"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -113,7 +116,7 @@
                 android:background="@drawable/inputbox"/>
 
             <TextView
-                android:id="@+id/specialization"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Specialization"
@@ -122,6 +125,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/specialization"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -135,7 +139,7 @@
                 android:background="@drawable/inputbox"/>
 
             <TextView
-                android:id="@+id/affiliation"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Affiliation"
@@ -144,6 +148,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/affiliation"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -156,7 +161,7 @@
                 android:textSize="15dp"
                 android:background="@drawable/inputbox"/>
             <TextView
-                android:id="@+id/password"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Password"
@@ -165,6 +170,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="23dp"></TextView>
             <EditText
+                android:id="@+id/password"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -205,7 +211,7 @@
             ></ImageButton>
 
         <ImageButton
-            android:id="@+id/chats"
+            android:id="@+id/chat"
             android:layout_width="180px"
             android:layout_height="180px"
             android:layout_marginTop="-10dp"
