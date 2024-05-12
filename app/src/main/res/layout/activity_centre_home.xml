@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".centreHome"
+    android:background="@color/black"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/book_appointment_bg"
+        tools:ignore="Orientation"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-5dp"
+                android:layout_marginLeft="5dp"/>
+            <TextView
+                android:id="@+id/centerTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Medical Center"
+                android:layout_marginLeft="-50dp"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="-5dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                tools:ignore="InvalidId"></TextView>
+            <ImageView
+                android:id="@+id/notifications"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/notifications_icon_foreground"
+                android:layout_marginTop="-5dp"
+                android:layout_marginLeft="-70dp"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Healthcare Professionals"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"></TextView>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="310dp"
+            android:layout_marginTop="-32dp"
+            android:background="@drawable/add_icon_foreground"
+            android:backgroundTint="@color/white"></ImageButton>
+        <LinearLayout
+            android:layout_marginTop="00dp"
+            android:layout_width="match_parent"
+            android:layout_height="540dp"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userRecyclerView2"
+                android:layout_marginTop="00dp"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="8dp"
+                tools:ignore="DuplicateIds" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_gravity="bottom"
+
+            >
+            <ImageButton
+                android:id="@+id/home"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/home_icon_foreground"
+                ></ImageButton>
+
+            <ImageButton
+                android:id="@+id/chat"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/chat_icon_foreground"
+                ></ImageButton>
+            <ImageButton
+                android:id="@+id/map"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-5dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/map_icon_foreground"
+                android:background="@drawable/buttonsbar_circle"
+                ></ImageButton>
+            <ImageButton
+                android:id="@+id/appoint"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/appointment_icon_foreground"
+                ></ImageButton>
+            <ImageButton
+                android:id="@+id/profile"
+                android:layout_width="180px"
+                android:layout_height="180px"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/profile_icon_foreground"
+                ></ImageButton>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="-325dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chats"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="40dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appoint"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="100dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textColor="#9F9B9B"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="30dp"></TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

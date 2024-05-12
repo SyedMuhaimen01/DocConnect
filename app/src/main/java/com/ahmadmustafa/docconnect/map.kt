@@ -236,7 +236,7 @@ class map : AppCompatActivity(), OnMapReadyCallback {
             )
         }
 
-        if(user=="center" && signupCenter=="signupCenter"){
+        if (user == "center" && signupCenter == "signupCenter") {
             // Place marker at specified latitude and longitude
             val location = LatLng(latitude, longitude)
             nGoogleMap.addMarker(MarkerOptions().position(location).title(centername))
@@ -246,6 +246,7 @@ class map : AppCompatActivity(), OnMapReadyCallback {
             }
             startActivity(intent)
         }
+
         auth = Firebase.auth
         databaseReference = FirebaseDatabase.getInstance().getReference("centers")
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -253,26 +254,29 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 for (snapshot in dataSnapshot.children) {
                     val center = snapshot.getValue(Center::class.java)
 
-                    // Using a coroutine to perform Geocoding asynchronously
-                    GlobalScope.launch(Dispatchers.IO) {
-                        val geocoder = Geocoder(applicationContext)
-                        try {
-                            val addressList =
-                                center?.let { geocoder.getFromLocationName(it.address, 1) }
-                            if (addressList != null && addressList.isNotEmpty()) {
-                                val latitude = addressList[0].latitude
-                                val longitude = addressList[0].longitude
+                    // Check if centerStatus is true before adding marker
+                    if (center?.centerStatus == true) {
+                        // Using a coroutine to perform Geocoding asynchronously
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val geocoder = Geocoder(applicationContext)
+                            try {
+                                val addressList =
+                                    center?.let { geocoder.getFromLocationName(it.address, 1) }
+                                if (addressList != null && addressList.isNotEmpty()) {
+                                    val latitude = addressList[0].latitude
+                                    val longitude = addressList[0].longitude
 
-                                // Switch to the main thread before adding marker
-                                runOnUiThread {
-                                    val location = LatLng(latitude, longitude)
-                                    nGoogleMap.addMarker(MarkerOptions().position(location).title(center?.name))
+                                    // Switch to the main thread before adding marker
+                                    runOnUiThread {
+                                        val location = LatLng(latitude, longitude)
+                                        nGoogleMap.addMarker(MarkerOptions().position(location).title(center?.name))
+                                    }
+                                } else {
+                                    Log.e(TAG, "No location found for address: ${center?.address}")
                                 }
-                            } else {
-                                Log.e(TAG, "No location found for address: ${center?.address}")
+                            } catch (e: IOException) {
+                                Log.e(TAG, "Geocoding error: ${e.message}")
                             }
-                        } catch (e: IOException) {
-                            Log.e(TAG, "Geocoding error: ${e.message}")
                         }
                     }
                 }
@@ -282,10 +286,8 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 Log.w(TAG, "onCancelled", databaseError.toException())
             }
         })
-
-
-
     }
+
 
     private fun enableMyLocation() {
         // Enable the "My Location" layer
