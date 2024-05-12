@@ -99,7 +99,7 @@ class doctorViewAppointmentsList : AppCompatActivity() {
             })
         }
 
-        val mapButton = findViewById<ImageButton>(R.id.map)
+        val mapButton = findViewById<ImageButton>(R.id.workingHours)
         mapButton.setOnClickListener {
             startActivity(Intent(this, map::class.java).apply {
                 putExtra("userType", "professional")
