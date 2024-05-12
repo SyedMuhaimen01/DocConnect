@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".patientDetails"
+    android:orientation="vertical"
+    android:background="@color/black">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="375dp"
+        android:orientation="vertical"
+        android:background="@color/black">
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/backarrow_foreground"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Patient Details"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="-70dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"></TextView>
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Booking For"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="23dp"></TextView>
+        <EditText
+            android:id="@+id/bookingEditText"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Self"
+            android:textColorHint="@color/hintcolor"
+            android:textColor="@color/black"
+            android:paddingLeft="15dp"
+            android:textSize="15dp"
+            android:background="@drawable/inputbox"/>
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="23dp"></TextView>
+        <EditText
+            android:id="@+id/genderEditText"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Male"
+            android:textColorHint="@color/hintcolor"
+
+            android:textColor="@color/black"
+            android:paddingLeft="15dp"
+            android:textSize="15dp"
+            android:background="@drawable/inputbox"/>
+
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/profilebackground"
+        android:layout_marginTop="-50dp">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="23dp"></TextView>
+        <EditText
+            android:id="@+id/ageEditText"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="20 years"
+            android:textColorHint="@color/hintcolor"
+
+            android:textColor="@color/black"
+            android:paddingLeft="15dp"
+            android:textSize="15dp"
+            android:background="@drawable/inputbox"/>
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Describe Your Symptoms"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="23dp"></TextView>
+        <EditText
+            android:id="@+id/symptomsEditText"
+            android:layout_marginTop="2dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:inputType="textMultiLine"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:hint="Mild fever, cough, headache"
+            android:textColorHint="@color/hintcolor"
+            android:textColor="@color/black"
+            android:paddingLeft="20dp"
+            android:textSize="15dp"
+            android:background="@drawable/inputbox"/>
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:textAlignment="center"
+            android:text="Submit"
+            android:textSize="16dp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="120dp"
+            android:background="@drawable/infocards"></Button>
+        <ImageView
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="85dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bottombar"></ImageView>
+    </LinearLayout>
+
+</LinearLayout>
