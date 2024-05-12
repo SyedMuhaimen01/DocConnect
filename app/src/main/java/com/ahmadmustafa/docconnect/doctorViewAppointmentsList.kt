@@ -99,12 +99,13 @@ class doctorViewAppointmentsList : AppCompatActivity() {
             })
         }
 
-        val mapButton = findViewById<ImageButton>(R.id.workingHours)
-        mapButton.setOnClickListener {
-            startActivity(Intent(this, map::class.java).apply {
+        val setWorkingHoursButton = findViewById<ImageButton>(R.id.workingHours)
+        setWorkingHoursButton.setOnClickListener {
+            startActivity(Intent(this, setWorkingHours::class.java).apply {
                 putExtra("userType", "professional")
             })
         }
+
         val appointButton=findViewById<ImageButton>(R.id.appoint)
         appointButton.setOnClickListener {
             startActivity(Intent(this, doctorViewAppointmentsList::class.java))
@@ -114,8 +115,6 @@ class doctorViewAppointmentsList : AppCompatActivity() {
         profileButton.setOnClickListener {
             startActivity(Intent(this, doctorProfile::class.java))
         }
-
-
     }
 
     private fun fetchLoggedInprofessionalData() {

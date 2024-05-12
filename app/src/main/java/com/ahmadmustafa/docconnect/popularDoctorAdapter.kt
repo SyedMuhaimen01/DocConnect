@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 
-class popularDoctorAdapter(private val professionals: List<Professional>) : RecyclerView.Adapter<popularDoctorAdapter.ViewHolder>() {
+class popularDoctorAdapter(private val professionals: List<Professional>, private val onItemClick: (Professional) -> Unit) : RecyclerView.Adapter<popularDoctorAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.popular_doctor_card, parent, false)
@@ -17,6 +17,7 @@ class popularDoctorAdapter(private val professionals: List<Professional>) : Recy
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val professional = professionals[position]
         holder.bind(professional)
+        holder.itemView.setOnClickListener { onItemClick(professional) }
     }
 
     override fun getItemCount(): Int {

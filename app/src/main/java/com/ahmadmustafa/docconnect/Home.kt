@@ -107,7 +107,17 @@ class Home : AppCompatActivity() {
 
 
         popularDoctorRecyclerView = findViewById(R.id.popularDoctorRecyclerView)
-        professionalAdapter = popularDoctorAdapter(topProfessionals)
+        professionalAdapter = popularDoctorAdapter(topProfessionals) { professional ->
+            // Start BookAppointment activity and pass professional details as extras
+            val intent = Intent(this, bookAppointment::class.java).apply {
+                putExtra("professionalId", professional.id)
+                putExtra("professionalName", professional.name)
+                putExtra("professionalSpecialization", professional.specialization)
+                // Add more details as needed
+            }
+            startActivity(intent)
+        }
+
 
         popularDoctorRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@Home, LinearLayoutManager.VERTICAL, false)
