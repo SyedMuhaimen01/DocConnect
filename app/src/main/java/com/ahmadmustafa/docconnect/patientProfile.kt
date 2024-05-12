@@ -158,6 +158,7 @@ class patientProfile : AppCompatActivity() {
     }
     private fun logoutUser() {
         // Update SharedPreferences to mark the user as logged out
+        sharedPreferences.edit().clear().apply()
         val editor = sharedPreferences2.edit()
         editor.putBoolean("isLoggedIn", false)
         editor.apply()

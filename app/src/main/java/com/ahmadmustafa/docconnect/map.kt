@@ -2,12 +2,14 @@ package com.ahmadmustafa.docconnect
 
 import android.Manifest
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -146,7 +148,7 @@ class map : AppCompatActivity(), OnMapReadyCallback {
         {
             val homeButton=findViewById<ImageButton>(R.id.home)
             homeButton.setOnClickListener {
-                val intent = Intent(this, adminHome::class.java)
+                val intent = Intent(this, centreHome::class.java)
                 startActivity(intent)
             }
 
@@ -177,8 +179,47 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(intent)
             }
         }
+        else{
+            val appointButton: ImageButton = findViewById(R.id.appoint)
+            appointButton.setOnClickListener {
+                showLoginDialog()
+            }
+            val chatButton: ImageButton = findViewById(R.id.chats)
+            chatButton.setOnClickListener {
+                showLoginDialog()
+            }
+
+            val profileButton: ImageButton = findViewById(R.id.profile)
+            profileButton.setOnClickListener {
+                showLoginDialog()
+            }
+
+            val homeButton: ImageButton = findViewById(R.id.home)
+            homeButton.setOnClickListener {
+                startActivity(Intent(this, Home::class.java))
+            }
+
+            val mapButton: ImageButton = findViewById(R.id.map)
+            mapButton.setOnClickListener {
+                startActivity(Intent(this, map::class.java))
+            }
+        }
     }
 
+    private fun showLoginDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Login Required")
+            .setMessage("Please login to access this feature.")
+            .setPositiveButton("Login") { dialogInterface: DialogInterface, _: Int ->
+                startActivity(Intent(this, login::class.java))
+                dialogInterface.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
+            .setCancelable(false)
+            .show()
+    }
     override fun onMapReady(googleMap: GoogleMap) {
         nGoogleMap = googleMap
 
@@ -200,10 +241,10 @@ class map : AppCompatActivity(), OnMapReadyCallback {
             val location = LatLng(latitude, longitude)
             nGoogleMap.addMarker(MarkerOptions().position(location).title(centername))
             nGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f))
-            val intent = Intent(this, adminHome::class.java).apply {
+            val intent = Intent(this, centreHome::class.java).apply {
                 putExtra("centername", centername)
             }
-           // startActivity(intent)
+            startActivity(intent)
         }
         auth = Firebase.auth
         databaseReference = FirebaseDatabase.getInstance().getReference("centers")

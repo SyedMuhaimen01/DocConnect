@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                         putExtra("userType", "patient")
                     })
                     "professional" -> startActivity(Intent(this, doctorViewAppointmentsList::class.java))
-                    "center" -> startActivity(Intent(this, adminHome::class.java))
+                    "center" -> startActivity(Intent(this, centreHome::class.java))
                     else -> showLoginDialog()
                 }
             } else {
