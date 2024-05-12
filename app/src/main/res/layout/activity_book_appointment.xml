@@ -429,7 +429,7 @@ android:textStyle="bold"
 
             >
             <LinearLayout
-
+                android:id="@+id/timeLayout1"
                 android:layout_marginTop="5dp"
                 android:layout_width="110dp"
                 android:layout_marginLeft="10dp"
@@ -451,7 +451,7 @@ android:textStyle="bold"
 
             </LinearLayout>
             <LinearLayout
-
+                android:id="@+id/timeLayout2"
                 android:backgroundTint="@color/white"
                 android:layout_marginTop="5dp"
                 android:layout_width="110dp"
@@ -473,7 +473,7 @@ android:textStyle="bold"
 
             </LinearLayout>
             <LinearLayout
-
+                android:id="@+id/timeLayout3"
                 android:backgroundTint="@color/white"
                 android:layout_marginTop="5dp"
                 android:layout_width="110dp"
@@ -506,6 +506,7 @@ android:textStyle="bold"
             android:textSize="14dp"
             android:layout_marginRight="30dp"></Button>
         <Button
+            android:id="@+id/bookButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/buttons"
