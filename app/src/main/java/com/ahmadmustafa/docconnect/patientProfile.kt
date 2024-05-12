@@ -1,32 +1,19 @@
 package com.ahmadmustafa.docconnect
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.util.*
 
 class patientProfile : AppCompatActivity() {
 
@@ -34,145 +21,122 @@ class patientProfile : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
-    private lateinit var profileImage: ImageView
-    private val PICK_IMAGE_REQUEST = 1
-    private var imageUri: Uri? = null
-
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { selectedImage ->
-            uploadImageToFirebaseStorage(selectedImage)
-        }
-    }
+    private lateinit var sharedPreferences2: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
-
+        sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
         sharedPreferences = getSharedPreferences("patients", Context.MODE_PRIVATE)
-        auth = Firebase.auth
+        auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().getReference("patients").child(auth.currentUser?.uid ?: "")
-        storageReference = FirebaseStorage.getInstance().reference
+        storageReference = FirebaseStorage.getInstance().reference.child("profile_images")
 
         val homeButton = findViewById<ImageButton>(R.id.home)
         homeButton.setOnClickListener {
-            startActivity(Intent(this, Home::class.java))
+            startActivity(Intent(this, Home::class.java).apply {
+                putExtra("userType", "patient")
+            })
         }
 
         val chatButton = findViewById<ImageButton>(R.id.chats)
         chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java))
+            startActivity(Intent(this, chatBox::class.java).apply { putExtra("userType", "patient") })
         }
 
         val mapButton = findViewById<ImageButton>(R.id.map)
         mapButton.setOnClickListener {
-            startActivity(Intent(this, Map::class.java))
+            startActivity(Intent(this, map::class.java).apply { putExtra("userType", "patient") })
         }
 
         val profileButton = findViewById<ImageButton>(R.id.profile)
         profileButton.setOnClickListener {
-            startActivity(Intent(this, patientProfile::class.java))
+            // Already on the profile page
         }
 
-        val logoutButton = findViewById<ImageView>(R.id.logout)
+        var logoutButton = findViewById<ImageView>(R.id.logout)
         logoutButton.setOnClickListener {
             logoutUser()
+
+        }
+        val appointButton = findViewById<ImageButton>(R.id.appoint)
+        appointButton.setOnClickListener {
+            startActivity(
+                Intent(this, manageAppointments::class.java).apply {
+                    putExtra("userType", "patient")
+                })
         }
 
-        val editProfileButton = findViewById<Button>(R.id.editprofile)
-        editProfileButton.setOnClickListener {
+        val editProfile = findViewById<Button>(R.id.editProfile)
+        editProfile.setOnClickListener {
             startActivity(Intent(this, editPatientProfile::class.java))
         }
 
-        profileImage = findViewById(R.id.profileImage)
-        profileImage.setOnClickListener {
-            openFileChooser()
-        }
-
-        if (isConnected()) {
-            fetchUserDetailsFromFirebase()
-        } else {
+        //if (isConnected()) {
+          //  fetchUserDetailsFromFirebase()
+        //} else {
             fetchUserDetailsFromSharedPreferences()
-        }
+        //}
     }
 
     private fun fetchUserDetailsFromFirebase() {
-        val userId = auth.currentUser?.uid
-        userId?.let { uid ->
-            val userRef = databaseReference
-            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val username = snapshot.child("name").getValue(String::class.java)
-                    val email = snapshot.child("email").getValue(String::class.java)
-                    val contact = snapshot.child("contactNumber").getValue(String::class.java)
-                    val imageUrl = snapshot.child("picture").getValue(String::class.java)
+        val currentUserID = FirebaseAuth.getInstance().currentUser?.uid
 
-                    Log.d("patientProfile", "Username: $username, Email: $email, Contact: $contact, Image URL: $imageUrl")
-
-                    username?.let { findViewById<TextView>(R.id.usernameTextView).text = it }
-                    email?.let { findViewById<TextView>(R.id.emailTextView).text = it }
-                    contact?.let { findViewById<TextView>(R.id.contactTextView).text = it }
-
-                    imageUrl?.let { url ->
-                        Glide.with(this@patientProfile)
-                            .load(url)
-                            .circleCrop()
-                            .listener(object : RequestListener<Drawable> {
-                                override fun onLoadFailed(
-                                    e: GlideException?,
-                                    model: Any?,
-                                    target: Target<Drawable>?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    Log.e("patientProfile", "Failed to load image: $e")
-                                    return false
-                                }
-
-                                override fun onResourceReady(
-                                    resource: Drawable?,
-                                    model: Any?,
-                                    target: Target<Drawable>?,
-                                    dataSource: DataSource?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    Log.d("patientProfile", "Image loaded successfully")
-                                    return false
-                                }
-                            })
-                            .into(findViewById(R.id.profileImage))
+        currentUserID?.let { uid ->
+            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        val patient = dataSnapshot.getValue(Patient::class.java)
+                        patient?.let {
+                            setUserDetails(it)
+                        }
+                    } else {
+                        Log.e("Firebase", "No data found for current user")
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("FirebaseDatabase", "Error fetching user profile: ${error.message}")
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e("Firebase", "Error fetching data: ${databaseError.message}")
                 }
             })
         }
     }
 
-
     private fun fetchUserDetailsFromSharedPreferences() {
         val username = sharedPreferences.getString("name", "")
         val email = sharedPreferences.getString("email", "")
         val contact = sharedPreferences.getString("contactNumber", "")
+        val cnic = sharedPreferences.getString("cnic", "")
+        val profileImageUrl = sharedPreferences.getString("picture", "")
 
         findViewById<TextView>(R.id.usernameTextView).text = username
         findViewById<TextView>(R.id.emailTextView).text = email
         findViewById<TextView>(R.id.contactTextView).text = contact
+        findViewById<TextView>(R.id.cnicTextView).text = cnic
 
-        val profileImageUrl = sharedPreferences.getString("picture", "")
         profileImageUrl?.let {
-            Glide.with(this)
-                .load(it)
-                .circleCrop()
-                .into(profileImage)
+            loadProfileImage(it)
         }
     }
 
+    private fun loadProfileImage(imageUrl: String) {
+        Glide.with(this)
+            .load(imageUrl)
+            .circleCrop()
+            .into(findViewById<ImageView>(R.id.profileImage))
+    }
+
     private fun setUserDetails(patient: Patient) {
+        Toast.makeText(this, "dataset", Toast.LENGTH_SHORT).show()
         findViewById<TextView>(R.id.usernameTextView).text = patient.name
         findViewById<TextView>(R.id.emailTextView).text = patient.email
         findViewById<TextView>(R.id.contactTextView).text = patient.contactNumber
-        profileImage.setImageURI(Uri.parse(patient.picture))
+        findViewById<TextView>(R.id.cnicTextView).text = patient.cnic
+
+        patient.picture?.let {
+            loadProfileImage(it)
+        }
+
         saveUserDetailsToSharedPreferences(patient)
     }
 
@@ -181,64 +145,26 @@ class patientProfile : AppCompatActivity() {
         editor.putString("name", patient.name)
         editor.putString("email", patient.email)
         editor.putString("contactNumber", patient.contactNumber)
+        editor.putString("cnic", patient.cnic)
         editor.putString("picture", patient.picture)
         editor.apply()
     }
 
-    private fun logoutUser() {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("isLoggedIn", false)
-        editor.apply()
-
-        startActivity(Intent(this, login::class.java))
-        finish()
-    }
-
     private fun isConnected(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnected
     }
+    private fun logoutUser() {
+        // Update SharedPreferences to mark the user as logged out
+        val editor = sharedPreferences2.edit()
+        editor.putBoolean("isLoggedIn", false)
+        editor.apply()
+        auth.signOut()
+        // Redirect the user to the login screen
+        startActivity(Intent(this, login::class.java))
 
-    private fun openFileChooser() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-            imageUri = data.data
-            profileImage.setImageURI(imageUri)
-            uploadImageToFirebaseStorage(imageUri!!)
-        }
-    }
-
-    private fun uploadImageToFirebaseStorage(imageUri: Uri) {
-        val fileReference = storageReference.child("${auth.currentUser?.uid}.jpg")
-        fileReference.putFile(imageUri)
-            .addOnSuccessListener { taskSnapshot ->
-                fileReference.downloadUrl.addOnSuccessListener { uri ->
-                    val imageUrl = uri.toString()
-                    saveImageUrlToDatabase(imageUrl)
-                }
-            }
-            .addOnFailureListener { e ->
-                // Handle failed upload
-            }
-    }
-
-    private fun saveImageUrlToDatabase(imageUrl: String) {
-        databaseReference.child("picture").setValue(imageUrl)
-            .addOnSuccessListener {
-                val editor = sharedPreferences.edit()
-                editor.putString("picture", imageUrl)
-                editor.apply()
-            }
-            .addOnFailureListener { e ->
-                // Handle failed database operation
-            }
+        finish()
     }
 }

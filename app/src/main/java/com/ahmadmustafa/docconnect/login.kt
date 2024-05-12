@@ -57,8 +57,10 @@ class login : AppCompatActivity() {
 
         centerRef.orderByChild("email").equalTo(email)
             .addListenerForSingleValueEvent(object : ValueEventListener {
+
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
+                        saveLoginStatus(true, "center")
                         // User found in centers table, consider as center admin
                         dataSnapshot.children.first().getValue(Center::class.java)
                             ?.let { startAdminHomeActivity(it) }
@@ -68,6 +70,7 @@ class login : AppCompatActivity() {
                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     if (dataSnapshot.exists()) {
+                                        saveLoginStatus(true, "professional")
                                         // User found in professionals table, consider as professional
                                         dataSnapshot.children.first().getValue(Professional::class.java)
                                             ?.let { startManageAppointmentsActivity(it) }
@@ -77,6 +80,7 @@ class login : AppCompatActivity() {
                                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                                     if (dataSnapshot.exists()) {
+                                                        saveLoginStatus(true, "patient")
                                                         // User found in patients table, consider as patient
                                                         dataSnapshot.children.first().getValue(Patient::class.java)
                                                             ?.let { startHomeActivity(it) }
@@ -118,7 +122,7 @@ class login : AppCompatActivity() {
     }
 
     private fun startManageAppointmentsActivity(professional: Professional) {
-        val intent = Intent(this, manageAppointments::class.java).apply {
+        val intent = Intent(this, doctorViewAppointmentsList::class.java).apply {
             putExtra("userType", "professional")
         }
         startActivity(intent)
@@ -133,9 +137,10 @@ class login : AppCompatActivity() {
         finish()
     }
 
-    private fun saveLoginStatus(isLoggedIn: Boolean) {
+    private fun saveLoginStatus(isLoggedIn: Boolean, userType: String) {
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.putString("userType", userType)
         editor.apply()
     }
 }

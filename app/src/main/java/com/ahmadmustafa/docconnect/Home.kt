@@ -1,9 +1,11 @@
 package com.ahmadmustafa.docconnect
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,6 +17,7 @@ class Home : AppCompatActivity() {
     private lateinit var popularDoctorRecyclerView: RecyclerView
     private lateinit var professionalAdapter: popularDoctorAdapter
     private val topProfessionals: MutableList<Professional> = mutableListOf()
+    private var userType:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,25 +28,71 @@ class Home : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val homeButton: ImageButton = findViewById(R.id.home)
-        homeButton.setOnClickListener {
-            startActivity(Intent(this, Home::class.java))
+
+        userType = intent.getStringExtra("userType").toString()
+        if(userType=="patient") {
+
+            val chatButton: ImageButton = findViewById(R.id.chats)
+            chatButton.setOnClickListener {
+                startActivity(Intent(this, chatBox::class.java).apply {
+                    putExtra("userType", "patient")
+                })
+            }
+
+            val profileButton: ImageButton = findViewById(R.id.profile)
+            profileButton.setOnClickListener {
+                startActivity(Intent(this, patientProfile::class.java))
+            }
+
+            val homeButton: ImageButton = findViewById(R.id.home)
+            homeButton.setOnClickListener {
+                startActivity(Intent(this, Home::class.java).apply {
+                    putExtra("userType", "patient")
+                })
+            }
+
+            val mapButton: ImageButton = findViewById(R.id.map)
+            mapButton.setOnClickListener {
+                startActivity(Intent(this, map::class.java).apply {
+                    putExtra("userType", "patient")
+                })
+            }
+            val appointButton: ImageButton = findViewById(R.id.appoint)
+            appointButton.setOnClickListener {
+                startActivity(Intent(this, manageAppointments::class.java).apply {
+                    putExtra("userType", "patient")
+                })
+            }
+        }
+        else
+        {
+            val appointButton: ImageButton = findViewById(R.id.appoint)
+            appointButton.setOnClickListener {
+                showLoginDialog()
+            }
+            val chatButton: ImageButton = findViewById(R.id.chats)
+            chatButton.setOnClickListener {
+                showLoginDialog()
+            }
+
+            val profileButton: ImageButton = findViewById(R.id.profile)
+            profileButton.setOnClickListener {
+                showLoginDialog()
+            }
+
+            val homeButton: ImageButton = findViewById(R.id.home)
+            homeButton.setOnClickListener {
+                startActivity(Intent(this, Home::class.java))
+            }
+
+            val mapButton: ImageButton = findViewById(R.id.map)
+            mapButton.setOnClickListener {
+                startActivity(Intent(this, map::class.java))
+            }
         }
 
-        val chatButton: ImageButton = findViewById(R.id.chats)
-        chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java))
-        }
 
-        val mapButton: ImageButton = findViewById(R.id.map)
-        mapButton.setOnClickListener {
-            startActivity(Intent(this, map::class.java))
-        }
 
-        val profileButton: ImageButton = findViewById(R.id.profile)
-        profileButton.setOnClickListener {
-            startActivity(Intent(this, patientProfile::class.java))
-        }
 
         popularDoctorRecyclerView = findViewById(R.id.popularDoctorRecyclerView)
         professionalAdapter = popularDoctorAdapter(topProfessionals)
@@ -76,7 +125,20 @@ class Home : AppCompatActivity() {
                 // Handle database error
             }
         })
+    }
 
-
+    private fun showLoginDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Login Required")
+            .setMessage("Please login to access this feature.")
+            .setPositiveButton("Login") { dialogInterface: DialogInterface, _: Int ->
+                startActivity(Intent(this, login::class.java))
+                dialogInterface.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
+            .setCancelable(false)
+            .show()
     }
 }

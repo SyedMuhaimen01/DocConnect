@@ -32,7 +32,7 @@
             android:textColor="@color/white"
             android:layout_marginLeft="90dp"></TextView>
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImage"
             android:layout_width="150dp"
             android:layout_height="150dp"

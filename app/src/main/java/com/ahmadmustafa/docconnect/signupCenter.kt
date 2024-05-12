@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.location.Geocoder
 import android.net.Uri
@@ -49,6 +50,8 @@ class signupCenter : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private var selectedPdfUri: Uri? = null
     private val PICK_PDF_FILE = 101
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences2: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +59,8 @@ class signupCenter : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().getReference("centers")
-
+        sharedPreferences = getSharedPreferences("centers", Context.MODE_PRIVATE)
+        sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
         centernameEditText = findViewById(R.id.centername)
         emailEditText = findViewById(R.id.email)
         contactEditText = findViewById(R.id.contact)
@@ -173,6 +177,7 @@ class signupCenter : AppCompatActivity() {
                     putExtra("userType", "center")
                     putExtra("signupCenter", "signupCenter")
                 }
+                saveLoginsStatus(true, "center")
                 startActivity(intent)
             } else {
                 showToast("Failed to geocode address.")
@@ -257,18 +262,17 @@ class signupCenter : AppCompatActivity() {
     }
 
     private fun saveCenterToSharedPreferences(center: Center) {
-        val sharedPreferences = getSharedPreferences("CenterPreferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("centerId", center.id)
-        editor.putString("centerName", center.name)
-        editor.putString("centerEmail", center.email)
-        editor.putString("centerContact", center.contactNumber)
-        editor.putString("centerAddress", center.address)
-        editor.putString("centerCategory", center.category)
-        editor.putString("centerPassword", center.password)
-        editor.putBoolean("centerStatus", center.centerStatus)
-        editor.putString("centerPicture", center.picture)
-        editor.putString("centerCertificate", center.certificate) // Store certificate URL
+        editor.putString("name", center.name)
+        editor.putString("email", center.email)
+        editor.putString("contact", center.contactNumber)
+        editor.putString("address", center.address)
+        editor.putString("category", center.category)
+        editor.putString("password", center.password)
+        editor.putBoolean("status", center.centerStatus)
+        editor.putString("picture", center.picture)
+        editor.putString("certificate", center.certificate)
         editor.apply()
     }
 
@@ -299,5 +303,11 @@ class signupCenter : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+    private fun saveLoginsStatus(isLoggedIn: Boolean, userType: String) {
+        val editor = sharedPreferences2.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.putString("userType", userType)
+        editor.apply()
     }
 }

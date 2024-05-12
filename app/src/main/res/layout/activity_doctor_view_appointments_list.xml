@@ -288,6 +288,7 @@
 
             >
             <ImageButton
+                android:id="@+id/home"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-10dp"
@@ -296,6 +297,7 @@
                 ></ImageButton>
 
             <ImageButton
+                android:id="@+id/chat"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-10dp"
@@ -303,6 +305,7 @@
                 android:background="@drawable/chat_icon_foreground"
                 ></ImageButton>
             <ImageButton
+                android:id="@+id/map"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-5dp"
@@ -311,6 +314,7 @@
                 android:background="@drawable/buttonsbar_circle"
                 ></ImageButton>
             <ImageButton
+                android:id="@+id/appoint"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-10dp"
@@ -318,6 +322,7 @@
                 android:background="@drawable/appointment_icon_foreground"
                 ></ImageButton>
             <ImageButton
+                android:id="@+id/profile"
                 android:layout_width="180px"
                 android:layout_height="180px"
                 android:layout_marginTop="-10dp"
@@ -338,21 +343,21 @@
                 android:text="Chats"
                 android:textColor="#9F9B9B"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="32dp"></TextView>
+                android:layout_marginLeft="40dp"></TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Appoint"
                 android:textColor="#9F9B9B"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="95dp"></TextView>
+                android:layout_marginLeft="100dp"></TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
                 android:textColor="#9F9B9B"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="25dp"></TextView>
+                android:layout_marginLeft="30dp"></TextView>
 
         </LinearLayout>
 

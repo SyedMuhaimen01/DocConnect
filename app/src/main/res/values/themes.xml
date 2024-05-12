@@ -9,6 +9,7 @@
     <style name="Theme.DocConnect" parent="Base.Theme.DocConnect" >
         <item name="colorAccent">#FF0000</item>
         <item name="colorSurface">#FFFDFD</item>
+        <item name="android:windowBackground">@color/black</item>
 
     </style>
 </resources>

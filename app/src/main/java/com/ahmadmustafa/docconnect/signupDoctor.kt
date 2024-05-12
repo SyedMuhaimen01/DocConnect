@@ -44,6 +44,7 @@ class signupDoctor : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences2: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,8 @@ class signupDoctor : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().getReference("professionals")
-        sharedPreferences = getSharedPreferences("com.ahmadmustafa.docconnect.PREFERENCE_FILE_KEY", Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("professionals", Context.MODE_PRIVATE)
+        sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
 
         usernameEditText = findViewById(R.id.username)
         emailEditText = findViewById(R.id.email)
@@ -103,7 +105,8 @@ class signupDoctor : AppCompatActivity() {
                                     saveProfessionalToSharedPreferences(professional)
                                     showRegistrationSuccessNotification()
                                     // Start Home activity
-                                    val intent = Intent(this, manageAppointments::class.java).apply {
+                                    saveLoginStatus(true, "professional")
+                                    val intent = Intent(this, doctorViewAppointmentsList::class.java).apply {
                                         putExtra("professional", professional as Serializable)
                                     }
                                     startActivity(intent)
@@ -272,4 +275,11 @@ class signupDoctor : AppCompatActivity() {
 
         notificationManager.notify(1, builder.build())
     }
+    private fun saveLoginStatus(isLoggedIn: Boolean, userType: String) {
+        val editor = sharedPreferences2.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.putString("userType", userType)
+        editor.apply()
+    }
+
 }
