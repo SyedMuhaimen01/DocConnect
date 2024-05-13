@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".adminHome"
+    tools:context=".addCenters"
     android:background="@color/black"
     android:orientation="vertical">
     <LinearLayout
@@ -22,21 +22,21 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="-5dp"
                 android:layout_marginLeft="5dp"/>
             <TextView
-
+                android:id="@+id/centerTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Admin"
+                android:text="Center Requests"
                 android:layout_marginLeft="-50dp"
                 android:textSize="20dp"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif"
                 android:layout_marginTop="-5dp"
                 android:textColor="@color/white"
-                android:textAlignment="center"></TextView>
+                android:textAlignment="center"
+                tools:ignore="InvalidId"></TextView>
             <ImageView
                 android:id="@+id/notifications"
                 android:layout_width="60dp"
@@ -45,42 +45,12 @@
                 android:layout_marginTop="-5dp"
                 android:layout_marginLeft="-70dp"/>
         </LinearLayout>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Healthcare Centers"
-            android:textColor="@color/white"
-            android:textSize="14dp"
-            android:layout_marginTop="-20dp"
-            android:layout_marginLeft="10dp"></TextView>
-        <ImageButton
-            android:id="@+id/addCenter"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="310dp"
-            android:layout_marginTop="-32dp"
-            android:background="@drawable/add_icon_foreground"
-            android:backgroundTint="@color/white"></ImageButton>
-        <LinearLayout
-            android:layout_marginTop="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="270dp"
-
-            >
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/centerRecyclerView"
-                android:layout_marginTop="00dp"
-                android:layout_width="match_parent"
-
-                android:layout_height="match_parent"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="8dp"
-                tools:ignore="DuplicateIds" />
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Healthcare Professionals"
             android:textColor="@color/white"
             android:textSize="14dp"
             android:layout_marginTop="10dp"
@@ -95,10 +65,10 @@
         <LinearLayout
             android:layout_marginTop="00dp"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="540dp"
             >
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/professionalRecyclerView"
+                android:id="@+id/centersRecyclerView"
                 android:layout_marginTop="00dp"
                 android:layout_width="match_parent"
 

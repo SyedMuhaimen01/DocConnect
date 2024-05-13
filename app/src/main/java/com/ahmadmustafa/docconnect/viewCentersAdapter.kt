@@ -7,8 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
-
 class viewCenterAdapter(private var centers: List<Center>) : RecyclerView.Adapter<viewCenterAdapter.CenterViewHolder>() {
+
+    private var filteredCenters: List<Center> = listOf()
+
+    init {
+        filterCenters()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CenterViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.center_card, parent, false)
@@ -16,7 +21,7 @@ class viewCenterAdapter(private var centers: List<Center>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: CenterViewHolder, position: Int) {
-        val currentCenter = centers[position]
+        val currentCenter = filteredCenters[position]
         holder.nameTextView.text = currentCenter.name
         holder.servicesTextView.text = currentCenter.category
         holder.locationTextView.text = currentCenter.address
@@ -26,11 +31,16 @@ class viewCenterAdapter(private var centers: List<Center>) : RecyclerView.Adapte
         // Bind other data fields as needed
     }
 
-    override fun getItemCount() = centers.size
+    override fun getItemCount() = filteredCenters.size
 
     fun updateData(newCenters: List<Center>) {
         centers = newCenters
+        filterCenters()
         notifyDataSetChanged()
+    }
+
+    private fun filterCenters() {
+        filteredCenters = centers.filter { it.centerStatus }
     }
 
     class CenterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
