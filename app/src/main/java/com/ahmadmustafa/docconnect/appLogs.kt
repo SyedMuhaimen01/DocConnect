@@ -4,21 +4,28 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
 
 data class AppLog(
-    val title: String,
-    val notification: String,
+    val id: String = "",
+    val title: String = "",
+    val notification: String = "",
     val timestamp: Long = System.currentTimeMillis()
-)
+) {
+    constructor() : this("", "", "", 0)
+}
 
 class appLogs : AppCompatActivity() {
 
     private lateinit var appLogsAdapter: AppLogsAdapter
     private val appLogsList = mutableListOf<AppLog>()
-    private lateinit var databaseReference: DatabaseReference
-
+    private lateinit var auth: FirebaseAuth
+    private lateinit var logsReference: DatabaseReference
+    private lateinit var centerReference: DatabaseReference
+    private lateinit var professionalReference: DatabaseReference
+    private lateinit var patientReference: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_logs)
@@ -28,126 +35,100 @@ class appLogs : AppCompatActivity() {
         appLogsAdapter = AppLogsAdapter(appLogsList)
         logsRecyclerView.adapter = appLogsAdapter
         logsRecyclerView.layoutManager = LinearLayoutManager(this)
+        auth = FirebaseAuth.getInstance()
 
         // Initialize the Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().reference
+        logsReference = FirebaseDatabase.getInstance().getReference("logs")
+        centerReference = FirebaseDatabase.getInstance().getReference("centers")
+        professionalReference = FirebaseDatabase.getInstance().getReference("professionals")
+        patientReference= FirebaseDatabase.getInstance().getReference("patients")
 
         // Call the function to set up the Firebase listener
         setupFirebaseListeners()
+        setupFirebaseListeners2()
+        // Log message to indicate that the activity is created
+
     }
 
     private fun setupFirebaseListeners() {
-        // Listen for changes in the 'patients' table
-        val patientsReference = databaseReference.child("patients")
-        patientsReference.addChildEventListener(object : ChildEventListener {
+        // Listen for new logs added to the database
+        logsReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val patientId = snapshot.key
-                val log = AppLog(
-                    title = "Patient Signed Up",
-                    notification = "New patient with ID $patientId signed up at ${Date()}"
-                )
-                addLog(log)
+                val log = snapshot.getValue(AppLog::class.java)
+                log?.let {
+                }
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                val patientId = snapshot.key
-                val log = AppLog(
-                    title = "Patient Profile Updated",
-                    notification = "Patient with ID $patientId updated their profile at ${Date()}"
-                )
-                addLog(log)
+                // Handle log changes if needed
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
+                // Handle log removal if needed
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
+                // Handle log movement if needed
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                // Handle onCancelled
             }
-
-            // Other overridden methods for ChildEventListener
-        })
-
-        // Listen for changes in the 'professionals' table
-        val professionalsReference = databaseReference.child("professionals")
-        professionalsReference.addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val professionalId = snapshot.key
-                val log = AppLog(
-                    title = "Professional Signed Up",
-                    notification = "New professional with ID $professionalId signed up at ${Date()}"
-                )
-                addLog(log)
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                val professionalId = snapshot.key
-                val log = AppLog(
-                    title = "Professional Profile Updated",
-                    notification = "Professional with ID $professionalId updated their profile at ${Date()}"
-                )
-                addLog(log)
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-            // Other overridden methods for ChildEventListener
-        })
-
-        // Listen for changes in the 'centers' table
-        val centersReference = databaseReference.child("centers")
-        centersReference.addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val centerId = snapshot.key
-                val log = AppLog(
-                    title = "Center Signed Up",
-                    notification = "New center with ID $centerId signed up at ${Date()}"
-                )
-                addLog(log)
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                val centerId = snapshot.key
-                val log = AppLog(
-                    title = "Center Profile Updated",
-                    notification = "Center with ID $centerId updated their profile at ${Date()}"
-                )
-                addLog(log)
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-            // Other overridden methods for ChildEventListener
         })
     }
 
+    private fun setupFirebaseListeners2() {
+        // Listen for changes in the database
+        centerReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is triggered once when the listener is attached
+                // and again every time the data at this location is updated.
+                // You can handle data changes here.
+                for (childSnapshot in snapshot.children) {
+                    val log = childSnapshot.getValue(AppLog::class.java)
+                    log?.let { addLog(it)
+                        addLogToFirebase("center Activity", "Signup")}
+                }
+                // You can also add your log here if needed
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle onCancelled
+            }
+        })
+    }
+
+
     private fun addLog(log: AppLog) {
-        appLogsList.add(log)
-        appLogsAdapter.notifyItemInserted(appLogsList.size - 1)
+        // Check if a similar log already exists in the local list
+        val existingLog = appLogsList.find { it.id == log.id }
+        if (existingLog == null) {
+            // Add the log to the local list
+            appLogsList.add(log)
+            appLogsAdapter.notifyItemInserted(appLogsList.size - 1)
+        }
+    }
+
+    // Function to add a log to Firebase
+    private fun addLogToFirebase(title: String, notification: String) {
+        val logId = UUID.randomUUID().toString() // Generate a unique ID for the log
+        val log = AppLog(logId, title, notification)
+        logsReference.child(logId).setValue(log)
+            .addOnSuccessListener {
+                // Log message to indicate that log is successfully added to Firebase
+                println("Log added to Firebase: $title - $notification")
+            }
+            .addOnFailureListener { e ->
+                // Log message if adding log to Firebase fails
+                println("Failed to add log to Firebase: ${e.message}")
+            }
+    }
+
+    // Example function to log something
+    private fun logSomething() {
+        val title = "Title"
+        val notification = "Notification"
+        addLogToFirebase(title, notification)
     }
 }

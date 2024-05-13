@@ -40,9 +40,10 @@ class Home : AppCompatActivity() {
         auth = Firebase.auth
         databaseReference = FirebaseDatabase.getInstance().getReference("patients")
         sharedPreferences = getSharedPreferences("patients", Context.MODE_PRIVATE)
-        fetchLoggedInpatientData()
+
         userType = intent.getStringExtra("userType").toString()
         if(userType=="patient") {
+            fetchLoggedInpatientData()
 
             val chatButton: ImageButton = findViewById(R.id.chats)
             chatButton.setOnClickListener {
@@ -158,8 +159,8 @@ class Home : AppCompatActivity() {
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        val center = snapshot.getValue(Patient::class.java)
-                        center?.let {
+                        val patient = snapshot.getValue(Patient::class.java)
+                        patient?.let {
                             savePatientToSharedPreferences(it)
                         }
                     } else {

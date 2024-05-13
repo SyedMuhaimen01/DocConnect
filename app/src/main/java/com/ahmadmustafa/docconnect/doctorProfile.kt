@@ -50,9 +50,9 @@ class doctorProfile : AppCompatActivity() {
                 putExtra("userType", "professional") })
         }
 
-        val mapButton = findViewById<ImageButton>(R.id.map)
-        mapButton.setOnClickListener {
-            startActivity(Intent(this, map::class.java).apply {
+        val workingHoursButton = findViewById<ImageButton>(R.id.workingHours)
+        workingHoursButton.setOnClickListener {
+            startActivity(Intent(this, setWorkingHours::class.java).apply {
                 putExtra("userType", "professional") })
         }
 

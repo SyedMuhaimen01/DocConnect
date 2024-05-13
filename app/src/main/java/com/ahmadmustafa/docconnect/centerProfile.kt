@@ -1,30 +1,15 @@
 package com.ahmadmustafa.docconnect
-
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.*
 
 class centerProfile : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
@@ -36,104 +21,55 @@ class centerProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_center_profile)
 
-        sharedPreferences = getSharedPreferences("centers", Context.MODE_PRIVATE)
-        sharedPreferences2 = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
-        auth = Firebase.auth
+        sharedPreferences = getSharedPreferences("centers", MODE_PRIVATE)
+        sharedPreferences2 = getSharedPreferences("loginPrefs", MODE_PRIVATE)
+        auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().getReference("centers")
 
-        val homeButton = findViewById<ImageButton>(R.id.home)
-        homeButton.setOnClickListener {
-            startActivity(Intent(this, centreHome::class.java))
-        }
-
-        val chatButton = findViewById<ImageButton>(R.id.chat)
-        chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java).apply {
-                putExtra("userType", "center")
-            })
-        }
-
-        val mapButton = findViewById<ImageButton>(R.id.map)
-        mapButton.setOnClickListener {
-            startActivity(Intent(this, map::class.java).apply {
-                putExtra("userType", "center")
-            })
-        }
-
-        val profileButton = findViewById<ImageButton>(R.id.profile)
-        profileButton.setOnClickListener {
-            startActivity(Intent(this, centerProfile::class.java))
-        }
-
+        // Initialize UI components
+        val usernameTextView = findViewById<TextView>(R.id.usernameTextView)
+        val emailTextView = findViewById<TextView>(R.id.emailTextView)
+        val contactTextView = findViewById<TextView>(R.id.contactTextView)
+        val addressTextView = findViewById<TextView>(R.id.addressTextView)
+        val categoryTextView = findViewById<TextView>(R.id.categoryTextView)
+        val profileImageView = findViewById<ImageView>(R.id.profileImage)
         val editProfileButton = findViewById<Button>(R.id.editProfile)
+        val logoutButton = findViewById<ImageView>(R.id.logout)
+
+        // Set onClickListeners
         editProfileButton.setOnClickListener {
             startActivity(Intent(this, editCenterProfile::class.java))
         }
 
-        // Initialize logout button
-        val logoutButton = findViewById<ImageView>(R.id.logout)
         logoutButton.setOnClickListener {
             logoutUser()
         }
 
-        fetchUserDetailsFromFirebase()
+        fetchUserDetailsFromSharedPreferences()
     }
 
-    private fun fetchUserDetailsFromFirebase() {
-        val userId = auth.currentUser?.uid
-        userId?.let { uid ->
-            databaseReference.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        val center = dataSnapshot.getValue(Center::class.java)
-                        center?.let { setUserDetails(it) }
-                    } else {
-                        // Handle the case where no data is found for the current user
-                    }
-                }
+    private fun fetchUserDetailsFromSharedPreferences() {
+        val username = sharedPreferences.getString("name", "")
+        val email = sharedPreferences.getString("email", "")
+        val contact = sharedPreferences.getString("contact", "")
+        val address = sharedPreferences.getString("address", "")
+        val category = sharedPreferences.getString("category", "")
+        val profileImageUrl = sharedPreferences.getString("picture", "")
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    // Handle database error
-                }
-            })
-        } ?: run {
-            // Handle the case where user is not logged in
-            // No user is signed in, redirect to login screen
-            startActivity(Intent(this, login::class.java))
-            finish()
+        // Set fetched data to UI components
+        findViewById<TextView>(R.id.usernameTextView).text = username
+        findViewById<TextView>(R.id.emailTextView).text = email
+        findViewById<TextView>(R.id.contactTextView).text = contact
+        findViewById<TextView>(R.id.addressTextView).text = address
+        findViewById<TextView>(R.id.categoryTextView).text = category
+
+        // Load profile image using Glide
+        profileImageUrl?.let {
+            Glide.with(this@centerProfile)
+                .load(it)
+                .circleCrop()
+                .into(findViewById<ImageView>(R.id.profileImage))
         }
-    }
-
-    private fun setUserDetails(center: Center) {
-        val usernameTextView = findViewById<TextView>(R.id.usernameTextView)
-        val emailTextView = findViewById<TextView>(R.id.emailTextView)
-        val contactTextView = findViewById<TextView>(R.id.contactTextView)
-        val addressTextView=findViewById<TextView>(R.id.addressTextView)
-        val categoryTextView=findViewById<TextView>(R.id.categoryTextView)
-
-        val profileImageView = findViewById<ImageView>(R.id.profileImage)
-
-        usernameTextView.text = center.name
-        emailTextView.text = center.email
-        contactTextView.text = center.contactNumber
-        addressTextView.text=center.address
-        categoryTextView.text=center.category
-        saveUserDetailsToSharedPreferences(center)
-    }
-
-    private fun saveUserDetailsToSharedPreferences(center: Center) {
-        val editor = sharedPreferences.edit()
-        editor.putString("centerId", center.id)
-        editor.putString("name", center.name)
-        editor.putString("email", center.email)
-        editor.putString("contact", center.contactNumber)
-        editor.putString("address", center.address)
-        editor.putString("category", center.category)
-        editor.putString("password", center.password)
-        editor.putBoolean("status", center.centerStatus)
-        editor.putString("picture", center.picture)
-        editor.putString("certificate", center.certificate)
-        editor.apply()
     }
 
     private fun logoutUser() {
