@@ -44,9 +44,10 @@ class doctorProfile : AppCompatActivity() {
             })
         }
 
+
         val chatButton = findViewById<ImageButton>(R.id.chat)
         chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java).apply {
+            startActivity(Intent(this, searchUsers::class.java).apply {
                 putExtra("userType", "professional") })
         }
 
@@ -79,7 +80,7 @@ class doctorProfile : AppCompatActivity() {
             startActivity(Intent(this, editDoctorProfile::class.java))
         }
 
-        val backButton= findViewById<ImageView>(R.id.back)
+        val backButton= findViewById<ImageView>(R.id.backButton)
         backButton.setOnClickListener {
             onBackPressed()
         }

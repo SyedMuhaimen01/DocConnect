@@ -23,6 +23,7 @@ class patientProfile : AppCompatActivity() {
     private lateinit var storageReference: StorageReference
     private lateinit var sharedPreferences2: SharedPreferences
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
@@ -41,7 +42,7 @@ class patientProfile : AppCompatActivity() {
 
         val chatButton = findViewById<ImageButton>(R.id.chats)
         chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java).apply { putExtra("userType", "patient") })
+            startActivity(Intent(this, searchUsers::class.java).apply { putExtra("userType", "patient") })
         }
 
         val mapButton = findViewById<ImageButton>(R.id.map)
@@ -51,7 +52,7 @@ class patientProfile : AppCompatActivity() {
 
         val profileButton = findViewById<ImageButton>(R.id.profile)
         profileButton.setOnClickListener {
-            // Already on the profile page
+            startActivity(Intent(this, patientProfile::class.java))
         }
 
         var logoutButton = findViewById<ImageView>(R.id.logout)
@@ -65,6 +66,11 @@ class patientProfile : AppCompatActivity() {
                 Intent(this, manageAppointments::class.java).apply {
                     putExtra("userType", "patient")
                 })
+        }
+
+        val backButton = findViewById<ImageView>(R.id.backButton)
+        backButton.setOnClickListener {
+            onBackPressed()
         }
 
         val editProfile = findViewById<Button>(R.id.editProfile)

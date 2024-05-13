@@ -16,6 +16,7 @@
             android:orientation="vertical"
             android:background="@drawable/profilebackground">
         <ImageView
+            android:id="@+id/backButton"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:src="@drawable/backarrow_foreground"

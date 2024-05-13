@@ -28,6 +28,7 @@ class editPatientProfile : AppCompatActivity() {
     private var imageUri: Uri? = null
     private val PICK_IMAGE_REQUEST = 1
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_patient_profile)
@@ -51,9 +52,13 @@ class editPatientProfile : AppCompatActivity() {
 
         val chatButton = findViewById<ImageButton>(R.id.chats)
         chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java).apply { putExtra("userType", "patient")})
+            startActivity(Intent(this, searchUsers::class.java).apply { putExtra("userType", "patient")})
         }
 
+        val backButton = findViewById<ImageView>(R.id.backButton)
+        backButton.setOnClickListener {
+            onBackPressed()
+        }
         val mapButton = findViewById<ImageButton>(R.id.map)
         mapButton.setOnClickListener {
             startActivity(Intent(this, map::class.java).apply { putExtra("userType", "patient")})

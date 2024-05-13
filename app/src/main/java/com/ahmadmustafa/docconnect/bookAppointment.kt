@@ -1,5 +1,6 @@
 package com.ahmadmustafa.docconnect
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -9,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +30,7 @@ class bookAppointment : AppCompatActivity() {
     private var selectedDate: String? = null
     private var selectedTime: String? = null
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -41,6 +44,10 @@ class bookAppointment : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val professionalsRef = database.getReference("professionals")
 
+        val backButton=findViewById<ImageView>(R.id.backButton)
+        backButton.setOnClickListener {
+            onBackPressed()
+        }
         // Retrieve professional's details
         professionalId.let { id ->
             professionalsRef.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -105,6 +112,7 @@ class bookAppointment : AppCompatActivity() {
                 selectedDate = getDate(index)
             }
         }
+
 
         // Set click listeners for time TextViews
         val timeTextViews = listOf<TextView>(
