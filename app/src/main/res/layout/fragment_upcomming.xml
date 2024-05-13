@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/book_appointment_bg"
-    tools:context=".upcommingFragment">
+    tools:context=".upcomingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
