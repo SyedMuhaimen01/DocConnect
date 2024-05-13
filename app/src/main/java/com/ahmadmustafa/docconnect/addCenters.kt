@@ -17,63 +17,63 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class adminHome : AppCompatActivity() {
-    private lateinit var professionalAdapter: viewProfessionalAdapter
-    private lateinit var centerAdapter: viewCenterAdapter
-    private lateinit var professionalRecyclerView: RecyclerView
+class addCenters : AppCompatActivity() {
+
+    private lateinit var centerAdapter: CenterRequestsAdapter
     private lateinit var centerRecyclerView: RecyclerView
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_admin_home)
+        setContentView(R.layout.activity_add_centers)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        professionalRecyclerView = findViewById(R.id.professionalRecyclerView)
-        centerRecyclerView = findViewById(R.id.centerRecyclerView)
+
+        centerRecyclerView = findViewById(R.id.centersRecyclerView)
 
         auth = Firebase.auth
         databaseReference = Firebase.database.reference
 
         // Initialize adapters
-        professionalAdapter = viewProfessionalAdapter(emptyList())
-        centerAdapter = viewCenterAdapter(emptyList())
+
+        centerAdapter = CenterRequestsAdapter(emptyList())
 
         // Set adapters to RecyclerViews
-        professionalRecyclerView.adapter = professionalAdapter
+
         centerRecyclerView.adapter = centerAdapter
 
         // Fetch data from Firebase and update RecyclerViews
-        fetchProfessionalsFromFirebase()
+
         fetchCentersFromFirebase()
 
         // Set layout manager for RecyclerViews
-        professionalRecyclerView.layoutManager = LinearLayoutManager(this)
+
         centerRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Set click listeners for buttons
+        val notificationButton = findViewById<ImageView>(R.id.notifications)
+        notificationButton.setOnClickListener {
+            startActivity(Intent(this, adminNotifications::class.java))
+        }
         val homeButton = findViewById<ImageButton>(R.id.home)
         homeButton.setOnClickListener {
             startActivity(Intent(this, adminHome::class.java))
         }
-
         val logbutton = findViewById<ImageButton>(R.id.logs)
         logbutton.setOnClickListener {
             startActivity(Intent(this, appLogs::class.java))
         }
 
-        val notificationsButton = findViewById<ImageView>(R.id.notifications)
-        notificationsButton.setOnClickListener {
-            startActivity(Intent(this, adminNotifications::class.java))
+        val profileButton = findViewById<ImageButton>(R.id.profile)
+        profileButton.setOnClickListener {
+            startActivity(Intent(this, login::class.java))
         }
-
         val mapButton = findViewById<ImageButton>(R.id.map)
         mapButton.setOnClickListener {
             startActivity(Intent(this, map::class.java).apply {
@@ -81,36 +81,8 @@ class adminHome : AppCompatActivity() {
             })
         }
 
-        val addCenterButton = findViewById<ImageButton>(R.id.addCenter)
-        addCenterButton.setOnClickListener {
-            startActivity(Intent(this, addCenters::class.java))
-        }
-
-        val profileButton = findViewById<ImageButton>(R.id.profile)
-        profileButton.setOnClickListener {
-            startActivity(Intent(this, login::class.java))
-        }
     }
 
-    private fun fetchProfessionalsFromFirebase() {
-        val professionalsRef = databaseReference.child("professionals")
-        professionalsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val professionals = mutableListOf<Professional>()
-                for (professionalSnapshot in snapshot.children) {
-                    val professional = professionalSnapshot.getValue(Professional::class.java)
-                    professional?.let {
-                        professionals.add(it)
-                    }
-                }
-                professionalAdapter.updateData(professionals)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Handle onCancelled event
-            }
-        })
-    }
 
     private fun fetchCentersFromFirebase() {
         val centersRef = databaseReference.child("centers")

@@ -22,7 +22,6 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/backarrow_foreground"
                 android:layout_marginTop="-5dp"
                 android:layout_marginLeft="5dp"/>
             <TextView
@@ -50,7 +49,7 @@
             android:layout_height="495dp"
             >
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userRecyclerView"
+                android:id="@+id/notificationsRecyclerView"
                 android:layout_marginTop="00dp"
                 android:layout_width="match_parent"
 

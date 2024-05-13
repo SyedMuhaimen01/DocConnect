@@ -9,6 +9,7 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -176,6 +177,35 @@ class map : AppCompatActivity(), OnMapReadyCallback {
                     putExtra("userType", "center")
                 }
                 startActivity(intent)
+            }
+        }
+        else if(user=="admin")
+        {
+            val homeButton=findViewById<ImageButton>(R.id.home)
+            homeButton.setOnClickListener {
+                val intent = Intent(this, adminHome::class.java)
+                startActivity(intent)
+            }
+
+            val chatButton=findViewById<ImageButton>(R.id.chats)
+            chatButton.setOnClickListener {
+                Toast.makeText(this, "Feature Unavailable", Toast.LENGTH_SHORT).show()
+            }
+
+            val appointButton=findViewById<ImageButton>(R.id.appoint)
+            appointButton.setOnClickListener {
+                Toast.makeText(this, "Feature Unavailable", Toast.LENGTH_SHORT).show()
+            }
+
+            val profileButton=findViewById<ImageButton>(R.id.profile)
+            profileButton.setOnClickListener {
+                startActivity(Intent(this, login::class.java))
+            }
+            val mapButton=findViewById<ImageButton>(R.id.map)
+            mapButton.setOnClickListener {
+                startActivity(Intent(this, map::class.java).apply {
+                    putExtra("userType", "admin")
+                })
             }
         }
         else{
