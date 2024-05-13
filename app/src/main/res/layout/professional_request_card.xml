@@ -1,0 +1,73 @@
+<!-- center_card.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:orientation="vertical"
+    android:background="@drawable/book_appointment_bg"
+    android:layout_marginTop="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="15dp"
+
+        android:layout_marginTop="20dp"
+        android:src="@drawable/backarrow_foreground" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="-78dp"
+        android:text="Center Name"
+        android:textStyle="bold"
+
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/specializationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="5dp"
+        android:text="Category"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="4dp"
+        android:text="Location"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+
+
+    <Button
+        android:id="@+id/acceptButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="100dp"
+        android:background="@drawable/buttons"
+        android:layout_marginTop="40dp"
+        android:text="Accept"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+    <Button
+        android:id="@+id/declineButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="220dp"
+        android:background="@drawable/buttons"
+        android:layout_marginTop="-40dp"
+        android:text="Decline"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

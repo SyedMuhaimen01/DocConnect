@@ -114,6 +114,7 @@ class editPatientProfile : AppCompatActivity() {
                         imageUrl?.let { url ->
                             Glide.with(this@editPatientProfile)
                                 .load(url)
+                                .circleCrop() // Circle crop the image
                                 .into(profileImage)
                         }
                     }
