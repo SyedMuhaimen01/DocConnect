@@ -117,11 +117,13 @@ class bookAppointment : AppCompatActivity() {
 
                 // Store appointment details in the database
                 val appointment = Appointment(
-                    userId = userId,
+                    patientId= userId,
                     professionalId = professionalId,
                     appointmentId = UUID.randomUUID().toString(),
                     date = selectedDate!!,
                     time = selectedTime!!
+
+
                 )
                 saveAppointment(appointment)
             } else {
@@ -255,12 +257,15 @@ class bookAppointment : AppCompatActivity() {
 
     // Data class to hold appointment details
     data class Appointment(
-        val userId: String,
-        val professionalId: String,
-        val appointmentId: String,
-        val date: String,
-        val time: String
-    )
+        val patientId: String = "",
+        val professionalId: String = "",
+        val appointmentId: String = "",
+        val date: String = "",
+        val time: String = ""
+    ) {
+        // You can leave this class empty if you have no additional methods or functionality
+    }
+
     private fun showRegistrationSuccessNotification() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

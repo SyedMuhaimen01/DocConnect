@@ -3,30 +3,35 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.util.*
+
 class chatBox : AppCompatActivity() {
 
-    private lateinit var receiverTextView: TextView
-    private lateinit var profileImage: de.hdodenhof.circleimageview.CircleImageView
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var currentUserUid: String
+    private lateinit var receiverId: String
+    private lateinit var receiverName: String
+    private lateinit var receiverProfileImageUrl: String
     private lateinit var chatAdapter: ChatAdapter
-    private lateinit var chats: MutableList<Chat>
-    private lateinit var sendButton: ImageButton
-    private lateinit var attachButton: ImageButton
-    private lateinit var mediaUri: Uri
+    private val chats: MutableList<Chat> = mutableListOf()
 
+    private lateinit var storageRef: StorageReference
+    private lateinit var reference: DatabaseReference
     private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
-            mediaUri = it
-            // Handle media upload
-            uploadMedia()
+            // Handle the selected image or video URI here
+            uploadMediaToFirebase(it)
         }
     }
 
@@ -34,62 +39,88 @@ class chatBox : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_box)
 
-        receiverTextView = findViewById(R.id.recieverTextView)
-        profileImage = findViewById(R.id.profileImage)
-        recyclerView = findViewById(R.id.userRecyclerView)
-        sendButton = findViewById(R.id.sendButton)
-        attachButton = findViewById(R.id.addButton)
+        currentUserUid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        receiverId = intent.getStringExtra("receiverId").toString()
+        receiverName = intent.getStringExtra("receiverName").toString()
 
-        val professionalId = intent.getStringExtra("professionalId")
-        val senderId = intent.getStringExtra("senderId").toString()
-        val recieverId = intent.getStringExtra("recieverId").toString()
-        if (professionalId != null) {
-            fetchProfessionalData(professionalId)
-        }
+        val receiverTextView: TextView = findViewById(R.id.recieverTextView)
+        receiverTextView.text = receiverName
 
-        chats = mutableListOf()
-        chatAdapter = ChatAdapter(chats, senderId )
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = chatAdapter
-        val messageEditText = findViewById<EditText>(R.id.messageEditText)
-        sendButton.setOnClickListener {
-            val message = messageEditText.text.toString()
-            sendMessage(message)
-        }
-
-
-        attachButton.setOnClickListener {
-            // Open gallery for media selection
-            getContent.launch("image/*") // Assuming getContent is a registered activity result launcher for selecting media
-        }
-    }
-
-    private fun fetchProfessionalData(professionalId: String) {
-        val professionalRef = FirebaseDatabase.getInstance().getReference("professionals").child(professionalId)
-        professionalRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    val professional = dataSnapshot.getValue(Professional::class.java)
-                    professional?.let {
-                        receiverTextView.text = professional.name
-                        Glide.with(this@chatBox)
-                            .load(professional.picture)
-                            .into(profileImage)
+        // Get receiver's profile image URL from Firebase
+        FirebaseDatabase.getInstance().getReference("patients").child(receiverId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val patient = dataSnapshot.getValue(Patient::class.java)
+                    patient?.let {
+                        receiverProfileImageUrl = it.picture.toString()
+                        // Load profile image into ImageView using Glide
+                        val profileImage: ImageView = findViewById(R.id.profileImage)
+                        Glide.with(this@chatBox).load(receiverProfileImageUrl).centerCrop().into(profileImage)
                     }
                 }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle error
+                }
+            })
+
+        storageRef = FirebaseStorage.getInstance().reference
+        reference = FirebaseDatabase.getInstance().getReference("chats")
+
+        val recyclerView: RecyclerView = findViewById(R.id.userRecyclerView)
+        chatAdapter = ChatAdapter(chats, currentUserUid)
+        recyclerView.apply {
+            adapter = chatAdapter
+            layoutManager = LinearLayoutManager(this@chatBox)
+        }
+
+        readMessages()
+
+        // Set up onClickListener for send button...
+        val sendButton: ImageButton = findViewById(R.id.sendButton)
+        val messageEditText: EditText = findViewById(R.id.messageEditText)
+        sendButton.setOnClickListener {
+            val message = messageEditText.text.toString().trim()
+            if (message.isNotEmpty()) {
+                sendMessage(message, null)
+                messageEditText.text.clear()
             }
-        })
+        }
+
+        // Set up onClickListener for add button...
+        val addButton: ImageButton = findViewById(R.id.addButton)
+        addButton.setOnClickListener {
+            // Open gallery to select image or video
+            getContent.launch("image/*")
+            getContent.launch("video/*")
+        }
     }
 
-    private fun sendMessage(message: String) {
+    private fun uploadMediaToFirebase(uri: Uri) {
+        val fileReference = storageRef.child("media/${UUID.randomUUID()}")
+
+        fileReference.putFile(uri)
+            .addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener { downloadUri ->
+                    // Handle successful upload, get the download URL and send it in a message
+                    sendMessage("", downloadUri.toString())
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Handle unsuccessful uploads
+            }
+    }
+
+    private fun sendMessage(message: String, mediaUrl: String?) {
         val chatRef = FirebaseDatabase.getInstance().getReference("chats")
         val chatId = chatRef.push().key ?: ""
         val currentTime = System.currentTimeMillis()
-        val chat = Chat("senderId", "receiverId", message, currentTime)
+        val chat = if (mediaUrl != null) {
+            Chat(currentUserUid, receiverId, message, currentTime, Chat.ContentType.IMAGE, mediaUrl)
+        } else {
+            Chat(currentUserUid, receiverId, message, currentTime,Chat.ContentType.TEXT, null)
+        }
+
         chatRef.child(chatId).setValue(chat)
             .addOnSuccessListener {
                 // Handle success
@@ -99,22 +130,26 @@ class chatBox : AppCompatActivity() {
             }
     }
 
-    private fun uploadMedia() {
-        val storageRef = FirebaseStorage.getInstance().reference
-        val mediaRef = storageRef.child("media").child(mediaUri.lastPathSegment ?: "")
-        mediaRef.putFile(mediaUri)
-            .addOnSuccessListener {
-                // Handle media upload success
-                // Get the media download URL and send it along with the message
-                mediaRef.downloadUrl.addOnSuccessListener { uri ->
-                    val message = "" // Optionally, you can include a message with the media
-                    sendMessage(message)
-                }.addOnFailureListener {
-                    // Handle failure to get media download URL
+    private fun readMessages() {
+        val chatRef = FirebaseDatabase.getInstance().getReference("chats")
+        chatRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                chats.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val chat = snapshot.getValue(Chat::class.java)
+                    chat?.let {
+                        if ((chat.senderId == currentUserUid && chat.receiverId == receiverId) ||
+                            (chat.senderId == receiverId && chat.receiverId == currentUserUid)) {
+                            chats.add(chat)
+                        }
+                    }
                 }
+                chatAdapter.notifyDataSetChanged()
             }
-            .addOnFailureListener {
-                // Handle media upload failure
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle error
             }
+        })
     }
 }

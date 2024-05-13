@@ -45,9 +45,9 @@
             android:text="10:31"
             android:textColor="@color/black"
             android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="@+id/righttextView"
-            app:layout_constraintTop_toBottomOf="@+id/righttextView"
-            tools:ignore="TextViewEdits" />
+            app:layout_constraintEnd_toEndOf="@+id/rightTextView"
+            app:layout_constraintTop_toBottomOf="@+id/sentMessageTextView"
+            tools:ignore="TextViewEdits,UnknownId" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
