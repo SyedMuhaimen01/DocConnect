@@ -78,13 +78,15 @@ class map : AppCompatActivity(), OnMapReadyCallback {
         {
             val homeButton=findViewById<ImageButton>(R.id.home)
             homeButton.setOnClickListener {
-                val intent = Intent(this, Home::class.java)
+                val intent = Intent(this, Home::class.java).apply {
+                    putExtra("userType", "patient")
+                }
                 startActivity(intent)
             }
 
             val chatButton=findViewById<ImageButton>(R.id.chats)
             chatButton.setOnClickListener {
-                val intent = Intent(this, chatBox::class.java).apply {
+                val intent = Intent(this, searchUsers::class.java).apply {
                     putExtra("userType", "patient")
                 }
                 startActivity(intent)

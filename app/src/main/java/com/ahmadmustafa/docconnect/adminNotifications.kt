@@ -2,6 +2,8 @@ package com.ahmadmustafa.docconnect
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -43,6 +45,36 @@ class adminNotifications : AppCompatActivity(), AdminNotificationsAdapter.OnNoti
         notificationsRecyclerView.layoutManager = LinearLayoutManager(this)
 
         fetchNotificationsFromFirebase()
+
+
+        val homeButton = findViewById<ImageButton>(R.id.home)
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, adminHome::class.java))
+        }
+
+        val logbutton = findViewById<ImageButton>(R.id.logs)
+        logbutton.setOnClickListener {
+            startActivity(Intent(this, appLogs::class.java))
+        }
+
+        val notificationsButton = findViewById<ImageView>(R.id.notifications)
+        notificationsButton.setOnClickListener {
+            startActivity(Intent(this, adminNotifications::class.java))
+        }
+
+        val mapButton = findViewById<ImageButton>(R.id.map)
+        mapButton.setOnClickListener {
+            startActivity(Intent(this, map::class.java).apply {
+                putExtra("userType", "admin")
+            })
+        }
+
+
+
+        val profileButton = findViewById<ImageButton>(R.id.profile)
+        profileButton.setOnClickListener {
+            startActivity(Intent(this, login::class.java))
+        }
     }
 
     private fun fetchNotificationsFromFirebase() {

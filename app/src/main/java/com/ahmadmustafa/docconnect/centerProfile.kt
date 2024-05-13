@@ -1,4 +1,5 @@
 package com.ahmadmustafa.docconnect
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -17,6 +18,7 @@ class centerProfile : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_center_profile)
@@ -35,6 +37,28 @@ class centerProfile : AppCompatActivity() {
         val profileImageView = findViewById<ImageView>(R.id.profileImage)
         val editProfileButton = findViewById<Button>(R.id.editProfile)
         val logoutButton = findViewById<ImageView>(R.id.logout)
+        val backButton=findViewById<ImageView>(R.id.backButton)
+        backButton.setOnClickListener{
+            onBackPressed()
+        }
+        val homeButton = findViewById<ImageButton>(R.id.home)
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, centreHome::class.java))
+        }
+
+
+        val mapButton = findViewById<ImageButton>(R.id.map)
+        mapButton.setOnClickListener {
+            startActivity(Intent(this, map::class.java).apply {
+                putExtra("userType", "center")
+            })
+        }
+
+
+        val profileButton = findViewById<ImageButton>(R.id.profile)
+        profileButton.setOnClickListener {
+            startActivity(Intent(this, centerProfile::class.java))
+        }
 
         // Set onClickListeners
         editProfileButton.setOnClickListener {

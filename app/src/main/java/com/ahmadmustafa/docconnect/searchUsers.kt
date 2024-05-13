@@ -47,11 +47,11 @@ class searchUsers : AppCompatActivity() {
     private lateinit var professionalAdapter: professionalAdapter
     private val chats = mutableListOf<Chat>()
     private lateinit var currentUserUid: String
-
+    private var user:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_users)
-
+        user = intent.getStringExtra("userType").toString()
         searchAutoCompleteTextView = findViewById(R.id.searchAutoCompleteTextView)
         val searchButton: ImageButton = findViewById(R.id.searchButton)
         recyclerView = findViewById(R.id.userRecyclerView)
@@ -102,5 +102,73 @@ class searchUsers : AppCompatActivity() {
                 // Handle onCancelled
             }
         })
+
+
+        if(user=="patient")
+        {
+            val homeButton: ImageButton = findViewById(R.id.home)
+            homeButton.setOnClickListener {
+                startActivity(Intent(this, Home::class.java).apply {
+                    putExtra("userType", "patient")
+                })
+            }
+            val mapButton: ImageButton = findViewById(R.id.map)
+            mapButton.setOnClickListener {
+                startActivity(Intent(this, map::class.java).apply {
+                    putExtra("userType", "patient")
+                })
+            }
+            val appointmentButton: ImageButton = findViewById(R.id.appoint)
+            appointmentButton.setOnClickListener {
+                startActivity(Intent(this, bookAppointment::class.java).apply {
+                    putExtra("userType", "patient")
+                })
+            }
+            val chatButton: ImageButton = findViewById(R.id.chat)
+            chatButton.setOnClickListener {
+                startActivity(Intent(this, searchUsers::class.java).apply{
+                    putExtra("userType", "patient")
+                })
+            }
+            val profileButton: ImageButton = findViewById(R.id.profile)
+            profileButton.setOnClickListener {
+                startActivity(Intent(this, patientProfile::class.java).apply{
+                    putExtra("userType", "patient")
+                })
+            }
+        }
+        else if(user=="professional")
+        {
+            val homeButton: ImageButton = findViewById(R.id.home)
+            homeButton.setOnClickListener {
+                startActivity(Intent(this, doctorViewAppointmentsList::class.java).apply {
+                    putExtra("userType", "professional")
+                })
+            }
+            val mapButton: ImageButton = findViewById(R.id.map)
+            mapButton.setOnClickListener {
+                startActivity(Intent(this, setWorkingHours::class.java).apply {
+                    putExtra("userType", "professional")
+                })
+            }
+            val appointmentButton: ImageButton = findViewById(R.id.appoint)
+            appointmentButton.setOnClickListener {
+                startActivity(Intent(this, doctorViewAppointmentsList::class.java).apply {
+                    putExtra("userType", "professional")
+                })
+            }
+            val chatButton: ImageButton = findViewById(R.id.chat)
+            chatButton.setOnClickListener {
+                startActivity(Intent(this, searchUsers::class.java).apply{
+                    putExtra("userType", "professional")
+                })
+            }
+            val profileButton: ImageButton = findViewById(R.id.profile)
+            profileButton.setOnClickListener {
+                startActivity(Intent(this, doctorProfile::class.java).apply{
+                    putExtra("userType", "professional")
+                })
+            }
+        }
     }
 }

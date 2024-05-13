@@ -73,8 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/buttons"
-            android:backgroundTint="#383838">
+
+           >
             <ImageButton
                 android:id="@+id/home"
                 android:layout_width="180px"
