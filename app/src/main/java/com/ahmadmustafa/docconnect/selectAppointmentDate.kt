@@ -1,5 +1,6 @@
 package com.ahmadmustafa.docconnect
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +14,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class selectAppointmentDate : AppCompatActivity() {
+
+    private lateinit var selectedDate: String
 
     private val dayTextViewIds = listOf(
         R.id.monDayTextView,
@@ -65,16 +68,22 @@ class selectAppointmentDate : AppCompatActivity() {
         yearTextView.text = currentYear
         setCurrentWeekDayAndDate()
 
-        // Set current week day and date
+        findViewById<TextView>(R.id.SelectDate).setOnClickListener {
+            // When confirm date button is clicked, send the selected date to the BookAppointment activity
+            val intent = Intent(this, bookAppointment::class.java)
+            intent.putExtra("selectedDate", selectedDate)
+            startActivity(intent)
+        }
 
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            // When a date is selected in the calendar, update the selectedDate variable
+            val selectedMonth = SimpleDateFormat("MMMM", Locale.getDefault()).format(month)
+            selectedDate = "$dayOfMonth $selectedMonth $year"
+        }
     }
 
-
-
     private fun setCurrentWeekDayAndDate() {
-
         val calendar = Calendar.getInstance()
-
         // Set the calendar to the beginning of the current week (Sunday)
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
 
@@ -91,8 +100,7 @@ class selectAppointmentDate : AppCompatActivity() {
             // Set the text of the TextViews to the day of the week and date
             dayTextView.text = dayOfWeek
             dateTextView.text = dateOfMonth
-            Log.d("TextViewDebug", "Day TextView: $dayTextView")
-            Log.d("TextViewDebug", "Date TextView: $dateTextView")
+
             // Log the values being set
             Log.d("CalendarTextView", "Day: $dayOfWeek, Date: $dateOfMonth")
 
@@ -104,7 +112,6 @@ class selectAppointmentDate : AppCompatActivity() {
                 val dateLayout = findViewById<View>(dayLayouts[i])
                 // Set the background color of the layout to red
                 dateLayout.setBackgroundColor(resources.getColor(R.color.appred))
-
             } else {
                 dateTextView.setBackgroundColor(resources.getColor(android.R.color.black))
             }
@@ -112,7 +119,5 @@ class selectAppointmentDate : AppCompatActivity() {
             // Move to the next day of the week
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
-
-
     }
 }

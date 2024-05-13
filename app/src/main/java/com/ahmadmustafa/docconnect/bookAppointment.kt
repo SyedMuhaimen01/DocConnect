@@ -1,11 +1,14 @@
 package com.ahmadmustafa.docconnect
+
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -73,6 +76,14 @@ class bookAppointment : AppCompatActivity() {
             })
         }
 
+        val customScheduleButton = findViewById<Button>(R.id.customSchedule)
+
+        // Set click listener for customScheduleButton
+        customScheduleButton.setOnClickListener {
+            // Start the selectAppointment activity
+            val intent = Intent(this, selectAppointmentDate::class.java)
+            startActivity(intent)
+        }
         // Retrieve professional's working hours
         val workingHoursRef = database.getReference("working_hours")
 
@@ -117,13 +128,12 @@ class bookAppointment : AppCompatActivity() {
 
                 // Store appointment details in the database
                 val appointment = Appointment(
-                    patientId= userId,
+                    patientId = userId,
                     professionalId = professionalId,
                     appointmentId = UUID.randomUUID().toString(),
                     date = selectedDate!!,
-                    time = selectedTime!!
-
-
+                    time = selectedTime!!,
+                    status = "pending" // Set default status to pending
                 )
                 saveAppointment(appointment)
             } else {
@@ -132,81 +142,26 @@ class bookAppointment : AppCompatActivity() {
             }
         }
 
-        // Iterate over the next three days starting from today
-        for (i in 0 until 3) {
-            val dayIndex = (todayDayOfWeek - 1 + i) % 7  // Adjusting to start from Sunday
+        // Retrieve the date from the intent
+        val receivedDate = intent.getStringExtra("selectedDate")
+        if (receivedDate.isNullOrEmpty()) {
+            // Populate UI with schedule details
+            findViewById<TextView>(R.id.dayTextView1).text = getDayOfWeek(0)
+            findViewById<TextView>(R.id.dateTextView1).text = getDate(0)
+            findViewById<TextView>(R.id.monthTextView1).text = getMonth(0)
 
-            // Retrieve schedule for the current day
-            val dayScheduleRef = workingHoursRef.child(professionalId).child(getDayOfWeek(dayIndex))
+            findViewById<TextView>(R.id.dayTextView2).text = getDayOfWeek(1)
+            findViewById<TextView>(R.id.dateTextView2).text = getDate(1)
+            findViewById<TextView>(R.id.monthTextView2).text = getMonth(1)
 
-            // Add listener to fetch data
-            dayScheduleRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        // Extract start and end times from database
-                        val startTime = snapshot.child("startTime").getValue(String::class.java)
-                        val endTime = snapshot.child("endTime").getValue(String::class.java)
-
-                        // Populate UI with schedule details
-                        findViewById<TextView>(R.id.dayTextView1).text = getDayOfWeek(0)
-                        findViewById<TextView>(R.id.dateTextView1).text = getDate(0)
-                        findViewById<TextView>(R.id.monthTextView1).text = getMonth(0)
-
-                        findViewById<TextView>(R.id.dayTextView2).text = getDayOfWeek(1)
-                        findViewById<TextView>(R.id.dateTextView2).text = getDate(1)
-                        findViewById<TextView>(R.id.monthTextView2).text = getMonth(1)
-
-                        findViewById<TextView>(R.id.dayTextView3).text = getDayOfWeek(2)
-                        findViewById<TextView>(R.id.dateTextView3).text = getDate(2)
-                        findViewById<TextView>(R.id.monthTextView3).text = getMonth(2)
-
-                        // Adjusting for the current time
-                        val currentTime = Calendar.getInstance()
-                        val currentHour = currentTime.get(Calendar.HOUR_OF_DAY)
-                        val currentMinute = currentTime.get(Calendar.MINUTE)
-
-                        // Check if startTime and endTime are null
-                        if (startTime != null && endTime != null) {
-                            val startHour = startTime.substringBefore(":").toIntOrNull() ?: 0
-                            val startMinute =
-                                startTime.substringAfter(":").substringBefore(" ").toIntOrNull()
-                                    ?: 0
-
-                            val endHour = endTime.substringBefore(":").toIntOrNull() ?: 0
-                            val endMinute =
-                                endTime.substringAfter(":").substringBefore(" ").toIntOrNull() ?: 0
-
-                            val startTotalMinutes = startHour * 60 + startMinute
-                            val endTotalMinutes = endHour * 60 + endMinute
-                            val currentTotalMinutes = currentHour * 60 + currentMinute
-
-                            // Determine the appropriate text for the time field
-                            val timeText = when {
-                                startTotalMinutes <= currentTotalMinutes && currentTotalMinutes <= endTotalMinutes ->
-                                    "Now - $endTime"  // Current time falls within the appointment time
-                                currentTotalMinutes < startTotalMinutes -> "$startTime - $endTime"  // Before appointment time
-                                currentTotalMinutes > endTotalMinutes -> "Next Day $startTime - $endTime"  // After appointment time
-                                else -> "N/A"  // Any other case
-                            }
-                            timeTextViews[i].text = timeText
-                        } else {
-                            Log.d("bookAppointment", "Start time or end time is null")
-                        }
-                        Log.d(
-                            "bookAppointment",
-                            "Day: ${getDayOfWeek(dayIndex)}, Start Time: $startTime, End Time: $endTime"
-                        )
-                    } else {
-                        Log.d("bookAppointment", "No schedule found for ${getDayOfWeek(dayIndex)}")
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    // Handle database error
-                    Log.e("bookAppointment", "Database error: ${error.message}")
-                }
-            })
+            findViewById<TextView>(R.id.dayTextView3).text = getDayOfWeek(2)
+            findViewById<TextView>(R.id.dateTextView3).text = getDate(2)
+            findViewById<TextView>(R.id.monthTextView3).text = getMonth(2)
+        } else {
+            // Store the received date without concatenating month and year
+            selectedDate = receivedDate
         }
+
     }
 
     // Function to get the day of the week
@@ -224,11 +179,13 @@ class bookAppointment : AppCompatActivity() {
     }
 
     // Function to get the month string for the next three days
+
+
     private fun getMonth(dayIndex: Int): String {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, dayIndex)
-        val monthFormat = SimpleDateFormat("MMM", Locale.getDefault())
-        return monthFormat.format(calendar.time)
+        val dateFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
     // Function to save appointment details in the database
@@ -236,13 +193,17 @@ class bookAppointment : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         appointmentsRef = database.getReference("appointments")
 
-        // Concatenate current month and year with the selected date
-        val calendar = Calendar.getInstance()
-        val currentMonth = calendar.get(Calendar.MONTH) + 1 // Month starts from 0
-        val currentYear = calendar.get(Calendar.YEAR)
-        val formattedDate = "${appointment.date}-$currentMonth-$currentYear"
+        // Concatenate current month and year with the selected date only if it's not received from the intent
+        val formattedDate = if (selectedDate.isNullOrEmpty()) {
+            val calendar = Calendar.getInstance()
+            calendar.time =
+                Date(appointment.date.toLong()) // Assuming appointment.date is in milliseconds
+            SimpleDateFormat("dd MMM, yyyy", Locale.getDefault()).format(calendar.time)
+        } else {
+            selectedDate!!
+        }
 
-        // Update appointment date with concatenated value
+        // Update appointment date with formatted value
         val updatedAppointment = appointment.copy(date = formattedDate)
 
         appointmentsRef.child(updatedAppointment.appointmentId).setValue(updatedAppointment)
@@ -261,7 +222,8 @@ class bookAppointment : AppCompatActivity() {
         val professionalId: String = "",
         val appointmentId: String = "",
         val date: String = "",
-        val time: String = ""
+        val time: String = "",
+        val status: String = "pending" // Default status is pending
     ) {
         // You can leave this class empty if you have no additional methods or functionality
     }
@@ -285,7 +247,7 @@ class bookAppointment : AppCompatActivity() {
         val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.notifications_icon_foreground)
             .setContentTitle("Appointment  Status")
-            .setContentText("Your appointment have been booked successfully.")
+            .setContentText("Your appointment has been booked successfully.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         notificationManager.notify(1, builder.build())

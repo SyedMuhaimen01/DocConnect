@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmadmustafa.docconnect.Patient
+import com.bumptech.glide.Glide
 import com.google.firebase.database.*
 
 class appointmentListAdapter(private var appointmentList: List<bookAppointment.Appointment>) :
@@ -47,7 +48,17 @@ class appointmentListAdapter(private var appointmentList: List<bookAppointment.A
                 val patient = dataSnapshot.getValue(Patient::class.java)
                 patient?.let {
                     holder.nameTextView.text = it.name
-                    // For image, you would fetch it from Firebase Storage similarly
+                    // Load patient image into ImageView using Glide or Picasso
+                    // Replace "imageUrl" with the actual field in your Patient class that stores the image URL
+                    if (it.picture != null) {
+                        Glide.with(holder.itemView.context)
+                            .load(it.picture) // Assuming you have picture field in Patient class
+                            .centerCrop()
+                            .into(holder.patientImageView)
+                    } else {
+                        // If picture is null, set placeholder image
+                        holder.patientImageView.setImageResource(R.drawable.imagecircles)
+                    }
                 } ?: run {
                     Log.d("TAG", "Patient is null")
                 }
@@ -58,8 +69,8 @@ class appointmentListAdapter(private var appointmentList: List<bookAppointment.A
             }
         })
 
-        // Bind more data to views as needed
     }
+
 
     override fun getItemCount() = appointmentList.size
 }

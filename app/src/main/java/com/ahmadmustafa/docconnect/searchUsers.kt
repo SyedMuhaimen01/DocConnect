@@ -44,7 +44,7 @@ class searchUsers : AppCompatActivity() {
 
     private lateinit var searchAutoCompleteTextView: AutoCompleteTextView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var professionalAdapter: ProfessionalAdapter
+    private lateinit var professionalAdapter: professionalAdapter
     private val chats = mutableListOf<Chat>()
     private lateinit var currentUserUid: String
 
@@ -56,7 +56,7 @@ class searchUsers : AppCompatActivity() {
         val searchButton: ImageButton = findViewById(R.id.searchButton)
         recyclerView = findViewById(R.id.userRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        professionalAdapter = ProfessionalAdapter(chats) { chat ->
+        professionalAdapter = professionalAdapter(chats) { chat ->
             val professionalName = searchAutoCompleteTextView.text.toString().trim()
             startActivity(Intent(this, chatBox::class.java).apply {
                 putExtra("receiverName", professionalName)

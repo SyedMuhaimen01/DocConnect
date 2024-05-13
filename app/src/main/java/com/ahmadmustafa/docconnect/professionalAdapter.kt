@@ -1,6 +1,7 @@
 package com.ahmadmustafa.docconnect
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class ProfessionalAdapter(private val chats: List<Chat>, param: (Any) -> Unit) : RecyclerView.Adapter<ProfessionalAdapter.ProfessionalViewHolder>() {
+class professionalAdapter(private val chats: List<Chat>, param: (Any) -> Unit) : RecyclerView.Adapter<professionalAdapter.ProfessionalViewHolder>() {
 
     private val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
     private val databaseReference = FirebaseDatabase.getInstance().reference
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfessionalViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.search_users_userscard, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.search_users_userscard, parent, false)
         return ProfessionalViewHolder(view)
     }
 
@@ -35,49 +37,74 @@ class ProfessionalAdapter(private val chats: List<Chat>, param: (Any) -> Unit) :
 
         fun bind(chat: Chat) {
             // Determine the other user's ID
-            val otherUserId = if (chat.senderId == currentUserUid) chat.receiverId else chat.senderId
+            val otherUserId =
+                if (chat.senderId == currentUserUid) chat.receiverId else chat.senderId
 
             // Set the name
-            setName(otherUserId)
+            setName(otherUserId) { name ->
+                nameTextView.text = name
+
+                itemView.setOnClickListener {
+                    val intent = Intent(itemView.context, chatBox::class.java).apply {
+                        putExtra("receiverId", otherUserId)
+                        putExtra("receiverName", name)
+                    }
+                    try {
+                        itemView.context.startActivity(intent)
+                    } catch (e: Exception) {
+                        Log.e(
+                            "ProfessionalAdapter",
+                            "Error starting ChatBox activity: ${e.message}"
+                        )
+                    }
+                }
+            }
 
             messageTextView.text = chat.message
             timeTextView.text = "5min ago"
-
-            // Start chat with the user when card is clicked
-            itemView.setOnClickListener {
-                val intent = Intent(itemView.context, chatBox::class.java).apply {
-                    putExtra("receiverId", otherUserId)
-                }
-                itemView.context.startActivity(intent)
-            }
         }
 
-        private fun setName(userId: String) {
-            // Check in "patient" table
-            databaseReference.child("patients").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(patientSnapshot: DataSnapshot) {
-                    if (patientSnapshot.exists()) {
-                        val patientName = patientSnapshot.child("name").getValue(String::class.java)
-                        nameTextView.text = patientName
+
+        private fun setName(userId: String, callback: (String) -> Unit) {
+            // Check if the user is a professional
+            val professionalRef =
+                FirebaseDatabase.getInstance().reference.child("professionals").child(userId)
+            professionalRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(professionalSnapshot: DataSnapshot) {
+                    if (professionalSnapshot.exists()) {
+                        // The user is a professional, get their name
+                        val professionalName =
+                            professionalSnapshot.child("name").getValue(String::class.java)
+                        callback.invoke(professionalName ?: "")
                     } else {
-                        // If not found in "patient" table, check in "professionals" table
-                        databaseReference.child("professionals").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(professionalSnapshot: DataSnapshot) {
-                                if (professionalSnapshot.exists()) {
-                                    val professionalName = professionalSnapshot.child("name").getValue(String::class.java)
-                                    nameTextView.text = professionalName
+                        // Check if the user is a patient
+                        val patientRef =
+                            FirebaseDatabase.getInstance().reference.child("patients").child(userId)
+                        patientRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(patientSnapshot: DataSnapshot) {
+                                if (patientSnapshot.exists()) {
+                                    // The user is a patient, get their name
+                                    val patientName =
+                                        patientSnapshot.child("name").getValue(String::class.java)
+                                    callback.invoke(patientName ?: "")
                                 }
                             }
 
                             override fun onCancelled(error: DatabaseError) {
-                                // Handle onCancelled
+                                Log.e(
+                                    "ProfessionalAdapter",
+                                    "Error fetching patient data: ${error.message}"
+                                )
                             }
                         })
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    // Handle onCancelled
+                    Log.e(
+                        "ProfessionalAdapter",
+                        "Error fetching professional data: ${error.message}"
+                    )
                 }
             })
         }

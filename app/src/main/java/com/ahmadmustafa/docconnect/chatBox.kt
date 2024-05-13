@@ -1,11 +1,11 @@
 package com.ahmadmustafa.docconnect
+
 import android.net.Uri
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,12 +28,13 @@ class chatBox : AppCompatActivity() {
 
     private lateinit var storageRef: StorageReference
     private lateinit var reference: DatabaseReference
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            // Handle the selected image or video URI here
-            uploadMediaToFirebase(it)
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                // Handle the selected image or video URI here
+                uploadMediaToFirebase(it)
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +56,8 @@ class chatBox : AppCompatActivity() {
                         receiverProfileImageUrl = it.picture.toString()
                         // Load profile image into ImageView using Glide
                         val profileImage: ImageView = findViewById(R.id.profileImage)
-                        Glide.with(this@chatBox).load(receiverProfileImageUrl).centerCrop().into(profileImage)
+                        Glide.with(this@chatBox).load(receiverProfileImageUrl).centerCrop()
+                            .into(profileImage)
                     }
                 }
 
@@ -118,7 +120,7 @@ class chatBox : AppCompatActivity() {
         val chat = if (mediaUrl != null) {
             Chat(currentUserUid, receiverId, message, currentTime, Chat.ContentType.IMAGE, mediaUrl)
         } else {
-            Chat(currentUserUid, receiverId, message, currentTime,Chat.ContentType.TEXT, null)
+            Chat(currentUserUid, receiverId, message, currentTime, Chat.ContentType.TEXT, null)
         }
 
         chatRef.child(chatId).setValue(chat)
