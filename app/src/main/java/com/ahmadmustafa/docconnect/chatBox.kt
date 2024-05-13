@@ -50,6 +50,7 @@ class chatBox : AppCompatActivity() {
             getUserType(receiverName)
         } else {
             Toast.makeText(this, "Name is empty", Toast.LENGTH_SHORT).show()
+            onBackPressed() // Redirect to previous activity if name is empty
         }
 
         val receiverTextView: TextView = findViewById(R.id.receiverTextView)
@@ -161,6 +162,8 @@ class chatBox : AppCompatActivity() {
                             // Handle professional logic here
                         } else {
                             // Handle the case where user is neither a patient nor a professional
+                            Toast.makeText(this@chatBox, "User not found", Toast.LENGTH_SHORT).show()
+                            onBackPressed() // Redirect to previous activity if user not found
                         }
                     }
                 }
@@ -184,7 +187,6 @@ class chatBox : AppCompatActivity() {
                 }
                 // Handle the case where user with the given ID is not found
                 Log.d("FindPatient", "User with ID $userId is not a patient")
-                Toast.makeText(applicationContext, "User with ID $userId is not a patient", Toast.LENGTH_SHORT).show()
                 callback(false)
             }
 
@@ -205,14 +207,14 @@ class chatBox : AppCompatActivity() {
                     val id = userSnapshot.child("id").getValue(String::class.java)
                     Log.d("FindProfessional", "Checking user with ID: $id")
                     if (id == userId) {
-                        Log.d("FindProfessional", "Professional found with ID: $userId")
+                        Log
+                            .d("FindProfessional", "Professional found with ID: $userId")
                         callback(true)
                         return
                     }
                 }
                 // Handle the case where user with the given ID is not found
                 Log.d("FindProfessional", "User with ID $userId is not a professional")
-                Toast.makeText(applicationContext, "User with ID $userId is not a professional", Toast.LENGTH_SHORT).show()
                 callback(false)
             }
 
@@ -249,11 +251,13 @@ class chatBox : AppCompatActivity() {
                 // Handle the case where user with the given name is not found
                 Log.d("FindProfessionalByName", "Professional with name $userName not found")
                 Toast.makeText(applicationContext, "Professional with name $userName not found", Toast.LENGTH_SHORT).show()
+                onBackPressed() // Redirect to previous activity if user not found
             }
 
             override fun onCancelled(error: DatabaseError) {
                 // Handle onCancelled
                 Log.e("FindProfessionalByName", "Database error: ${error.message}")
+                onBackPressed() // Redirect to previous activity if user not found
             }
         })
     }
@@ -283,14 +287,14 @@ class chatBox : AppCompatActivity() {
                 // Handle the case where user with the given name is not found
                 Log.d("FindPatientByName", "Patient with name $userName not found")
                 Toast.makeText(applicationContext, "Patient with name $userName not found", Toast.LENGTH_SHORT).show()
+                onBackPressed() // Redirect to previous activity if user not found
             }
 
             override fun onCancelled(error: DatabaseError) {
                 // Handle onCancelled
                 Log.e("FindPatientByName", "Database error: ${error.message}")
+                onBackPressed() // Redirect to previous activity if user not found
             }
         })
     }
-
-
 }

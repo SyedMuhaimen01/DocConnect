@@ -6,6 +6,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -62,6 +65,10 @@ class Home : AppCompatActivity() {
                 startActivity(Intent(this, Home::class.java).apply {
                     putExtra("userType", "patient")
                 })
+            }
+            val searchButton: ImageButton = findViewById(R.id.search)
+            searchButton.setOnClickListener {
+                showSearchPopup()
             }
 
             val mapButton: ImageButton = findViewById(R.id.map)
@@ -228,4 +235,56 @@ class Home : AppCompatActivity() {
             //finish()
         }
     }
+    private fun showSearchPopup() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.search_popup, null)
+        val editText: EditText = dialogView.findViewById(R.id.searchEditText)
+        val searchButton: Button = dialogView.findViewById(R.id.popupSearchButton)
+
+        val builder = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setTitle("Search Center")
+
+        val alertDialog = builder.show()
+
+        searchButton.setOnClickListener {
+            val searchText = editText.text.toString().trim()
+            if (searchText.isNotEmpty()) {
+                searchCenter(searchText)
+            }
+            alertDialog.dismiss()
+        }
+    }
+
+    private fun searchCenter(searchText: String) {
+        val database = FirebaseDatabase.getInstance().reference.child("centers")
+        database.orderByChild("name").equalTo(searchText).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val center = dataSnapshot.children.first().getValue(Center::class.java)
+                    if (center != null && center.centerStatus) {
+                        // Center found and centerStatus is true, move to ViewCenter activity
+                        val centerName = center.name ?: ""
+                        val intent = Intent(this@Home, viewCenter::class.java).apply {
+                            putExtra("centerName", centerName)
+                        }
+                        startActivity(intent)
+                    } else {
+                        // Center not found or centerStatus is false, show a message to the user
+                        // You can customize this part based on your UI/UX requirements
+                        // For example, display a toast or an alert dialog
+                    }
+                } else {
+                    // Center not found, show a message to the user
+                    // You can customize this part based on your UI/UX requirements
+                    // For example, display a toast or an alert dialog
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle database error
+            }
+        })
+    }
+
+
 }
