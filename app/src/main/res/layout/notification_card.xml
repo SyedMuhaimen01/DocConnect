@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/appointment_card_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:id="@+id/card">
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:text="Jhon Cooper"
+            android:textColor="@color/black"
+
+            android:textSize="20sp"
+            android:textStyle="bold"
+             />
+
+        <TextView
+            android:id="@+id/notificationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:text="9 May,2024"
+            android:textColor="@color/black"
+            android:layout_marginLeft="17dp"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="08:00 AM"
+            android:textColor="@color/black"
+            android:layout_marginLeft="17dp"
+            android:textSize="15sp"
+            />
+
+
+        />
+
+    </LinearLayout>
+</LinearLayout>
