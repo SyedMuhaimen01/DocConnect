@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:background="@color/black">
     <ImageView
+        android:id="@+id/back"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:src="@drawable/backarrow_foreground"
@@ -36,6 +37,7 @@
         android:background="@drawable/loginform">
 
         <TextView
+            android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="John Cooper"
@@ -46,6 +48,7 @@
             android:textAlignment="center"
             android:textColor="@color/white"></TextView>
         <TextView
+            android:id="@+id/specializationTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Dermetologist"
@@ -89,6 +92,7 @@
             android:layout_marginLeft="30dp"
             android:textColor="@color/white"></TextView>
         <EditText
+            android:id="@+id/feedbackEditText"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -106,7 +110,7 @@
             android:background="@drawable/inputbox"/>
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/submit"
             android:layout_width="240dp"
             android:layout_height="40dp"
             android:textAlignment="center"
@@ -126,6 +130,7 @@
 
     </LinearLayout>
     <ImageView
+        android:id="@+id/profileImageView"
         android:layout_width="400px"
         android:layout_height="400px"
         android:alpha="1"

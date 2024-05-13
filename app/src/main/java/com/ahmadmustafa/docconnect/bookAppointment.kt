@@ -1,5 +1,6 @@
 package com.ahmadmustafa.docconnect
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -9,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +26,10 @@ import java.util.*
 class bookAppointment : AppCompatActivity() {
     private val NOTIFICATION_CHANNEL_ID = "AppointmentNotification"
     private lateinit var appointmentsRef: DatabaseReference
-    private lateinit var professionalId: String
+    private lateinit var professionalid: String
     private var selectedDate: String? = null
     private var selectedTime: String? = null
+    private lateinit var Details: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,27 +37,40 @@ class bookAppointment : AppCompatActivity() {
         setContentView(R.layout.activity_book_appointment)
 
         // Receive professional's ID from previous activity
-        professionalId = intent.getStringExtra("professionalId") ?: ""
-        Log.d("bookAppointment", "Professional ID: $professionalId")
+        professionalid = intent.getStringExtra("professionalId") ?: ""
+        Log.d("BookAppointment", "Professional ID: $professionalid")
 
         // Initialize Firebase Database
         val database = FirebaseDatabase.getInstance()
         val professionalsRef = database.getReference("professionals")
 
         // Retrieve professional's details
-        professionalId.let { id ->
+        professionalid.let { id ->
             professionalsRef.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
+                @SuppressLint("SetTextI18n")
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
+                        val professionalId = snapshot.key
                         val professionalName = snapshot.child("name").getValue(String::class.java)
                         val specialization = snapshot.child("specialization").getValue(String::class.java)
                         val affiliationDetails = snapshot.child("affiliation").getValue(String::class.java)
                         val profileImageUrl = snapshot.child("picture").getValue(String::class.java)
+                        val rating = snapshot.child("rating").getValue(Float::class.java) ?: 0.0f
+
+                        // Save professional's details to a Bundle
+                        Details = Bundle().apply {
+                            putString("id", professionalId)
+                            putString("name", professionalName)
+                            putString("description", specialization)
+                            putString("profileImageUrl", profileImageUrl)
+                            putFloat("rating", rating)
+                        }
 
                         // Populate UI with professional's details
                         professionalName?.let { findViewById<TextView>(R.id.professionalNameTextView).text = it }
                         specialization?.let { findViewById<TextView>(R.id.specializationTextView).text = it }
                         affiliationDetails?.let { findViewById<TextView>(R.id.locationTextView).text = it }
+                        findViewById<TextView>(R.id.ratingTextView).text = "Rating $rating"
 
                         // Load professional's rounded picture into ImageView
                         profileImageUrl?.let { url ->
@@ -65,13 +81,13 @@ class bookAppointment : AppCompatActivity() {
                                 .into(profileImageView)
                         }
                     } else {
-                        Log.d("bookAppointment", "Professional data not found")
+                        Log.d("BookAppointment", "Professional data not found")
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     // Handle database error
-                    Log.e("bookAppointment", "Database error: ${error.message}")
+                    Log.e("BookAppointment", "Database error: ${error.message}")
                 }
             })
         }
@@ -84,6 +100,15 @@ class bookAppointment : AppCompatActivity() {
             val intent = Intent(this, selectAppointmentDate::class.java)
             startActivity(intent)
         }
+
+        findViewById<ImageView>(R.id.feedback).setOnClickListener {
+            // Start the feedback activity and pass professional details
+            val intent = Intent(this, feedback::class.java)
+            intent.putExtra("Details", Details)
+            intent.putExtra("feedbackFor", "professional")
+            startActivity(intent)
+        }
+
         // Retrieve professional's working hours
         val workingHoursRef = database.getReference("working_hours")
 
@@ -115,7 +140,7 @@ class bookAppointment : AppCompatActivity() {
         timeTextViews.forEachIndexed { index, textView ->
             textView.setOnClickListener {
                 selectedTime = textView.text.toString()
-                Log.d("bookAppointment", "Selected Time: $selectedTime")
+                Log.d("BookAppointment", "Selected Time: $selectedTime")
             }
         }
 
@@ -129,7 +154,7 @@ class bookAppointment : AppCompatActivity() {
                 // Store appointment details in the database
                 val appointment = Appointment(
                     patientId = userId,
-                    professionalId = professionalId,
+                    professionalId = professionalid,
                     appointmentId = UUID.randomUUID().toString(),
                     date = selectedDate!!,
                     time = selectedTime!!,
@@ -138,7 +163,7 @@ class bookAppointment : AppCompatActivity() {
                 saveAppointment(appointment)
             } else {
                 // Show error message if date or time is not selected
-                Log.e("bookAppointment", "Please select both date and time.")
+                Log.e("BookAppointment", "Please select both date and time.")
             }
         }
 
@@ -179,12 +204,10 @@ class bookAppointment : AppCompatActivity() {
     }
 
     // Function to get the month string for the next three days
-
-
     private fun getMonth(dayIndex: Int): String {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, dayIndex)
-        val dateFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("MMMM, yyyy", Locale.getDefault())
         return dateFormat.format(calendar.time)
     }
 
@@ -209,10 +232,10 @@ class bookAppointment : AppCompatActivity() {
         appointmentsRef.child(updatedAppointment.appointmentId).setValue(updatedAppointment)
             .addOnSuccessListener {
                 showRegistrationSuccessNotification()
-                Log.d("bookAppointment", "Appointment saved successfully.")
+                Log.d("BookAppointment", "Appointment saved successfully.")
             }
             .addOnFailureListener {
-                Log.e("bookAppointment", "Failed to save appointment: ${it.message}")
+                Log.e("BookAppointment", "Failed to save appointment: ${it.message}")
             }
     }
 

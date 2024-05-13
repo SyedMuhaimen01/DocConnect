@@ -49,8 +49,10 @@
             android:name=".adminNotifications"
             android:exported="false" />
         <activity
+
             android:name=".adminLogs"
             android:exported="false" />
+
         <activity
             android:name=".manageAppointments"
             android:exported="false" />
