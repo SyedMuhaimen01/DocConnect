@@ -17,7 +17,7 @@
             android:layout_height="550dp"
             >
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userRecyclerView"
+                android:id="@+id/cancelledRecyclerView"
                 android:layout_marginTop="00dp"
                 android:layout_width="match_parent"
 
