@@ -9,6 +9,7 @@
     android:background="@drawable/profilebackground">
 
     <ImageView
+        android:id="@+id/backButton"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:src="@drawable/backarrow_foreground"
@@ -23,7 +24,7 @@
         android:fontFamily="sans-serif"
         android:layout_marginTop="-70dp"
         android:textColor="@color/white"
-        android:layout_marginLeft="100dp"></TextView>
+        android:layout_marginLeft="95dp"></TextView>
     <ImageView
         android:id="@+id/logout"
         android:layout_width="25dp"
@@ -156,7 +157,7 @@
         android:background="@drawable/buttons"></Button>
 
     <LinearLayout
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="bottom">

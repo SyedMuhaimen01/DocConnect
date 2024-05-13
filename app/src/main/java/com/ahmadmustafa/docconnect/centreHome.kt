@@ -50,12 +50,7 @@ class centreHome : AppCompatActivity() {
             startActivity(Intent(this, centreHome::class.java))
         }
 
-        val chatButton = findViewById<ImageButton>(R.id.chat)
-        chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java).apply {
-                putExtra("userType", "center")
-            })
-        }
+
 
         val addProfessionalButton= findViewById<ImageButton>(R.id.addProfessional)
         addProfessionalButton.setOnClickListener {

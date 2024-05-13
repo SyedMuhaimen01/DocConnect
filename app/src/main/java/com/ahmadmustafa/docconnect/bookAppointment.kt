@@ -31,6 +31,7 @@ class bookAppointment : AppCompatActivity() {
     private var selectedTime: String? = null
     private lateinit var Details: Bundle
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -44,6 +45,10 @@ class bookAppointment : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val professionalsRef = database.getReference("professionals")
 
+        val backButton=findViewById<ImageView>(R.id.backButton)
+        backButton.setOnClickListener {
+            onBackPressed()
+        }
         // Retrieve professional's details
         professionalid.let { id ->
             professionalsRef.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -130,6 +135,7 @@ class bookAppointment : AppCompatActivity() {
                 selectedDate = getDate(index)
             }
         }
+
 
         // Set click listeners for time TextViews
         val timeTextViews = listOf<TextView>(

@@ -1,6 +1,10 @@
 package com.ahmadmustafa.docconnect
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +30,7 @@ class appLogs : AppCompatActivity() {
     private lateinit var centerReference: DatabaseReference
     private lateinit var professionalReference: DatabaseReference
     private lateinit var patientReference: DatabaseReference
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_logs)
@@ -47,6 +52,36 @@ class appLogs : AppCompatActivity() {
         setupFirebaseListeners()
         setupFirebaseListeners2()
         // Log message to indicate that the activity is created
+
+
+        val homeButton = findViewById<ImageButton>(R.id.home)
+        homeButton.setOnClickListener {
+            startActivity(Intent(this, adminHome::class.java))
+        }
+
+        val logbutton = findViewById<ImageButton>(R.id.logs)
+        logbutton.setOnClickListener {
+            startActivity(Intent(this, appLogs::class.java))
+        }
+
+        val notificationsButton = findViewById<ImageView>(R.id.notifications)
+        notificationsButton.setOnClickListener {
+            startActivity(Intent(this, adminNotifications::class.java))
+        }
+
+        val mapButton = findViewById<ImageButton>(R.id.map)
+        mapButton.setOnClickListener {
+            startActivity(Intent(this, map::class.java).apply {
+                putExtra("userType", "admin")
+            })
+        }
+
+
+
+        val profileButton = findViewById<ImageButton>(R.id.profile)
+        profileButton.setOnClickListener {
+            startActivity(Intent(this, login::class.java))
+        }
 
     }
 

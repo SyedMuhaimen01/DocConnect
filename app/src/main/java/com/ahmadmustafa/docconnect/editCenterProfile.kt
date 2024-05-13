@@ -72,12 +72,7 @@ class editCenterProfile : AppCompatActivity() {
             startActivity(Intent(this, centreHome::class.java))
         }
 
-        val chatButton = findViewById<ImageButton>(R.id.chats)
-        chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java).apply {
-                putExtra("userType", "center")
-            })
-        }
+
 
         val mapButton = findViewById<ImageButton>(R.id.map)
         mapButton.setOnClickListener {
