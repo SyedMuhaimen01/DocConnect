@@ -87,7 +87,7 @@ class doctorViewAppointmentsList : AppCompatActivity() {
 
         val chatButton = findViewById<ImageButton>(R.id.chat)
         chatButton.setOnClickListener {
-            startActivity(Intent(this, chatBox::class.java).apply {
+            startActivity(Intent(this, searchUsers::class.java).apply {
                 putExtra("userType", "professional")
             })
         }

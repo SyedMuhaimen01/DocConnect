@@ -1,13 +1,16 @@
 package com.ahmadmustafa.docconnect
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -18,6 +21,7 @@ import com.google.firebase.storage.StorageReference
 
 class editCenterProfile : AppCompatActivity() {
 
+    private lateinit var sharedPreferences:SharedPreferences
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
     private lateinit var storage: StorageReference
@@ -40,7 +44,7 @@ class editCenterProfile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_center_profile)
-
+        sharedPreferences = getSharedPreferences("centers", Context.MODE_PRIVATE)
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
         storage = FirebaseStorage.getInstance().reference
@@ -53,6 +57,10 @@ class editCenterProfile : AppCompatActivity() {
         categoryEditText = findViewById(R.id.category)
         passwordEditText = findViewById(R.id.password)
         editButton = findViewById(R.id.editprofile)
+        editButton.setOnClickListener {
+            updateCenterProfile()
+        }
+
         val editProfileImageButton = findViewById<ImageView>(R.id.profileImage)
 
         editProfileImageButton.setOnClickListener {
@@ -64,7 +72,7 @@ class editCenterProfile : AppCompatActivity() {
             startActivity(Intent(this, centreHome::class.java))
         }
 
-        val chatButton = findViewById<ImageButton>(R.id.chat)
+        val chatButton = findViewById<ImageButton>(R.id.chats)
         chatButton.setOnClickListener {
             startActivity(Intent(this, chatBox::class.java).apply {
                 putExtra("userType", "center")
@@ -82,6 +90,7 @@ class editCenterProfile : AppCompatActivity() {
         profileButton.setOnClickListener {
             startActivity(Intent(this, centerProfile::class.java))
         }
+
         // Fetch and display center's details
         displayCenterDetails()
     }
@@ -145,5 +154,68 @@ class editCenterProfile : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    private fun updateCenterProfile() {
+        val userId = auth.currentUser?.uid
+        userId?.let { uid ->
+            val centerRef = database.child("centers").child(uid)
+            val newName = nameTextView.text.toString()
+            val newEmail = emailEditText.text.toString()
+            val newContactInfo = contactEditText.text.toString()
+            val newAddress = addressEditText.text.toString()
+            val newCategory = categoryEditText.text.toString()
+            val newPassword = passwordEditText.text.toString()
+
+            val updates = hashMapOf<String, Any>(
+                "name" to newName,
+                "email" to newEmail,
+                "contactNumber" to newContactInfo,
+                "address" to newAddress,
+                "category" to newCategory,
+                "password" to newPassword
+            )
+
+            centerRef.updateChildren(updates)
+                .addOnSuccessListener {
+                    saveCenterToSharedPreferences(
+                        Center(
+                            uid,
+                            newName,
+                            newEmail,
+                            newContactInfo,
+                            newAddress,
+                            newCategory,
+                            newPassword,
+                            centerStatus = true, // Assuming it's always true upon update
+                            "", // Picture will be updated separately
+                            "" // Certificate will be updated separately
+                        )
+                    )
+                    showToast("Profile updated successfully")
+                }
+                .addOnFailureListener { e ->
+                    showToast("Failed to update profile")
+                }
+        }
+    }
+
+    private fun saveCenterToSharedPreferences(center: Center) {
+        val editor = sharedPreferences.edit()
+        editor.putString("centerId", center.id)
+        editor.putString("name", center.name)
+        editor.putString("email", center.email)
+        editor.putString("contact", center.contactNumber)
+        editor.putString("address", center.address)
+        editor.putString("category", center.category)
+        editor.putString("password", center.password)
+        editor.putBoolean("status", center.centerStatus)
+        editor.putString("picture", center.picture)
+        editor.putString("certificate", center.certificate)
+        editor.apply()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

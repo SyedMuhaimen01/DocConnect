@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AppLogsAdapter(private val appLogs: List<AppLog>) :
     RecyclerView.Adapter<AppLogsAdapter.LogViewHolder>() {
@@ -17,7 +20,9 @@ class AppLogsAdapter(private val appLogs: List<AppLog>) :
         fun bind(log: AppLog) {
             titleTextView.text = log.title
             notificationTextView.text = log.notification
-            dateTextView.text = log.timestamp.toString()
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+            val date = Date(log.timestamp)
+            dateTextView.text = dateFormat.format(date)
         }
     }
 
