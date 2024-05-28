@@ -137,7 +137,7 @@ class Home : AppCompatActivity() {
 
     private fun fetchTopProfessionals() {
         val database = FirebaseDatabase.getInstance().reference.child("professionals")
-        val query = database.orderByChild("rating").limitToLast(20) // Fetch top 20 professionals based on rating
+        val query = database.orderByChild("rating").limitToLast(1) // Fetch top 20 professionals based on rating
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 topProfessionals.clear()

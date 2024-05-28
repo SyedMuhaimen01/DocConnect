@@ -319,8 +319,8 @@ android:textStyle="bold"
                     android:textStyle="bold"
                     android:textSize="20dp"
                     android:textColor="@color/white"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginLeft="15dp"
                     ></TextView>
                 <TextView
                     android:id="@+id/monthTextView1"
@@ -328,10 +328,10 @@ android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:text="May"
                     android:textStyle="bold"
-                    android:textSize="20dp"
+                    android:textSize="14dp"
                     android:textColor="@color/white"
-                    android:layout_marginTop="-28dp"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="-22dp"
+                    android:layout_marginLeft="40dp"
                     ></TextView>
             </LinearLayout>
             <LinearLayout
@@ -360,8 +360,8 @@ android:textStyle="bold"
                     android:textStyle="bold"
                     android:textSize="20dp"
                     android:textColor="@color/appred"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginLeft="15dp"
                     ></TextView>
                 <TextView
                     android:id="@+id/monthTextView2"
@@ -369,10 +369,10 @@ android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:text="May"
                     android:textStyle="bold"
-                    android:textSize="20dp"
+                    android:textSize="14dp"
                     android:textColor="@color/appred"
-                    android:layout_marginTop="-28dp"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="-22dp"
+                    android:layout_marginLeft="40dp"
                     ></TextView>
             </LinearLayout>
             <LinearLayout
@@ -401,8 +401,8 @@ android:textStyle="bold"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:textColor="@color/appred"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginLeft="15dp"
                     ></TextView>
                 <TextView
                     android:id="@+id/monthTextView3"
@@ -410,10 +410,10 @@ android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:text="May"
                     android:textStyle="bold"
-                    android:textSize="20dp"
+                    android:textSize="14dp"
                     android:textColor="@color/appred"
-                    android:layout_marginTop="-28dp"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="-22dp"
+                    android:layout_marginLeft="40dp"
                     ></TextView>
             </LinearLayout>
         </LinearLayout>
